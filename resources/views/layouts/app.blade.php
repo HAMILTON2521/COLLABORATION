@@ -1,36 +1,58 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Green_Theme" data-layout="horizontal">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/favicon.png') }}" />
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <!-- Core Css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
+    @yield('css')
+    @yield('styles')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+    <title>{{ config('app.name') }} | @yield('title','Admin')</title>
+</head>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <img src="{{ asset('assets/images/logos/favicon.png') }}" alt="loader" class="lds-ripple img-fluid" />
+    </div>
+    <div id="main-wrapper">
+        <div class="page-wrapper">
+            <!--  Header Start -->
+            <header class="topbar">
+                @include('layouts.partials.horizontal_header')
+            </header>
+            <!--  Header End -->
+
+            @include('layouts.partials.main_menu')
+
+            <div class="body-wrapper">
+                <div class="container-fluid">
+                    @yield('main')
+                </div>
+            </div>
+            @include('layouts.partials.customizer')
         </div>
-    </body>
+
+        <!--  Search Bar -->
+        @include('layouts.partials.search_modal')
+
+    </div>
+    <div class="dark-transparent sidebartoggler"></div>
+    <!-- Import Js Files -->
+    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/theme/app.init.js') }}"></script>
+    <script src="{{ asset('assets/js/theme/theme.js') }}"></script>
+    <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
+    @yield('js')
+    @yield('scripts')
+</body>
+
 </html>
