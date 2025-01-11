@@ -29,7 +29,9 @@ Customers
         </div>
     </div>
 </div>
-
+<div class="action-btn layout-top-spacing mb-7 d-flex align-items-center justify-content-end flex-wrap gap-6">
+    <button class="btn btn-primary">Add Customer</button>
+</div>
 <div class="datatables">
     <div class="card">
         <div class="card-body">
@@ -647,6 +649,16 @@ Customers
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+@endsection
 
-<script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+@section('scripts')
+<script>
+    $("#file_export").DataTable({
+        dom: "Bfrtip",
+        buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+    });
+    $(
+        ".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel"
+    ).addClass("btn btn-primary");
+</script>
 @endsection

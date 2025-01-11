@@ -7,7 +7,7 @@
                 </a>
             </li>
             <li class="nav-item d-none d-xl-flex align-items-center">
-                <a href="./main/index.html" class="text-nowrap nav-link">
+                <a href="{{ route('dashboard.home') }}" class="text-nowrap nav-link">
                     <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="matdash-img" />
                 </a>
             </li>
@@ -30,7 +30,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="position-relative">
-                                                    <a href="./main/app-chat.html" class="d-flex align-items-center pb-9 position-relative">
+                                                    <a href="javascript:void(0)" class="d-flex align-items-center pb-9 position-relative">
                                                         <div class="bg-primary-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
                                                             <iconify-icon icon="solar:chat-line-bold-duotone" class="fs-7 text-primary"></iconify-icon>
                                                         </div>
@@ -39,7 +39,7 @@
                                                             <span class="fs-11 d-block text-body-color">New messages arrived</span>
                                                         </div>
                                                     </a>
-                                                    <a href="./main/app-invoice.html" class="d-flex align-items-center pb-9 position-relative">
+                                                    <a href="javascript:void(0)" class="d-flex align-items-center pb-9 position-relative">
                                                         <div class="bg-secondary-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
                                                             <iconify-icon icon="solar:bill-list-bold-duotone" class="fs-7 text-secondary"></iconify-icon>
                                                         </div>
@@ -48,7 +48,7 @@
                                                             <span class="fs-11 d-block text-body-color">Get latest invoice</span>
                                                         </div>
                                                     </a>
-                                                    <a href="./main/app-contact2.html" class="d-flex align-items-center pb-9 position-relative">
+                                                    <a href="javascript:void(0)" class="d-flex align-items-center pb-9 position-relative">
                                                         <div class="bg-warning-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
                                                             <iconify-icon icon="solar:phone-calling-rounded-bold-duotone" class="fs-7 text-warning"></iconify-icon>
                                                         </div>
@@ -57,7 +57,7 @@
                                                             <span class="fs-11 d-block text-body-color">2 Unsaved Contacts</span>
                                                         </div>
                                                     </a>
-                                                    <a href="./main/app-email.html" class="d-flex align-items-center pb-9 position-relative">
+                                                    <a href="javascript:void(0)" class="d-flex align-items-center pb-9 position-relative">
                                                         <div class="bg-danger-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
                                                             <iconify-icon icon="solar:letter-bold-duotone" class="fs-7 text-danger"></iconify-icon>
                                                         </div>
@@ -70,7 +70,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="position-relative">
-                                                    <a href="./main/page-user-profile.html" class="d-flex align-items-center pb-9 position-relative">
+                                                    <a href="javascript:void(0)" class="d-flex align-items-center pb-9 position-relative">
                                                         <div class="bg-success-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
                                                             <iconify-icon icon="solar:user-bold-duotone" class="fs-7 text-success"></iconify-icon>
                                                         </div>
@@ -79,7 +79,7 @@
                                                             <span class="fs-11 d-block text-body-color">learn more information</span>
                                                         </div>
                                                     </a>
-                                                    <a href="./main/app-calendar.html" class="d-flex align-items-center pb-9 position-relative">
+                                                    <a href="javascript:void(0)" class="d-flex align-items-center pb-9 position-relative">
                                                         <div class="bg-primary-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
                                                             <iconify-icon icon="solar:calendar-minimalistic-bold-duotone" class="fs-7 text-primary"></iconify-icon>
                                                         </div>
@@ -88,7 +88,7 @@
                                                             <span class="fs-11 d-block text-body-color">Get dates</span>
                                                         </div>
                                                     </a>
-                                                    <a href="./main/app-contact.html" class="d-flex align-items-center pb-9 position-relative">
+                                                    <a href="javascript:void(0)" class="d-flex align-items-center pb-9 position-relative">
                                                         <div class="bg-secondary-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
                                                             <iconify-icon icon="solar:smartphone-2-bold-duotone" class="fs-7 text-secondary"></iconify-icon>
                                                         </div>
@@ -97,7 +97,7 @@
                                                             <span class="fs-11 d-block text-body-color">Add new contact</span>
                                                         </div>
                                                     </a>
-                                                    <a href="./main/app-notes.html" class="d-flex align-items-center pb-9 position-relative">
+                                                    <a href="javascript:void(0)" class="d-flex align-items-center pb-9 position-relative">
                                                         <div class="bg-warning-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
                                                             <iconify-icon icon="solar:notes-bold-duotone" class="fs-7 text-warning"></iconify-icon>
                                                         </div>
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4 d-none d-lg-flex">
-                                    <img src="./assets/images/backgrounds/mega-dd-bg.jpg" alt="mega-dd" class="img-fluid mega-dd-bg" />
+                                    <img src="{{ asset('assets/images/backgrounds/mega-dd-bg.jpg') }}" alt="mega-dd" class="img-fluid mega-dd-bg" />
                                 </div>
                             </div>
                         </div>
