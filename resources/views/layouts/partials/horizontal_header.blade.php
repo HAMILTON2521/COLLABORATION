@@ -201,42 +201,6 @@
                                         <span class="d-block text-truncate text-truncate fs-11">You can customize this template as you want</span>
                                     </div>
                                 </a>
-                                <a href="javascript:void(0)" class="py-6 px-7 d-flex align-items-center dropdown-item gap-3">
-                                    <span class="flex-shrink-0 bg-warning-subtle rounded-circle round d-flex align-items-center justify-content-center fs-6 text-warning">
-                                        <iconify-icon icon="solar:widget-4-line-duotone"></iconify-icon>
-                                    </span>
-                                    <div class="w-75">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <h6 class="mb-1 fw-semibold">Launch Admin</h6>
-                                            <span class="d-block fs-2">9:30 AM</span>
-                                        </div>
-                                        <span class="d-block text-truncate text-truncate fs-11">Just see the my new admin!</span>
-                                    </div>
-                                </a>
-                                <a href="javascript:void(0)" class="py-6 px-7 d-flex align-items-center dropdown-item gap-3">
-                                    <span class="flex-shrink-0 bg-primary-subtle rounded-circle round d-flex align-items-center justify-content-center fs-6 text-primary">
-                                        <iconify-icon icon="solar:calendar-line-duotone"></iconify-icon>
-                                    </span>
-                                    <div class="w-75">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <h6 class="mb-1 fw-semibold">Event today</h6>
-                                            <span class="d-block fs-2">9:15 AM</span>
-                                        </div>
-                                        <span class="d-block text-truncate text-truncate fs-11">Just a reminder that you have event</span>
-                                    </div>
-                                </a>
-                                <a href="javascript:void(0)" class="py-6 px-7 d-flex align-items-center dropdown-item gap-3">
-                                    <span class="flex-shrink-0 bg-secondary-subtle rounded-circle round d-flex align-items-center justify-content-center fs-6 text-secondary">
-                                        <iconify-icon icon="solar:settings-line-duotone"></iconify-icon>
-                                    </span>
-                                    <div class="w-75">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <h6 class="mb-1 fw-semibold">Settings</h6>
-                                            <span class="d-block fs-2">4:36 PM</span>
-                                        </div>
-                                        <span class="d-block text-truncate text-truncate fs-11">You can customize this template as you want</span>
-                                    </div>
-                                </a>
                             </div>
                             <div class="py-6 px-7 mb-1">
                                 <button class="btn btn-primary w-100">See All Notifications</button>
@@ -253,7 +217,7 @@
                     <!-- ------------------------------- -->
                     <li class="nav-item dropdown nav-icon-hover-bg rounded-circle">
                         <a class="nav-link" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="./assets/images/flag/icon-flag-en.svg" alt="matdash-img" width="20px" height="20px" class="rounded-circle object-fit-cover round-20" />
+                            <img src="{{ asset('assets/images/flag/icon-flag-en.svg') }}" alt="matdash-img" width="20px" height="20px" class="rounded-circle object-fit-cover round-20" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                             <div class="message-body">
@@ -299,16 +263,13 @@
                                     </div>
                                 </div>
                                 <div class="message-body">
-                                    <a href="javascript:;" class="p-2 dropdown-item h6 rounded-1">
+                                    <a href="{{ route('profile.my.profile') }}" class="p-2 dropdown-item h6 rounded-1">
                                         My Profile
                                     </a>
-                                    <a href="javascript:;" class="p-2 dropdown-item h6 rounded-1">
-                                        My Subscription
-                                    </a>
-                                    <a href="javascript:;" class="p-2 dropdown-item h6 rounded-1">
+                                    <a href="{{ route('profile.my.invoices') }}" class="p-2 dropdown-item h6 rounded-1">
                                         My Invoice <span class="badge bg-danger-subtle text-danger rounded ms-8">4</span>
                                     </a>
-                                    <a href="javascript:;" class="p-2 dropdown-item h6 rounded-1">
+                                    <a href="{{ route('profile.account.settings') }}" class="p-2 dropdown-item h6 rounded-1">
                                         Account Settings
                                     </a>
                                     <a href="{{ route('login') }}" class="p-2 dropdown-item h6 rounded-1">

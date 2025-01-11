@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Account Settings
+Settings
 @endsection
 
 @section('main')
@@ -9,13 +9,17 @@ Account Settings
     <div class="row align-items-center">
         <div class="col-12">
             <div class="d-sm-flex align-items-center justify-space-between">
-                <h4 class="mb-4 mb-sm-0 card-title">Account Settings</h4>
+                <h4 class="mb-4 mb-sm-0 card-title">Settings</h4>
                 <nav aria-label="breadcrumb" class="ms-auto">
                     <ol class="breadcrumb">
-                        <x-dashboard-link />
+                        <li class="breadcrumb-item d-flex align-items-center">
+                            <a class="text-muted text-decoration-none d-flex" href="../horizontal/index.html">
+                                <iconify-icon icon="solar:home-2-line-duotone" class="fs-6"></iconify-icon>
+                            </a>
+                        </li>
                         <li class="breadcrumb-item" aria-current="page">
                             <span class="badge fw-medium fs-2 bg-primary-subtle text-primary">
-                                Account
+                                Settings
                             </span>
                         </li>
                     </ol>

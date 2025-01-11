@@ -46,7 +46,9 @@
 
     </div>
     <div class="dark-transparent sidebartoggler"></div>
+    <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
     <!-- Import Js Files -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/theme/app.init.js') }}"></script>
     <script src="{{ asset('assets/js/theme/theme.js') }}"></script>

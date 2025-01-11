@@ -888,7 +888,6 @@ Dashboard
 @endsection
 
 @section('js')
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script>
 <script src="{{ asset('assets/js/apps/calendar-init.js') }}"></script>
 <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
