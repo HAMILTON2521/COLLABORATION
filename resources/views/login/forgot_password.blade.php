@@ -54,7 +54,7 @@ Forgot Password
                                             <div class="carousel-item active">
                                                 <div class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
                                                     <img src="{{ asset('assets/images/backgrounds/login-side.png') }}" alt="login-side-img" width="200" class="img-fluid" />
-                                                    <h4 class="mb-0">Feature Rich 3D Charts</h4>
+                                                    <h4 class="mb-0">System Feature 01</h4>
 
                                                     <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn More</a>
                                                 </div>
@@ -62,7 +62,7 @@ Forgot Password
                                             <div class="carousel-item">
                                                 <div class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
                                                     <img src="{{ asset('assets/images/backgrounds/login-side.png') }}" alt="login-side-img" width="200" class="img-fluid" />
-                                                    <h4 class="mb-0">Feature Rich 2D Charts</h4>
+                                                    <h4 class="mb-0">System Feature 02</h4>
 
                                                     <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn More</a>
                                                 </div>
@@ -70,7 +70,7 @@ Forgot Password
                                             <div class="carousel-item">
                                                 <div class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
                                                     <img src="{{ asset('assets/images/backgrounds/login-side.png') }}" alt="login-side-img" width="200" class="img-fluid" />
-                                                    <h4 class="mb-0">Feature Rich 1D Charts</h4>
+                                                    <h4 class="mb-0">System Feature 03</h4>
 
                                                     <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn More</a>
                                                 </div>
