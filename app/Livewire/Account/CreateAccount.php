@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Account;
 
 use Livewire\Component;
 
@@ -8,6 +8,6 @@ class CreateAccount extends Component
 {
     public function render()
     {
-        return view('livewire.create-account');
+        return view('livewire.account.create-account');
     }
 }

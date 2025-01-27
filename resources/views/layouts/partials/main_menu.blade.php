@@ -126,26 +126,26 @@
                 <!-- ============================= -->
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Account</span>
+                    <span class="hide-menu">Households</span>
                 </li>
                 <li class="sidebar-item {{ Route::is('accounts*')?'selected':'' }}">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span>
                             <iconify-icon icon="solar:user-id-line-duotone" class="ti"></iconify-icon>
                         </span>
-                        <span class="hide-menu">Accounts</span>
+                        <span class="hide-menu">Households</span>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item {{ Route::is('accounts.create')?'selected':'' }}">
                             <a href="{{ route('accounts.create') }}" class="sidebar-link {{ Route::is('accounts.create')?'active':'' }}">
                                 <i class="ti ti-user-plus"></i>
-                                <span class="hide-menu">Create Account</span>
+                                <span class="hide-menu">Add Household</span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ Route::is('accounts')?'selected':'' }}">
                             <a href="{{ route('accounts') }}" class="sidebar-link {{ Route::is('accounts')?'active':'' }}">
                                 <i class="ti ti-users"></i>
-                                <span class="hide-menu">Get Account List</span>
+                                <span class="hide-menu">Get Households</span>
                             </a>
                         </li>
                     </ul>
