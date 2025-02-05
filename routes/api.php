@@ -14,8 +14,23 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'uat/airtel'], function () {
     Route::post('/callback', [Airtel::class, 'callback']);
+    Route::get('/callback', function () {
+        return view('login.login_page');
+    });
     Route::post('/validate', [Airtel::class, 'validate']);
+    Route::get('/validate', function () {
+        return view('login.login_page');
+    });
     Route::post('/process', [Airtel::class, 'process']);
+    Route::get('/process', function () {
+        return view('login.login_page');
+    });
     Route::post('/enquiry', [Airtel::class, 'enquiry']);
+    Route::get('/enquiry', function () {
+        return view('login.login_page');
+    });
     Route::post('/billFetch', [Airtel::class, 'fetchBill']);
+    Route::get('/billFetch', function () {
+        return view('login.login_page');
+    });
 });
