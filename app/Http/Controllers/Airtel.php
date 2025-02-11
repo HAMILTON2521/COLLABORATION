@@ -83,6 +83,8 @@ class Airtel extends Controller
     public function process(Request $request)
     {
         $xmlContent = $request->getContent();
+        $txn_id = (string) Str::uuid();
+
         try {
             $xml = new SimpleXMLElement($xmlContent);
             $data = json_decode(json_encode($xml), true);
@@ -102,15 +104,14 @@ class Airtel extends Controller
             ];
 
             $validator = Validator::make($data, $rules);
-            $txn_id = (string) Str::uuid();
 
             if ($validator->fails()) {
                 Log::error(json_encode($validator->errors()));
 
                 $responseXml = new SimpleXMLElement('<COMMAND/>');
                 $responseXml->addChild('STATUS', '400');
+                $responseXml->addChild('TXNID', $txn_id);
                 $responseXml->addChild('MESSAGE', 'Validation failed');
-                $responseXml->addChild('REF', $txn_id);
 
                 return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml');
@@ -145,6 +146,7 @@ class Airtel extends Controller
             Log::error('XML Parsing Error: ' . $e->getMessage());
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '400');
+            $responseXml->addChild('TXNID', $txn_id);
             $responseXml->addChild('MESSAGE', 'System error occured');
 
             return response($this->generateResponse($responseXml), 400)
@@ -154,6 +156,7 @@ class Airtel extends Controller
     public function enquiry(Request $request)
     {
         $xmlContent = $request->getContent();
+        $txn_id = (string) Str::uuid();
         try {
             $xml = new SimpleXMLElement($xmlContent);
             $data = json_decode(json_encode($xml), true);
@@ -164,7 +167,6 @@ class Airtel extends Controller
             ];
 
             $validator = Validator::make($data, $rules);
-            $txn_id = (string) Str::uuid();
 
             if ($validator->fails()) {
                 Log::error(json_encode($validator->errors()));
@@ -202,6 +204,7 @@ class Airtel extends Controller
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '400');
             $responseXml->addChild('MESSAGE', 'System error occured');
+            $responseXml->addChild('REF', $txn_id);
 
             return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml');
