@@ -22,6 +22,13 @@ class Airtel extends Controller
             'message' => 'Callback received successfully'
         ]);
     }
+    public function generateResponse($xml)
+    {
+        $xmlString = $xml->asXML();
+        $xmlStringWithoutDeclaration = preg_replace('/<\?xml.*?\?>\n?/', '', $xmlString);
+
+        return $xmlStringWithoutDeclaration;
+    }
     public function validate(Request $request)
     {
         $xmlContent = $request->getContent();
@@ -52,7 +59,7 @@ class Airtel extends Controller
                 $responseXml->addChild('STATUS', '400');
                 $responseXml->addChild('MESSAGE', 'Validation failed');
 
-                return response($responseXml->asXML(), 400)
+                return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml');
             }
 
@@ -60,7 +67,7 @@ class Airtel extends Controller
             $responseXml->addChild('STATUS', '200');
             $responseXml->addChild('MESSAGE', 'Success');
 
-            return response($responseXml->asXML(), 200)
+            return response($this->generateResponse($responseXml), 200)
                 ->header('Content-Type', 'application/xml');
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
@@ -69,7 +76,7 @@ class Airtel extends Controller
             $responseXml->addChild('STATUS', '400');
             $responseXml->addChild('MESSAGE', 'System error occured');
 
-            return response($responseXml->asXML(), 400)
+            return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml');
         }
     }
@@ -105,7 +112,7 @@ class Airtel extends Controller
                 $responseXml->addChild('MESSAGE', 'Validation failed');
                 $responseXml->addChild('REF', $txn_id);
 
-                return response($responseXml->asXML(), 400)
+                return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml');
             }
 
@@ -131,7 +138,7 @@ class Airtel extends Controller
                 $responseXml->addChild('TXNID', $payment->internal_txn_id);
                 $responseXml->addChild('MESSAGE', 'Transaction received successfully');
 
-                return response($responseXml->asXML(), 200)
+                return response($this->generateResponse($responseXml), 200)
                     ->header('Content-Type', 'application/xml');
             }
         } catch (\Exception $e) {
@@ -140,7 +147,7 @@ class Airtel extends Controller
             $responseXml->addChild('STATUS', '400');
             $responseXml->addChild('MESSAGE', 'System error occured');
 
-            return response($responseXml->asXML(), 400)
+            return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml');
         }
     }
@@ -167,7 +174,7 @@ class Airtel extends Controller
                 $responseXml->addChild('MESSAGE', 'Validation failed');
                 $responseXml->addChild('REF', $txn_id);
 
-                return response($responseXml->asXML(), 400)
+                return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml');
             }
 
@@ -180,7 +187,7 @@ class Airtel extends Controller
                 $responseXml->addChild('MESSAGE', 'Transaction was successfull');
                 $responseXml->addChild('REF', $payment->internal_txn_id);
 
-                return response($responseXml->asXML(), 200)
+                return response($this->generateResponse($responseXml), 200)
                     ->header('Content-Type', 'application/xml');
             }
             $responseXml = new SimpleXMLElement('<COMMAND/>');
@@ -188,10 +195,7 @@ class Airtel extends Controller
             $responseXml->addChild('MESSAGE', 'Transaction not found');
             $responseXml->addChild('REF', $txn_id);
 
-            return response($responseXml->asXML(), 404)
-                ->header('Content-Type', 'application/xml');
-
-            return response($responseXml->asXML(), 200)
+            return response($this->generateResponse($responseXml), 404)
                 ->header('Content-Type', 'application/xml');
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
@@ -199,7 +203,7 @@ class Airtel extends Controller
             $responseXml->addChild('STATUS', '400');
             $responseXml->addChild('MESSAGE', 'System error occured');
 
-            return response($responseXml->asXML(), 400)
+            return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml');
         }
     }
@@ -226,7 +230,7 @@ class Airtel extends Controller
                 $responseXml->addChild('STATUS', '404');
                 $responseXml->addChild('MESSAGE', 'Validation failed');
 
-                return response($responseXml->asXML(), 404)
+                return response($this->generateResponse($responseXml), 404)
                     ->header('Content-Type', 'application/xml');
             }
 
@@ -243,14 +247,14 @@ class Airtel extends Controller
                 $responseXml->addChild('CURRENCY', 'TZS');
                 $responseXml->addChild('MESSAGE', 'Bill for gas');
 
-                return response($responseXml->asXML(), 200)
+                return response($this->generateResponse($responseXml), 200)
                     ->header('Content-Type', 'application/xml');
             }
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '404');
             $responseXml->addChild('MESSAGE', 'Customer not found');
 
-            return response($responseXml->asXML(), 404)
+            return response($this->generateResponse($responseXml), 404)
                 ->header('Content-Type', 'application/xml');
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
@@ -258,7 +262,7 @@ class Airtel extends Controller
             $responseXml->addChild('STATUS', '400');
             $responseXml->addChild('MESSAGE', 'System error occured');
 
-            return response($responseXml->asXML(), 400)
+            return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml');
         }
     }
