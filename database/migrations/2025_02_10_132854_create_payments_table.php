@@ -13,17 +13,13 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->uuid('internal_txn_id');
+            $table->foreign('internal_txn_id')->references('txn_id')->on('airtel_requests')->onDelete('cascade');
             $table->foreignId('customer_id')->nullable()->constrained('customers');
-            $table->string('msisdn', length: 12);
-            $table->string('reference')->nullable();
-            $table->string('payer_name')->nullable();
-            $table->decimal('amount');
-            $table->uuid('internal_txn_id')->unique();
-            $table->string('merchant');
+            $table->string('msisdn')->nullable();
             $table->string('external_id')->unique();
-            $table->string('external_reference')->nullable();
+            $table->decimal('amount');
             $table->enum('status', ['Success', 'Failed', 'Received'])->default('Received');
-
             $table->timestamps();
         });
     }

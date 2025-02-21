@@ -10,16 +10,11 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'customer_id',
         'amount',
-        'msisdn',
-        'reference',
-        'external_id',
         'internal_txn_id',
-        'amount',
-        'external_reference',
-        'payer_name',
-        'merchant',
-        'status'
+        'status',
+        'customer_id',
+        'external_id',
+        'msisdn'
     ];
 }

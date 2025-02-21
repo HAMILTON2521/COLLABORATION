@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AirtelRequest;
 use App\Models\Customer;
 use App\Models\Payment;
 use Carbon\Carbon;
@@ -32,11 +33,10 @@ class Airtel extends Controller
     public function validate(Request $request)
     {
         $xmlContent = $request->getContent();
+        $txn_id = (string) Str::uuid();
         try {
             $xml = new SimpleXMLElement($xmlContent);
             $data = json_decode(json_encode($xml), true);
-
-            Log::info('Received Data:', $data);
 
             $rules = [
                 'TYPE' => 'required|uppercase|in:C2B',
@@ -53,8 +53,21 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                Log::error(json_encode($validator->errors()));
-
+                AirtelRequest::create([
+                    'txn_id' => $txn_id,
+                    'type' => $data['TYPE'],
+                    'request' => 'Validate',
+                    'customer_msisdn' => $data['CUSTOMERMSISDN'],
+                    'merchant_msisdn' => $data['MERCHANTMSISDN'],
+                    'amount' => $data['AMOUNT'],
+                    'user_name' => empty($data['USERNAME']) ? null : $data['USERNAME'],
+                    'password' => empty($data['PASSWORD']) ? null : $data['PASSWORD'],
+                    'pin' => empty($data['PIN']) ? null : $data['PIN'],
+                    'customer_name' => empty($data['CUSTOMERNAME']) ? null : $data['CUSTOMERNAME'],
+                    'reference' => empty($data['REFERENCE']) ? null : $data['REFERENCE'],
+                    'reference_1' => $data['REFERENCE1'],
+                    'error_details' => json_encode($validator->errors()),
+                ]);
                 $responseXml = new SimpleXMLElement('<COMMAND/>');
                 $responseXml->addChild('STATUS', '400');
                 $responseXml->addChild('MESSAGE', 'Validation failed');
@@ -62,6 +75,25 @@ class Airtel extends Controller
                 return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml');
             }
+
+            $validated = $validator->validated();
+
+            AirtelRequest::create([
+                'txn_id' => $txn_id,
+                'type' => $validated['TYPE'],
+                'request' => 'Validate',
+                'customer_msisdn' => $validated['CUSTOMERMSISDN'],
+                'merchant_msisdn' => $validated['MERCHANTMSISDN'],
+                'amount' => $validated['AMOUNT'],
+                'user_name' => empty($validated['USERNAME']) ? null : $validated['USERNAME'],
+                'password' => empty($validated['PASSWORD']) ? null : $validated['PASSWORD'],
+                'pin' => empty($validated['PIN']) ? null : $validated['PIN'],
+                'customer_name' => empty($validated['CUSTOMERNAME']) ? null : $validated['CUSTOMERNAME'],
+                'reference' => empty($validated['REFERENCE']) ? null : $validated['REFERENCE'],
+                'reference_1' => $validated['REFERENCE1'],
+                'status' => 'Success',
+                'error_message' => null
+            ]);
 
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '200');
@@ -106,7 +138,23 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                Log::error(json_encode($validator->errors()));
+                AirtelRequest::create([
+                    'txn_id' => $txn_id,
+                    'type' => $data['TYPE'],
+                    'request' => 'Process',
+                    'customer_msisdn' => $data['CUSTOMERMSISDN'],
+                    'merchant_msisdn' => $data['MERCHANTMSISDN'],
+                    'amount' => $data['AMOUNT'],
+                    'user_name' => empty($data['USERNAME']) ? null : $data['USERNAME'],
+                    'password' => empty($data['PASSWORD']) ? null : $data['PASSWORD'],
+                    'pin' => empty($data['PIN']) ? null : $data['PIN'],
+                    'customer_name' => empty($data['CUSTOMERNAME']) ? null : $data['CUSTOMERNAME'],
+                    'reference' => empty($data['REFERENCE']) ? null : $data['REFERENCE'],
+                    'reference_1' => $data['REFERENCE1'],
+                    'reference_2' => empty($data['REFERENCE2']) ? null : $data['REFERENCE2'],
+                    'error_details' => json_encode($validator->errors()),
+                ]);
+
 
                 $responseXml = new SimpleXMLElement('<COMMAND/>');
                 $responseXml->addChild('STATUS', '400');
@@ -119,18 +167,34 @@ class Airtel extends Controller
 
             $validated = $validator->validated();
 
-            $customer = empty($validated['REFERENCE']) ? null : Customer::where('ref', $validated['REFERENCE'])->first();
+            $req = AirtelRequest::create([
+                'txn_id' => $txn_id,
+                'type' => $validated['TYPE'],
+                'request' => 'Process',
+                'customer_msisdn' => $validated['CUSTOMERMSISDN'],
+                'merchant_msisdn' => $validated['MERCHANTMSISDN'],
+                'amount' => $validated['AMOUNT'],
+                'user_name' => empty($validated['USERNAME']) ? null : $validated['USERNAME'],
+                'password' => empty($validated['PASSWORD']) ? null : $validated['PASSWORD'],
+                'pin' => empty($validated['PIN']) ? null : $validated['PIN'],
+                'customer_name' => empty($validated['CUSTOMERNAME']) ? null : $validated['CUSTOMERNAME'],
+                'reference' => empty($validated['REFERENCE']) ? null : $validated['REFERENCE'],
+                'reference_1' => $validated['REFERENCE1'],
+                'reference_2' => empty($validated['REFERENCE2']) ? null : $validated['REFERENCE2'],
+                'status' => 'Success',
+                'error_message' => null
+            ]);
+
+            $customer = empty($validated['REFERENCE']) ?
+                null : Customer::where('ref', $validated['REFERENCE'])->first();
 
             $payment = Payment::create([
                 'customer_id' => $customer == null ? null : $customer->id,
-                'msisdn' => $validated['CUSTOMERMSISDN'],
-                'reference' => empty($validated['REFERENCE']) ? null : $validated['REFERENCE'],
-                'payer_name' => empty($validated['CUSTOMERNAME']) ? null : $validated['CUSTOMERNAME'],
                 'amount' => $validated['AMOUNT'],
-                'internal_txn_id' => $txn_id,
-                'merchant' => $validated['MERCHANTMSISDN'],
+                'internal_txn_id' => $req['txn_id'],
+                'msisdn' => $validated['CUSTOMERMSISDN'],
                 'external_id' => $validated['REFERENCE1'],
-                'external_reference' => empty($validated['REFERENCE2']) ? null : $validated['REFERENCE2']
+
             ]);
 
             if ($payment) {
@@ -169,7 +233,14 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                Log::error(json_encode($validator->errors()));
+                AirtelRequest::create([
+                    'txn_id' => $txn_id,
+                    'type' => 'C2B',
+                    'request' => 'Enquiry',
+                    'customer_msisdn' => $data['MSISDN'],
+                    'enquiry_txn_id' => $data['TXNID'],
+                    'error_details' => json_encode($validator->errors()),
+                ]);
 
                 $responseXml = new SimpleXMLElement('<COMMAND/>');
                 $responseXml->addChild('STATUS', '400');
@@ -182,8 +253,18 @@ class Airtel extends Controller
 
             $validated = $validator->validated();
 
+
             $payment = Payment::where(['external_id' => $validated['TXNID'], 'msisdn' => $validated['MSISDN']])->first();
             if ($payment) {
+                AirtelRequest::create([
+                    'txn_id' => $txn_id,
+                    'type' => 'C2B',
+                    'request' => 'Enquiry',
+                    'customer_msisdn' => $validated['MSISDN'],
+                    'enquiry_txn_id' => $validated['TXNID'],
+                    'status' => 'Success',
+                    'error_message' => null
+                ]);
                 $responseXml = new SimpleXMLElement('<COMMAND/>');
                 $responseXml->addChild('STATUS', '200');
                 $responseXml->addChild('MESSAGE', 'Transaction was successfull');
@@ -192,6 +273,15 @@ class Airtel extends Controller
                 return response($this->generateResponse($responseXml), 200)
                     ->header('Content-Type', 'application/xml');
             }
+            AirtelRequest::create([
+                'txn_id' => $txn_id,
+                'type' => 'C2B',
+                'request' => 'Enquiry',
+                'customer_msisdn' => $validated['MSISDN'],
+                'enquiry_txn_id' => $validated['TXNID'],
+                'status' => 'Not Found',
+                'error_message' => null
+            ]);
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '404');
             $responseXml->addChild('MESSAGE', 'Transaction not found');
@@ -203,7 +293,7 @@ class Airtel extends Controller
             Log::error('XML Parsing Error: ' . $e->getMessage());
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '400');
-            $responseXml->addChild('MESSAGE', 'System error occured');
+            $responseXml->addChild('MESSAGE', 'System error occured' . $e->getMessage());
             $responseXml->addChild('REF', $txn_id);
 
             return response($this->generateResponse($responseXml), 400)
