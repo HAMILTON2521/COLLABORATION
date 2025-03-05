@@ -13,31 +13,45 @@
                     </p>
                     <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
                 </div>
-                <form>
+                <form method="POST" action="{{ route('login') }}" autocomplete="off">
+                    @csrf
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your email" aria-describedby="emailHelp">
+                        <label for="email" class="form-label">Email Address</label>
+                        <x-email
+                            class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                            placeholder=" Enter your email"
+                            aria-describedby="emailHelp" />
+                        @error('email')
+                        <x-validation-error :message=$message />
+                        @enderror
+
                     </div>
                     <div class="mb-4">
                         <div class="d-flex align-items-center justify-content-between">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <a class="text-primary link-dark fs-2" href="{{ route('login.forgot_password') }}">Forgot
+                            <label for="password" class="form-label">Password</label>
+                            <a class="text-primary link-dark fs-2" href="{{ route('password.request') }}">Forgot
                                 Password ?</a>
                         </div>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter your password">
+                        <x-password
+                            class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                            placeholder="Enter your password" />
+                        @error('password')
+                        <x-validation-error :message=$message />
+                        @enderror
+
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <div class="form-check">
-                            <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label text-dark" for="flexCheckChecked">
-                                Keep me logged in
+                            <input wire:model="remember" name="remember" class="form-check-input primary" type="checkbox" value="" id="remember_me">
+                            <label class="form-check-label text-dark" for="remember_me">
+                                Remember me
                             </label>
                         </div>
                     </div>
-                    <a href="{{ route('dashboard.home') }}" class="btn btn-dark w-100 py-8 mb-4 rounded-1">Sign In</a>
+                    <button type="submit" class="btn btn-dark w-100 py-8 mb-4 rounded-1">Sign In</button>
                     <div class="d-flex align-items-center">
                         <p class="fs-12 mb-0 fw-medium">Don’t have an account yet?</p>
-                        <a class="text-primary fw-bolder ms-2" href="{{ route('login.signup') }}">Sign Up Now</a>
+                        <a class="text-primary fw-bolder ms-2" href="{{ route('signup') }}" wire:navigate>Sign Up Now</a>
                     </div>
                 </form>
             </div>

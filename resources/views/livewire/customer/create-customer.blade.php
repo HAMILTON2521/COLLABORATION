@@ -1,10 +1,3 @@
-@extends('layouts.app')
-
-@section('title')
-Create Customer
-@endsection
-
-@section('main')
 <div class="card card-body py-3">
     <div class="row align-items-center">
         <div class="col-12">
@@ -24,4 +17,3 @@ Create Customer
         </div>
     </div>
 </div>
-@endsection

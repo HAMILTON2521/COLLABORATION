@@ -1,10 +1,3 @@
-@extends('layouts.login')
-
-@section('title')
-Forgot Password
-@endsection
-
-@section('login_content')
 <div class="position-relative overflow-hidden auth-bg min-vh-100 w-100 d-flex align-items-center justify-content-center">
     <div class="d-flex align-items-center justify-content-center w-100">
         <div class="row justify-content-center w-100 my-5 my-xl-0">
@@ -91,4 +84,3 @@ Forgot Password
         </div>
     </div>
 </div>
-@endsection

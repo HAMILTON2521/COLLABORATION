@@ -7,7 +7,7 @@
                 </a>
             </li>
             <li class="nav-item d-none d-xl-flex align-items-center">
-                <a href="{{ route('dashboard.home') }}" class="text-nowrap nav-link">
+                <a href="{{ route('dashboard') }}" class="text-nowrap nav-link">
                     <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="matdash-img" />
                 </a>
             </li>
@@ -121,7 +121,7 @@
             </li>
         </ul>
         <div class="d-block d-xl-none">
-            <a href="{{ route('dashboard.home') }}" class="text-nowrap nav-link">
+            <a href="{{ route('dashboard') }}" class="text-nowrap nav-link">
                 <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="matdash-img" />
             </a>
         </div>
@@ -263,13 +263,13 @@
                                     </div>
                                 </div>
                                 <div class="message-body">
-                                    <a href="{{ route('profile.my.profile') }}" class="p-2 dropdown-item h6 rounded-1">
+                                    <a wire:navigate href="{{ route('profile.my.profile') }}" class="p-2 dropdown-item h6 rounded-1">
                                         My Profile
                                     </a>
-                                    <a href="{{ route('profile.my.invoices') }}" class="p-2 dropdown-item h6 rounded-1">
+                                    <a wire:navigate href="{{ route('profile.my.invoices') }}" class="p-2 dropdown-item h6 rounded-1">
                                         My Invoice <span class="badge bg-danger-subtle text-danger rounded ms-8">4</span>
                                     </a>
-                                    <a href="{{ route('profile.account.settings') }}" class="p-2 dropdown-item h6 rounded-1">
+                                    <a wire:navigate href="{{ route('profile.account.settings') }}" class="p-2 dropdown-item h6 rounded-1">
                                         Account Settings
                                     </a>
                                     <a href="{{ route('login') }}" class="p-2 dropdown-item h6 rounded-1">

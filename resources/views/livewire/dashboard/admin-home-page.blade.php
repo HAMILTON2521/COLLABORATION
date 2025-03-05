@@ -1,10 +1,3 @@
-@extends('layouts.app')
-
-@section('title')
-Dashboard
-@endsection
-
-@section('main')
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -885,12 +878,10 @@ Dashboard
         <!-- END MODAL -->
     </div>
 </div>
-@endsection
-
-@section('js')
+@push('js')
 <script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script>
 <script src="{{ asset('assets/js/apps/calendar-init.js') }}"></script>
 <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
 <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
 <script src="{{ asset('assets/js/dashboards/dashboard3.js') }}"></script>
-@endsection
+@endpush

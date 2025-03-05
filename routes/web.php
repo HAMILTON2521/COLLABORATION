@@ -1,41 +1,52 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Livewire\Counter;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Livewire\Customer\CreateCustomer;
+use App\Livewire\Customer\Customers;
+use App\Livewire\Dashboard\AdminHomePage;
+use App\Livewire\Household\CreateHousehold;
+use App\Livewire\Household\Households;
+use App\Livewire\Login\ForgotPassword;
+use App\Livewire\Login\Login;
+use App\Livewire\Login\Signup;
+use App\Livewire\User\AccountSettings;
+use App\Livewire\User\MyInvoices;
+use App\Livewire\User\MyProfile;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'login.login_page')->name('login');
-Route::get('/signup', function () {
-    return view('login.signup_page');
-})->name('login.signup');
-Route::get('/forgot-password', function () {
-    return view('login.forgot_password');
-})->name('login.forgot_password');
+Route::get('/', Login::class)->name('login');
+Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
+Route::get('/signup', Signup::class)->name('signup');
 
-Route::get('/dashboard', function () {
-    return view('dashboard.home');
-})->name('dashboard.home');
+/**
+ *
+ * Routes below require an authenticated user
+ *
+ */
+Route::get('/dashboard', AdminHomePage::class)->name('dashboard');
+Route::middleware('auth')->group(function () {
+
+
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
+
+
+
+
+
 Route::group(['prefix' => 'profile'], function () {
-    Route::get('/my-profile', function () {
-        return view('dashboard.profile.my_profile');
-    })->name('profile.my.profile');
-    Route::get('/my-invoices', function () {
-        return view('dashboard.profile.my_invoices');
-    })->name('profile.my.invoices');
-    Route::get('/account-settings', function () {
-        return view('dashboard.profile.account_settings');
-    })->name('profile.account.settings');
+    Route::get('/my-profile', MyProfile::class)->name('profile.my.profile');
+    Route::get('/my-invoices', MyInvoices::class)->name('profile.my.invoices');
+    Route::get('/account-settings', AccountSettings::class)->name('profile.account.settings');
 });
 Route::get('my-invoices', function () {
     return view('dashboard.profile.my_invoices');
 })->name('dashboard.account.invoices');
+
 Route::group(['prefix' => 'customers'], function () {
-    Route::get('/', function () {
-        return view('dashboard.customers.all');
-    })->name('customers');
-    Route::get('/create', function () {
-        return view('dashboard.customers.create');
-    })->name('customers.create');
+    Route::get('/', Customers::class)->name('customers');
+    Route::get('/create', CreateCustomer::class)->name('customers.create');
 });
 Route::group(['prefix' => 'settings'], function () {
     Route::get('/', function () {
@@ -60,13 +71,9 @@ Route::group(['prefix' => 'topup'], function () {
         return view('dashboard.topup.order_details');
     })->name('topup.order.details');
 });
-Route::group(['prefix' => 'accounts'], function () {
-    Route::get('/', function () {
-        return view('dashboard.account.all');
-    })->name('accounts');
-    Route::get('/create', function () {
-        return view('dashboard.account.add');
-    })->name('accounts.create');
+Route::group(['prefix' => 'households'], function () {
+    Route::get('/', Households::class)->name('households');
+    Route::get('/create', CreateHousehold::class)->name('households.create');
 });
 Route::group(['prefix' => 'settlement'], function () {
     Route::get('/daily', function () {
@@ -97,4 +104,4 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// require __DIR__ . '/auth.php';
+require __DIR__ . '/auth.php';

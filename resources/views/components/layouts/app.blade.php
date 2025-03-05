@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Green_Theme" data-layout="horizontal">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-bs-theme="light" data-color-theme="Green_Theme" data-layout="horizontal">
 
 <head>
     <!-- Required meta tags -->
@@ -12,32 +12,47 @@
 
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
+    @stack('css')
+    @stack('styles')
 
     <title>{{ config('app.name') }} | @yield('title',$title??'')</title>
-    <livewire:styles />
-
 </head>
 
 <body>
     <!-- Preloader -->
-    <div class="preloader">
+    <div wire:loading class="preloader">
         <img src="{{ asset('assets/images/logos/favicon.png') }}" alt="loader" class="lds-ripple img-fluid" />
     </div>
     <div id="main-wrapper">
-        {{ $slot }}
+        <div class="page-wrapper">
+            <!--  Header Start -->
+            <header class="topbar">
+                @include('layouts.partials.horizontal_header')
+            </header>
+            <!--  Header End -->
+
+            @include('layouts.partials.main_menu')
+
+            <div class="body-wrapper">
+                <div class="container-fluid">
+                    {{ $slot }}
+                </div>
+            </div>
+            @include('layouts.partials.customizer')
+        </div>
+
+        <!--  Search Bar -->
+        @include('layouts.partials.search_modal')
+
     </div>
     <div class="dark-transparent sidebartoggler"></div>
+    <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
     <!-- Import Js Files -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets/js/theme/app.horizontal.init.js') }}"></script>
+    <script src="{{ asset('assets/js/theme/app.init.js') }}"></script>
     <script src="{{ asset('assets/js/theme/theme.js') }}"></script>
     <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
-
-    <livewire:scripts />
-
-    <!-- solar icons -->
-    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     @stack('js')
     @stack('scripts')
 </body>

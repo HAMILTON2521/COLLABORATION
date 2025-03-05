@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Livewire\Account;
+namespace App\Livewire\Household;
 
 use App\Livewire\Forms\HouseholdForm;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Http;
 
-class Accounts extends Component
+#[Title('Households')]
+class Households extends Component
 {
     public HouseholdForm $form;
 
@@ -35,8 +37,7 @@ class Accounts extends Component
         } else {
             Log::error('gethousehold failed with error {error}', ['error' => $response->status()]);
         }
-
-        return view('livewire.account.accounts', [
+        return view('livewire.household.households', [
             'status' => $response->status(),
             'accounts' => $accounts
         ]);

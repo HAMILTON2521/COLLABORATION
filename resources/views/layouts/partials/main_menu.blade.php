@@ -14,8 +14,8 @@
                 <!-- =================== -->
                 <!-- Dashboard -->
                 <!-- =================== -->
-                <li class="sidebar-item {{ Route::is('dashboard*')?'selected':'' }} ">
-                    <a class="sidebar-link" href="{{ route('dashboard.home') }}" aria-expanded="false">
+                <li class="sidebar-item {{ Route::is('dashboard')?'selected':'' }} ">
+                    <a class="sidebar-link" href="{{ route('dashboard') }}" aria-expanded="false" wire:navigate>
                         <span>
                             <iconify-icon icon="solar:layers-line-duotone" class="ti"></iconify-icon>
                         </span>
@@ -38,13 +38,13 @@
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item {{ Route::is('customers.create')?'selected':'' }}">
-                            <a class="sidebar-link {{ Route::is('customers.create')?'active':'' }}" href="{{ route('customers.create') }}">
+                            <a class="sidebar-link {{ Route::is('customers.create')?'active':'' }}" href="{{ route('customers.create') }}" wire:navigate>
                                 <i class="ti ti-file-plus"></i>
                                 <span class="hide-menu">Add Customer</span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ Route::is('customers.list')?'selected':'' }}">
-                            <a href="{{ route('customers') }}" class="sidebar-link {{ Route::is('customers')?'active':'' }}">
+                            <a href="{{ route('customers') }}" class="sidebar-link {{ Route::is('customers')?'active':'' }}" wire:navigate>
                                 <i class="ti ti-list-check"></i>
                                 <span class="hide-menu">List Customers</span>
                             </a>
@@ -128,7 +128,7 @@
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Households</span>
                 </li>
-                <li class="sidebar-item {{ Route::is('accounts*')?'selected':'' }}">
+                <li class="sidebar-item {{ Route::is('households*')?'selected':'' }}">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span>
                             <iconify-icon icon="solar:user-id-line-duotone" class="ti"></iconify-icon>
@@ -136,14 +136,14 @@
                         <span class="hide-menu">Households</span>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item {{ Route::is('accounts.create')?'selected':'' }}">
-                            <a href="{{ route('accounts.create') }}" class="sidebar-link {{ Route::is('accounts.create')?'active':'' }}">
+                        <li class="sidebar-item {{ Route::is('households.create')?'selected':'' }}">
+                            <a wire:navigate href="{{ route('households.create') }}" class="sidebar-link {{ Route::is('households.create')?'active':'' }}">
                                 <i class="ti ti-user-plus"></i>
                                 <span class="hide-menu">Add Household</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ Route::is('accounts')?'selected':'' }}">
-                            <a href="{{ route('accounts') }}" class="sidebar-link {{ Route::is('accounts')?'active':'' }}">
+                        <li class="sidebar-item {{ Route::is('households')?'selected':'' }}">
+                            <a wire:navigate href="{{ route('households') }}" class="sidebar-link {{ Route::is('households')?'active':'' }}">
                                 <i class="ti ti-users"></i>
                                 <span class="hide-menu">Get Households</span>
                             </a>
