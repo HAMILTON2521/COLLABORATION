@@ -2,25 +2,17 @@
 
 namespace App\Livewire\Household;
 
-use App\Livewire\Forms\HouseholdForm;
+use App\Models\Household;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Http;
+use Livewire\Attributes\Computed;
 
 #[Title('Households')]
 class Households extends Component
 {
-    public HouseholdForm $form;
-
-    public function save()
-    {
-        $this->form->store();
-        $this->form->reset();
-
-        $this->redirectRoute('accounts');
-    }
-    public function render()
+    public function fetchFromRemote()
     {
         $accounts = [];
         $api_token = env('BACKEND_TOKEN');
@@ -37,9 +29,14 @@ class Households extends Component
         } else {
             Log::error('gethousehold failed with error {error}', ['error' => $response->status()]);
         }
-        return view('livewire.household.households', [
-            'status' => $response->status(),
-            'accounts' => $accounts
-        ]);
+    }
+    #[Computed()]
+    public function accounts()
+    {
+        return Household::with('createdBy')->orderBy('created_at', 'desc')->get();
+    }
+    public function render()
+    {
+        return view('livewire.household.households');
     }
 }
