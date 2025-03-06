@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Support\Str;
+
 class AirtelRequest extends Model
 {
-    use HasFactory;
+    use HasFactory,HasUlids;
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'txn_id',
         'type',
         'request',
         'customer_msisdn',
@@ -28,4 +33,14 @@ class AirtelRequest extends Model
         'error_message',
         'error_details'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = (string) Str::ulid()->toBase32();
+            }
+        });
+    }
 }

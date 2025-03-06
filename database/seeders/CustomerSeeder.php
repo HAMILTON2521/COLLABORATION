@@ -13,31 +13,30 @@ class CustomerSeeder extends Seeder
      */
     public function run(): void
     {
-        Customer::insert([
-            [
-                'first_name' => 'David',
-                'last_name' => 'Mathew',
-                'phone' => '255786776651',
-                'email' => 'john@example.com',
-                'region' => 'Dar es Salaam',
-                'district' => 'Ilala',
-                'ref' => '120120',
-                'street' => 'Uhuru Street',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'first_name' => 'Anna',
-                'last_name' => 'Michael',
-                'phone' => '255784098890',
-                'email' => 'anna@example.com',
-                'region' => 'Arusha',
-                'ref' => '120121',
-                'district' => 'Arumeru',
-                'street' => 'Clock Tower Road',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        Customer::create([
+            'first_name' => 'David',
+            'last_name' => 'Mathew',
+            'phone' => '255786776651',
+            'email' => 'john@example.com',
+            'region' => 'Dar es Salaam',
+            'district' => 'Ilala',
+            'ref' => '120120',
+            'street' => 'Uhuru Street',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        Customer::create([
+            'first_name' => 'Anna',
+            'last_name' => 'Michael',
+            'phone' => '255784098890',
+            'email' => 'anna@example.com',
+            'region' => 'Arusha',
+            'ref' => '120121',
+            'district' => 'Arumeru',
+            'street' => 'Clock Tower Road',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }

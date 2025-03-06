@@ -12,10 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('internal_txn_id');
-            $table->foreign('internal_txn_id')->references('txn_id')->on('airtel_requests')->onDelete('cascade');
-            $table->foreignId('customer_id')->nullable()->constrained('customers');
+            $table->ulid('id')->primary();
+            $table->foreignUlid('internal_txn_id')->constrained('airtel_requests')->cascadeOnDelete();
+            $table->foreignUlid('customer_id')->nullable()->constrained('customers')->cascadeOnDelete();
             $table->string('msisdn')->nullable();
             $table->string('external_id')->unique();
             $table->decimal('amount');

@@ -6,6 +6,8 @@ use App\Models\AirtelRequest;
 use App\Models\Customer;
 use App\Models\Payment;
 use Carbon\Carbon;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +35,6 @@ class Airtel extends Controller
     public function validate(Request $request)
     {
         $xmlContent = $request->getContent();
-        $txn_id = (string) Str::uuid();
         try {
             $xml = new SimpleXMLElement($xmlContent);
             $data = json_decode(json_encode($xml), true);
@@ -54,7 +55,6 @@ class Airtel extends Controller
 
             if ($validator->fails()) {
                 AirtelRequest::create([
-                    'txn_id' => $txn_id,
                     'type' => $data['TYPE'],
                     'request' => 'Validate',
                     'customer_msisdn' => $data['CUSTOMERMSISDN'],
@@ -79,7 +79,6 @@ class Airtel extends Controller
             $validated = $validator->validated();
 
             AirtelRequest::create([
-                'txn_id' => $txn_id,
                 'type' => $validated['TYPE'],
                 'request' => 'Validate',
                 'customer_msisdn' => $validated['CUSTOMERMSISDN'],
@@ -115,7 +114,6 @@ class Airtel extends Controller
     public function process(Request $request)
     {
         $xmlContent = $request->getContent();
-        $txn_id = (string) Str::uuid();
 
         try {
             $xml = new SimpleXMLElement($xmlContent);
@@ -138,8 +136,7 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                AirtelRequest::create([
-                    'txn_id' => $txn_id,
+               $req= AirtelRequest::create([
                     'type' => $data['TYPE'],
                     'request' => 'Process',
                     'customer_msisdn' => $data['CUSTOMERMSISDN'],
@@ -158,7 +155,7 @@ class Airtel extends Controller
 
                 $responseXml = new SimpleXMLElement('<COMMAND/>');
                 $responseXml->addChild('STATUS', '400');
-                $responseXml->addChild('TXNID', $txn_id);
+                $responseXml->addChild('TXNID', $req->id);
                 $responseXml->addChild('MESSAGE', 'Validation failed');
 
                 return response($this->generateResponse($responseXml), 400)
@@ -168,7 +165,6 @@ class Airtel extends Controller
             $validated = $validator->validated();
 
             $req = AirtelRequest::create([
-                'txn_id' => $txn_id,
                 'type' => $validated['TYPE'],
                 'request' => 'Process',
                 'customer_msisdn' => $validated['CUSTOMERMSISDN'],
@@ -191,7 +187,7 @@ class Airtel extends Controller
             $payment = Payment::create([
                 'customer_id' => $customer == null ? null : $customer->id,
                 'amount' => $validated['AMOUNT'],
-                'internal_txn_id' => $req['txn_id'],
+                'internal_txn_id' => $req->id,
                 'msisdn' => $validated['CUSTOMERMSISDN'],
                 'external_id' => $validated['REFERENCE1'],
 
@@ -206,11 +202,12 @@ class Airtel extends Controller
                 return response($this->generateResponse($responseXml), 200)
                     ->header('Content-Type', 'application/xml');
             }
+
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '400');
-            $responseXml->addChild('TXNID', $txn_id);
+            $responseXml->addChild('TXNID', $req->id);
             $responseXml->addChild('MESSAGE', 'System error occured');
 
             return response($this->generateResponse($responseXml), 400)
@@ -220,7 +217,6 @@ class Airtel extends Controller
     public function enquiry(Request $request)
     {
         $xmlContent = $request->getContent();
-        $txn_id = (string) Str::uuid();
         try {
             $xml = new SimpleXMLElement($xmlContent);
             $data = json_decode(json_encode($xml), true);
@@ -233,8 +229,7 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                AirtelRequest::create([
-                    'txn_id' => $txn_id,
+              $req=  AirtelRequest::create([
                     'type' => 'C2B',
                     'request' => 'Enquiry',
                     'customer_msisdn' => $data['MSISDN'],
@@ -245,7 +240,7 @@ class Airtel extends Controller
                 $responseXml = new SimpleXMLElement('<COMMAND/>');
                 $responseXml->addChild('STATUS', '400');
                 $responseXml->addChild('MESSAGE', 'Validation failed');
-                $responseXml->addChild('REF', $txn_id);
+                $responseXml->addChild('REF', $req->id);
 
                 return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml');
@@ -253,11 +248,9 @@ class Airtel extends Controller
 
             $validated = $validator->validated();
 
-
             $payment = Payment::where(['external_id' => $validated['TXNID'], 'msisdn' => $validated['MSISDN']])->first();
             if ($payment) {
-                AirtelRequest::create([
-                    'txn_id' => $txn_id,
+               $req= AirtelRequest::create([
                     'type' => 'C2B',
                     'request' => 'Enquiry',
                     'customer_msisdn' => $validated['MSISDN'],
@@ -273,8 +266,7 @@ class Airtel extends Controller
                 return response($this->generateResponse($responseXml), 200)
                     ->header('Content-Type', 'application/xml');
             }
-            AirtelRequest::create([
-                'txn_id' => $txn_id,
+           $req= AirtelRequest::create([
                 'type' => 'C2B',
                 'request' => 'Enquiry',
                 'customer_msisdn' => $validated['MSISDN'],
@@ -285,16 +277,20 @@ class Airtel extends Controller
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '404');
             $responseXml->addChild('MESSAGE', 'Transaction not found');
-            $responseXml->addChild('REF', $txn_id);
+            $responseXml->addChild('REF', $req->id);
 
             return response($this->generateResponse($responseXml), 404)
                 ->header('Content-Type', 'application/xml');
+
+
+
+
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '400');
             $responseXml->addChild('MESSAGE', 'System error occured' . $e->getMessage());
-            $responseXml->addChild('REF', $txn_id);
+            $responseXml->addChild('REF', Str::ulid());
 
             return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml');
@@ -359,4 +355,57 @@ class Airtel extends Controller
                 ->header('Content-Type', 'application/xml');
         }
     }
+    public function generateJWT(Request $request)
+    {
+        $key = env('JWT_AIRTEL_SECRET');
+        $issuedAt = time();
+        $expirationTime = $issuedAt + 3600;
+        $payload = [
+            'jti' => (string) \Str::uuid(), // unique identifier for the JWT
+            'iat' => $issuedAt,             // issued at time
+            'sub' => 'airtel_africa',       // subject
+            'iss' => 'airtel_africa',       // issuer
+            'payload' => [
+                'txnId' => $request->txnId           // transaction ID
+            ],
+            'exp' => $expirationTime         // expiration time
+        ];
+
+        $token = JWT::encode($payload, $key, 'HS512');
+
+        return response()->json([
+            'token' => $token,
+            'expireAt' => $expirationTime
+        ]);
+
+    }
+
+    public function decodeJWT(Request $request)
+    {
+        $jwt = $request->header('Authorization');
+
+        if (!$jwt) {
+            Log::critical('*************JWT missing');
+            $responseXml = new SimpleXMLElement('<COMMAND/>');
+            $responseXml->addChild('STATUS', '400');
+            $responseXml->addChild('MESSAGE', 'Invalid token');
+
+            return response($this->generateResponse($responseXml), 400)
+                ->header('Content-Type', 'application/xml');
+        }
+
+        $key = env('JWT_AIRTEL_SECRET');
+        try {
+            $decoded = JWT::decode($jwt, new Key($key, 'HS512'));
+            return (array) $decoded;
+        } catch (\Exception $e) {
+            $responseXml = new SimpleXMLElement('<COMMAND/>');
+            $responseXml->addChild('STATUS', '400');
+            $responseXml->addChild('MESSAGE', 'Invalid token');
+
+            return response($this->generateResponse($responseXml), 400)
+                ->header('Content-Type', 'application/xml');
+        }
+    }
+
 }

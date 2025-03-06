@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('airtel_requests', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('txn_id')->unique();
+            $table->ulid('id')->primary();
             $table->string('type', length: 20)->nullable();
             $table->enum('request', ['Validate', 'Process', 'Enquiry']);
             $table->string('customer_msisdn', length: 12);

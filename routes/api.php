@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Airtel;
+use App\Http\Middleware\JWTAuthMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,15 +18,15 @@ Route::group(['prefix' => 'uat/airtel'], function () {
     Route::get('/callback', function () {
         return view('login.login_page');
     });
-    Route::post('/validate', [Airtel::class, 'validate']);
+    Route::post('/validate', [Airtel::class, 'validate'])->middleware('jwt');
     Route::get('/validate', function () {
         return view('login.login_page');
     });
-    Route::post('/process', [Airtel::class, 'process']);
+    Route::post('/process', [Airtel::class, 'process'])->middleware('jwt');
     Route::get('/process', function () {
         return view('login.login_page');
     });
-    Route::post('/enquiry', [Airtel::class, 'enquiry']);
+    Route::post('/enquiry', [Airtel::class, 'enquiry'])->middleware('jwt');
     Route::get('/enquiry', function () {
         return view('login.login_page');
     });
@@ -33,4 +34,7 @@ Route::group(['prefix' => 'uat/airtel'], function () {
     Route::get('/billFetch', function () {
         return view('login.login_page');
     });
+
+    Route::post('/jwt',[Airtel::class,'generateJWT']);
+    Route::post('/validateJWT',[Airtel::class,'decodeJWT']);
 });

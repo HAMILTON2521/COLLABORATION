@@ -33,7 +33,7 @@ class User extends Authenticatable
     {
         parent::boot();
         static::creating(function ($model) {
-            $model->id = $model->id ?? Str::ulid()->toBase32(); // Generate ULID on create
+            $model->id = $model->id ?? Str::ulid()->toBase32();
         });
     }
 
