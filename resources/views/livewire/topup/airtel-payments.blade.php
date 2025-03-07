@@ -90,7 +90,7 @@
                             <!-- end row -->
                         @empty
                             <tr>
-                                <td colspan="7">No payment data at the moment!</td>
+                                <td colspan="8">No payment data at the moment!</td>
                             </tr>
                         @endforelse
                     </tbody>
