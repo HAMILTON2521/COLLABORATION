@@ -14,6 +14,8 @@ class AirtelPayments extends Component
     #[Computed()]
     public function payments()
     {
+        Log:
+        info(json_encode(Payment::with(['customer', 'airtelRequest'])->orderBy('created_at', 'desc')->get()));
         return Payment::with(['customer', 'airtelRequest'])->orderBy('created_at', 'desc')->get();
     }
     public function render()

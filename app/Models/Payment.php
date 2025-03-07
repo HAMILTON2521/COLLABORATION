@@ -33,6 +33,14 @@ class Payment extends Model
         });
     }
 
+    public function getStatusColorAttribute()
+    {
+        return [
+            'Received' => 'info',
+            'Success' => 'success',
+        ][$this->status] ?? 'danger';
+    }
+
     /**
      * Relationships
      */

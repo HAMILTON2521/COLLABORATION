@@ -29,8 +29,10 @@
                         </th>
                         <th>ID</th>
                         <th>Ref</th>
+                        <th>Customer</th>
                         <th>Amount</th>
                         <th>Phone</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -49,17 +51,21 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-start">
-                                        <div class="ms-3">
+                                        <div class="">
                                             <div class="user-meta-info">
                                                 <h6 class="household-name mb-0" data-name="{{ $payment->id }}">
-                                                    {{ Str::substr($payment->id, 0, 8) }}</h6>
+                                                    {{ Str::substr($payment->id, 0, 10) }}</h6>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <span class="usr-email-addr"
-                                        data-serialnumber="{{ $payment->airtelRequest->reference ?? '-' }}">{{ $payment->airtelRequest->reference }}</span>
+                                        data-serialnumber="{{ $payment->airtelRequest->reference }}">{{ $payment->airtelRequest->reference }}</span>
+                                </td>
+                                <td>
+                                    <span class="usr-email-addr"
+                                        data-serialnumber="{{ join(' ', [$payment->customer->first_name, $payment->customer->last_name]) }}">{{ join(' ', [$payment->customer->first_name, $payment->customer->last_name]) }}</span>
                                 </td>
                                 <td>
                                     <span class="household-address"
@@ -68,6 +74,10 @@
                                 <td>
                                     <span class="household-fee"
                                         data-fee="{{ $payment->msisdn }}">{{ $payment->msisdn }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="mb-1 badge rounded-pill  bg-{{ $payment->status_color }}-subtle text-{{ $payment->status_color }}">{{ $payment->status }}</span>
                                 </td>
                                 <td>
                                     <div class="action-btn">
