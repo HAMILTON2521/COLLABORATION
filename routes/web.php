@@ -11,6 +11,7 @@ use App\Livewire\Household\Households;
 use App\Livewire\Login\ForgotPassword;
 use App\Livewire\Login\Login;
 use App\Livewire\Login\Signup;
+use App\Livewire\Topup\AirtelPayments;
 use App\Livewire\User\AccountSettings;
 use App\Livewire\User\MyInvoices;
 use App\Livewire\User\MyProfile;
@@ -64,6 +65,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/order-details', function () {
             return view('dashboard.topup.order_details');
         })->name('topup.order.details');
+        Route::get('/airtel', AirtelPayments::class)->name('topup.airtel.payments');
     });
     Route::group(['prefix' => 'households'], function () {
         Route::get('/', Households::class)->name('households');

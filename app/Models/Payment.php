@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class Payment extends Model
 {
-    use HasFactory,HasUlids;
+    use HasFactory, HasUlids;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -31,5 +31,19 @@ class Payment extends Model
                 $model->id = (string) Str::ulid()->toBase32();
             }
         });
+    }
+
+    /**
+     * Relationships
+     */
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function airtelRequest()
+    {
+        return $this->belongsTo(AirtelRequest::class, 'internal_txn_id');
     }
 }

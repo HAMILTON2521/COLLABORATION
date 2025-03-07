@@ -254,7 +254,7 @@ class Airtel extends Controller
 
             $validated = $validator->validated();
 
-            $payment = Payment::where(['external_id' => $validated['TXNID'], 'msisdn' => $validated['MSISDN']])->first();
+            $payment = Payment::where(['external_id' => $validated['TXNID']])->first();
             if ($payment) {
                 $req = AirtelRequest::create([
                     'type' => 'C2B',

@@ -127,6 +127,13 @@
                                 <span class="hide-menu">Get Recharge Order Details</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('topup.airtel.payments') }}"
+                                class="sidebar-link {{ Route::is('topup.airtel.payments') ? 'active' : '' }}">
+                                <i class="ti ti-cloud-dollar"></i>
+                                <span class="hide-menu">Airtel Payments</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!-- ============================= -->
