@@ -54,7 +54,7 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                AirtelRequest::create([
+                $req =  AirtelRequest::create([
                     'type' => $data['TYPE'],
                     'request' => 'Validate',
                     'customer_msisdn' => $data['CUSTOMERMSISDN'],
@@ -73,7 +73,8 @@ class Airtel extends Controller
                 $responseXml->addChild('MESSAGE', 'Validation failed');
 
                 return response($this->generateResponse($responseXml), 400)
-                    ->header('Content-Type', 'application/xml');
+                    ->header('Content-Type', 'application/xml')
+                    ->header('Authorization', $this->generateJWT($req->id));
             }
 
             $validated = $validator->validated();
@@ -99,7 +100,8 @@ class Airtel extends Controller
             $responseXml->addChild('MESSAGE', 'Success');
 
             return response($this->generateResponse($responseXml), 200)
-                ->header('Content-Type', 'application/xml');
+                ->header('Content-Type', 'application/xml')
+                ->header('Authorization', $this->generateJWT($data['REFERENCE1']));
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
 
@@ -108,7 +110,8 @@ class Airtel extends Controller
             $responseXml->addChild('MESSAGE', 'System error occured');
 
             return response($this->generateResponse($responseXml), 400)
-                ->header('Content-Type', 'application/xml');
+                ->header('Content-Type', 'application/xml')
+                ->header('Authorization', $this->generateJWT((string) Str::uuid()));
         }
     }
     public function process(Request $request)
@@ -136,7 +139,7 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-               $req= AirtelRequest::create([
+                $req = AirtelRequest::create([
                     'type' => $data['TYPE'],
                     'request' => 'Process',
                     'customer_msisdn' => $data['CUSTOMERMSISDN'],
@@ -159,7 +162,8 @@ class Airtel extends Controller
                 $responseXml->addChild('MESSAGE', 'Validation failed');
 
                 return response($this->generateResponse($responseXml), 400)
-                    ->header('Content-Type', 'application/xml');
+                    ->header('Content-Type', 'application/xml')
+                    ->header('Authorization', $this->generateJWT($req->id));
             }
 
             $validated = $validator->validated();
@@ -200,9 +204,9 @@ class Airtel extends Controller
                 $responseXml->addChild('MESSAGE', 'Transaction received successfully');
 
                 return response($this->generateResponse($responseXml), 200)
-                    ->header('Content-Type', 'application/xml');
+                    ->header('Content-Type', 'application/xml')
+                    ->header('Authorization', $this->generateJWT($payment->internal_txn_id));
             }
-
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
             $responseXml = new SimpleXMLElement('<COMMAND/>');
@@ -211,7 +215,8 @@ class Airtel extends Controller
             $responseXml->addChild('MESSAGE', 'System error occured');
 
             return response($this->generateResponse($responseXml), 400)
-                ->header('Content-Type', 'application/xml');
+                ->header('Content-Type', 'application/xml')
+                ->header('Authorization', $this->generateJWT((string) Str::uuid()));
         }
     }
     public function enquiry(Request $request)
@@ -229,7 +234,7 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-              $req=  AirtelRequest::create([
+                $req =  AirtelRequest::create([
                     'type' => 'C2B',
                     'request' => 'Enquiry',
                     'customer_msisdn' => $data['MSISDN'],
@@ -243,14 +248,15 @@ class Airtel extends Controller
                 $responseXml->addChild('REF', $req->id);
 
                 return response($this->generateResponse($responseXml), 400)
-                    ->header('Content-Type', 'application/xml');
+                    ->header('Content-Type', 'application/xml')
+                    ->header('Authorization', $this->generateJWT($req->id));
             }
 
             $validated = $validator->validated();
 
             $payment = Payment::where(['external_id' => $validated['TXNID'], 'msisdn' => $validated['MSISDN']])->first();
             if ($payment) {
-               $req= AirtelRequest::create([
+                $req = AirtelRequest::create([
                     'type' => 'C2B',
                     'request' => 'Enquiry',
                     'customer_msisdn' => $validated['MSISDN'],
@@ -264,9 +270,10 @@ class Airtel extends Controller
                 $responseXml->addChild('REF', $payment->internal_txn_id);
 
                 return response($this->generateResponse($responseXml), 200)
-                    ->header('Content-Type', 'application/xml');
+                    ->header('Content-Type', 'application/xml')
+                    ->header('Authorization', $this->generateJWT($payment->internal_txn_id));
             }
-           $req= AirtelRequest::create([
+            $req = AirtelRequest::create([
                 'type' => 'C2B',
                 'request' => 'Enquiry',
                 'customer_msisdn' => $validated['MSISDN'],
@@ -280,20 +287,18 @@ class Airtel extends Controller
             $responseXml->addChild('REF', $req->id);
 
             return response($this->generateResponse($responseXml), 404)
-                ->header('Content-Type', 'application/xml');
-
-
-
-
+                ->header('Content-Type', 'application/xml')
+                ->header('Authorization', $this->generateJWT($req->id));
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
             $responseXml = new SimpleXMLElement('<COMMAND/>');
             $responseXml->addChild('STATUS', '400');
             $responseXml->addChild('MESSAGE', 'System error occured' . $e->getMessage());
-            $responseXml->addChild('REF', Str::ulid());
+            $responseXml->addChild('REF', (string) Str::uuid());
 
             return response($this->generateResponse($responseXml), 400)
-                ->header('Content-Type', 'application/xml');
+                ->header('Content-Type', 'application/xml')
+                ->header('Authorization', $this->generateJWT((string) Str::uuid()));
         }
     }
     public function fetchBill(Request $request)
@@ -355,29 +360,26 @@ class Airtel extends Controller
                 ->header('Content-Type', 'application/xml');
         }
     }
-    public function generateJWT(Request $request)
+    public function generateJWT($txnId)
     {
         $key = env('JWT_AIRTEL_SECRET');
         $issuedAt = time();
-        $expirationTime = $issuedAt + 3600;
+        $expirationTime = $issuedAt + 60;
         $payload = [
-            'jti' => (string) \Str::uuid(), // unique identifier for the JWT
+            'jti' => (string) Str::uuid(), // unique identifier for the JWT
             'iat' => $issuedAt,             // issued at time
             'sub' => 'airtel_africa',       // subject
             'iss' => 'airtel_africa',       // issuer
             'payload' => [
-                'txnId' => $request->txnId           // transaction ID
+                'txnId' => $txnId           // transaction ID
             ],
             'exp' => $expirationTime         // expiration time
         ];
 
         $token = JWT::encode($payload, $key, 'HS512');
+        Log::info($token);
 
-        return response()->json([
-            'token' => $token,
-            'expireAt' => $expirationTime
-        ]);
-
+        return $token;
     }
 
     public function decodeJWT(Request $request)
@@ -407,5 +409,4 @@ class Airtel extends Controller
                 ->header('Content-Type', 'application/xml');
         }
     }
-
 }
