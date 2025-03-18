@@ -3,7 +3,6 @@
 namespace App\Livewire\Household;
 
 use App\Livewire\Forms\HouseholdForm;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 

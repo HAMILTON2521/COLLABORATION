@@ -322,11 +322,11 @@
                                     <img src="{{ asset('assets/images/profile/user-1.jpg') }}" class="rounded-circle"
                                         width="56" height="56" alt="matdash-img" />
                                     <div>
-                                        <h5 class="mb-0 fs-12">Bryson Mahuvi <span
-                                                class="text-success fs-11">Admin</span>
+                                        <h5 class="mb-0 fs-12">{{ Auth::user()->full_name }} <span
+                                                class="text-success fs-11">{{ Auth::user()->user_type }}</span>
                                         </h5>
                                         <p class="mb-0 text-dark">
-                                            bmahuvi@gmail.com
+                                            {{ Auth::user()->email }}
                                         </p>
                                     </div>
                                 </div>

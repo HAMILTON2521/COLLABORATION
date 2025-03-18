@@ -46,7 +46,7 @@
                         </li>
                         <li class="sidebar-item {{ Route::is('customers.list') ? 'selected' : '' }}">
                             <a href="{{ route('customers') }}"
-                                class="sidebar-link {{ Route::is('customers') ? 'active' : '' }}" wire:navigate>
+                                class="sidebar-link {{ Route::is('customers') ? 'active' : '' }}">
                                 <i class="ti ti-list-check"></i>
                                 <span class="hide-menu">List Customers</span>
                             </a>
@@ -202,16 +202,22 @@
                         <li class="sidebar-item">
                             <a href="{{ route('more.data.query') }}"
                                 class="sidebar-link {{ Route::is('more.data.query') ? 'active' : '' }}">
-                                <iconify-icon icon="solar:database-line-duotone" class="ti"></iconify-icon>
+                                <i class="ti ti-database"></i>
                                 <span class="hide-menu">Data Query</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a href="{{ route('more.equipment') }}"
                                 class="sidebar-link {{ Route::is('more.equipment') ? 'active' : '' }}">
-                                <iconify-icon icon="solar:remote-controller-line-duotone"
-                                    class="ti"></iconify-icon>
+                                <i class="ti ti-device-desktop"></i>
                                 <span class="hide-menu">Equipment</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('more.users') }}"
+                                class="sidebar-link {{ Route::is('more.users*') ? 'active' : '' }}" wire:navigate>
+                                <i class="ti ti-users"></i>
+                                <span class="hide-menu">Users</span>
                             </a>
                         </li>
                     </ul>

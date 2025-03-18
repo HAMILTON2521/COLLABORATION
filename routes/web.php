@@ -3,7 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Livewire\Customer\CreateCustomer;
+use App\Livewire\Customer\CustomerDetails;
 use App\Livewire\Customer\Customers;
+use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Dashboard\AdminHomePage;
 use App\Livewire\Household\CreateHousehold;
 use App\Livewire\Household\EditHousehold;
@@ -15,9 +17,18 @@ use App\Livewire\Topup\AirtelPayments;
 use App\Livewire\User\AccountSettings;
 use App\Livewire\User\MyInvoices;
 use App\Livewire\User\MyProfile;
+use App\Livewire\Users\CreateUser;
+use App\Livewire\Users\EditUser;
+use App\Livewire\Users\UserDetails;
+use App\Livewire\Users\Users;
+use App\Livewire\Web\AboutUs;
+use App\Livewire\Web\Blog;
+use App\Livewire\Web\ContactUs;
+use App\Livewire\Web\HomePage;
+use App\Livewire\Web\Pricing;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', Login::class)->name('login');
+Route::get('/login', Login::class)->name('login');
 Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
 Route::get('/signup', Signup::class)->name('signup');
 
@@ -42,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'customers'], function () {
         Route::get('/', Customers::class)->name('customers');
         Route::get('/create', CreateCustomer::class)->name('customers.create');
+        Route::get('/{customer}', CustomerDetails::class)->name('customers.details');
+        Route::get('/{customer}/edit', EditCustomer::class)->name('customers.edit');
     });
     Route::group(['prefix' => 'settings'], function () {
         Route::get('/', function () {
@@ -57,6 +70,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/equipment', function () {
             return view('dashboard.equipment.equipment');
         })->name('more.equipment');
+    });
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', Users::class)->name('more.users');
+        Route::get('/new', CreateUser::class)->name('more.users.create');
+        Route::get('/{user}/edit', EditUser::class)->name('more.users.edit');
+        Route::get('/{user}', UserDetails::class)->name('more.users.show');
     });
     Route::group(['prefix' => 'topup'], function () {
         Route::get('/remote', function () {
@@ -97,6 +116,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+/**
+ * Frontend routes
+ */
+
+Route::get('/', HomePage::class)->name('web.home-page');
+Route::get('/about', AboutUs::class)->name('web.about-us');
+Route::get('/blog', Blog::class)->name('web.blog');
+Route::get('/contact-us', ContactUs::class)->name('web.contact-us');
+Route::get('/pricing', Pricing::class)->name('web.pricing');
+
+/**
+ * Preview email templates
+ */
+Route::get('/mail', function () {
+    $contactUs = App\Models\ContactUs::first();
+
+    return new App\Mail\ContactUsCreated($contactUs);
 });
 
 

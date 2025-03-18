@@ -17,10 +17,12 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('ref', length: 6)->unique();
             $table->string('phone')->unique();
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->nullable();
             $table->string('region');
             $table->string('district');
             $table->string('street');
+            $table->boolean('is_active')->default(1);
+            $table->foreignUlid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

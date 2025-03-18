@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class Customer extends Model
 {
-    use HasFactory,HasUlids;
+    use HasFactory, HasUlids;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -22,7 +22,9 @@ class Customer extends Model
         'region',
         'district',
         'street',
-        'ref'
+        'ref',
+        'created_by',
+        'is_active'
     ];
 
     protected static function boot()

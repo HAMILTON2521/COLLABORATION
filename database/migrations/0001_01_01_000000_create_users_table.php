@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('phone', 12)->unique();
+            $table->enum('user_type', ['Admin', 'User']);
             $table->string('profile_image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->foreignUlid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });
