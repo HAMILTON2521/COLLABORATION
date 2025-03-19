@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Observers\UserObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
+#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -68,5 +71,34 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn() => "{$this->first_name} {$this->last_name}"
         );
+    }
+
+    /**
+     * Relationship with User Verification
+     */
+    public function verificationToken()
+    {
+        return $this->hasOne(UserVerification::class);
+    }
+
+    /**
+     * Scope for user search
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('first_name', 'LIKE', "%{$term}%")
+            ->orWhere('email', 'LIKE', "%{$term}%")
+            ->orWhere('phone', 'LIKE', "%{$term}%")
+            ->orWhere('last_name', 'LIKE', "%{$term}%");
+    }
+    /**
+     * Badge color to display user types
+     */
+    public function getStatusColorAttribute()
+    {
+        return [
+            'Admin' => 'primary',
+            'User' => 'success'
+        ][$this->user_type] ?? 'danger';
     }
 }

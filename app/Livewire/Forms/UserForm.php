@@ -41,8 +41,8 @@ class UserForm extends Form
     {
         $validData = $this->validate();
         $user = User::create([
-            'first_name' => Str::ucfirst($validData['first_name']),
-            'last_name' => ucfirst($validData['last_name']),
+            'first_name' => Str::ucfirst(Str::lower($validData['first_name'])),
+            'last_name' => Str::ucfirst(Str::lower($validData['last_name'])),
             'email' => $validData['email'],
             'phone' => $validData['phone'],
             'user_type' => $validData['user_type'],

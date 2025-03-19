@@ -49,7 +49,7 @@
                             <div class="card w-100 border position-relative overflow-hidden mb-0">
                                 <div class="card-body p-4">
                                     <div class="d-flex mb-4 align-items-center">
-                                        <h4 class="card-title">Complaint Form</h4>
+                                        <h4 class="card-title">User Details</h4>
                                         <div class="ms-auto">
                                             <div class="btn-group">
                                                 <button type="button"

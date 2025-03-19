@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AirtelRequest;
 use App\Models\Customer;
 use App\Models\Payment;
+use App\Traits\GeneralHelperTrait;
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 
 class Airtel extends Controller
 {
+    use GeneralHelperTrait;
     public function callback(Request $request)
     {
         Log::info(json_encode($request->all()));
@@ -74,7 +76,7 @@ class Airtel extends Controller
 
                 return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml')
-                    ->header('Authorization', $this->generateJWT($req->id));
+                    ->header('Authorization', $this->getAuthToken($req->id));
             }
 
             $validated = $validator->validated();
@@ -101,7 +103,7 @@ class Airtel extends Controller
 
             return response($this->generateResponse($responseXml), 200)
                 ->header('Content-Type', 'application/xml')
-                ->header('Authorization', $this->generateJWT($data['REFERENCE1']));
+                ->header('Authorization', $this->getAuthToken($data['REFERENCE1']));
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
 
@@ -111,7 +113,7 @@ class Airtel extends Controller
 
             return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml')
-                ->header('Authorization', $this->generateJWT((string) Str::uuid()));
+                ->header('Authorization', $this->getAuthToken((string) Str::uuid()));
         }
     }
     public function process(Request $request)
@@ -163,7 +165,7 @@ class Airtel extends Controller
 
                 return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml')
-                    ->header('Authorization', $this->generateJWT($req->id));
+                    ->header('Authorization', $this->getAuthToken($req->id));
             }
 
             $validated = $validator->validated();
@@ -205,7 +207,7 @@ class Airtel extends Controller
 
                 return response($this->generateResponse($responseXml), 200)
                     ->header('Content-Type', 'application/xml')
-                    ->header('Authorization', $this->generateJWT($payment->internal_txn_id));
+                    ->header('Authorization', $this->getAuthToken($payment->internal_txn_id));
             }
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
@@ -216,7 +218,7 @@ class Airtel extends Controller
 
             return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml')
-                ->header('Authorization', $this->generateJWT((string) Str::uuid()));
+                ->header('Authorization', $this->getAuthToken((string) Str::uuid()));
         }
     }
     public function enquiry(Request $request)
@@ -249,7 +251,7 @@ class Airtel extends Controller
 
                 return response($this->generateResponse($responseXml), 400)
                     ->header('Content-Type', 'application/xml')
-                    ->header('Authorization', $this->generateJWT($req->id));
+                    ->header('Authorization', $this->getAuthToken($req->id));
             }
 
             $validated = $validator->validated();
@@ -271,7 +273,7 @@ class Airtel extends Controller
 
                 return response($this->generateResponse($responseXml), 200)
                     ->header('Content-Type', 'application/xml')
-                    ->header('Authorization', $this->generateJWT($payment->internal_txn_id));
+                    ->header('Authorization', $this->getAuthToken($payment->internal_txn_id));
             }
             $req = AirtelRequest::create([
                 'type' => 'C2B',
@@ -288,7 +290,7 @@ class Airtel extends Controller
 
             return response($this->generateResponse($responseXml), 404)
                 ->header('Content-Type', 'application/xml')
-                ->header('Authorization', $this->generateJWT($req->id));
+                ->header('Authorization', $this->getAuthToken($req->id));
         } catch (\Exception $e) {
             Log::error('XML Parsing Error: ' . $e->getMessage());
             $responseXml = new SimpleXMLElement('<COMMAND/>');
@@ -298,7 +300,7 @@ class Airtel extends Controller
 
             return response($this->generateResponse($responseXml), 400)
                 ->header('Content-Type', 'application/xml')
-                ->header('Authorization', $this->generateJWT((string) Str::uuid()));
+                ->header('Authorization', $this->getAuthToken((string) Str::uuid()));
         }
     }
     public function fetchBill(Request $request)
@@ -360,53 +362,34 @@ class Airtel extends Controller
                 ->header('Content-Type', 'application/xml');
         }
     }
-    public function generateJWT($txnId)
+    public function getAuthToken(string $uniqueId)
     {
-        $key = env('JWT_AIRTEL_SECRET');
-        $issuedAt = time();
-        $expirationTime = $issuedAt + 60;
-        $payload = [
-            'jti' => (string) Str::uuid(), // unique identifier for the JWT
-            'iat' => $issuedAt,             // issued at time
-            'sub' => 'airtel_africa',       // subject
-            'iss' => 'airtel_africa',       // issuer
-            'payload' => [
-                'txnId' => $txnId           // transaction ID
-            ],
-            'exp' => $expirationTime         // expiration time
-        ];
-
-        $token = JWT::encode($payload, $key, 'HS512');
-        Log::info($token);
-
-        return $token;
+        return $this->generateJWTToken(
+            uniqueId: $uniqueId,
+            key: env('JWT_AIRTEL_SECRET'),
+            jwtExpiryInSeconds: env('JWT_AIRTEL_EXPIRY_SECONDS'),
+            sub: env('JWT_AIRTEL_SUB'),
+            iss: env('JWT_AIRTEL_SUB')
+        );
     }
 
-    public function decodeJWT(Request $request)
+    public function validateJWT(Request $request)
     {
-        $jwt = $request->header('Authorization');
-
-        if (!$jwt) {
-            Log::critical('*************JWT missing');
-            $responseXml = new SimpleXMLElement('<COMMAND/>');
-            $responseXml->addChild('STATUS', '400');
-            $responseXml->addChild('MESSAGE', 'Invalid token');
-
-            return response($this->generateResponse($responseXml), 400)
-                ->header('Content-Type', 'application/xml');
-        }
-
-        $key = env('JWT_AIRTEL_SECRET');
-        try {
-            $decoded = JWT::decode($jwt, new Key($key, 'HS512'));
-            return (array) $decoded;
-        } catch (\Exception $e) {
-            $responseXml = new SimpleXMLElement('<COMMAND/>');
-            $responseXml->addChild('STATUS', '400');
-            $responseXml->addChild('MESSAGE', 'Invalid token');
-
-            return response($this->generateResponse($responseXml), 400)
-                ->header('Content-Type', 'application/xml');
-        }
+        return $this->decodeJWTToken(
+            token: $request->header('Authorization'),
+            key: env('JWT_SECRET')
+        );
+    }
+    public function genNew()
+    {
+        return json_encode([
+            'token' => $this->generateJWTToken(
+                uniqueId: Str::ulid(),
+                key: env('JWT_SECRET'),
+                jwtExpiryInSeconds: (int) env('JWT_EXPIRY_SECONDS'),
+                iss: config('app.name'),
+                sub: config('app.name')
+            )
+        ]);
     }
 }

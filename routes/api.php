@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use function PHPUnit\Framework\callback;
+use App\Traits\GeneralHelperTrait;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'uat/airtel'], function () {
         return view('login.login_page');
     });
 
-    Route::post('/jwt',[Airtel::class,'generateJWT']);
-    Route::post('/validateJWT',[Airtel::class,'decodeJWT']);
+    Route::post('/jwt', [Airtel::class, 'generateJWT']);
+    Route::post('/validateJWT', [Airtel::class, 'validateJWT']);
+    Route::post('/jwt-new', [Airtel::class, 'genNew']);
 });

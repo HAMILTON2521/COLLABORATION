@@ -24,6 +24,7 @@ use App\Livewire\Users\Users;
 use App\Livewire\Web\AboutUs;
 use App\Livewire\Web\Blog;
 use App\Livewire\Web\ContactUs;
+use App\Livewire\Web\GetStarted;
 use App\Livewire\Web\HomePage;
 use App\Livewire\Web\Pricing;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', Login::class)->name('login');
 Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
 Route::get('/signup', Signup::class)->name('signup');
+Route::get('/get-started/{token}', GetStarted::class)->name('get-started');
 
 /**
  *
@@ -132,9 +134,9 @@ Route::get('/pricing', Pricing::class)->name('web.pricing');
  * Preview email templates
  */
 Route::get('/mail', function () {
-    $contactUs = App\Models\ContactUs::first();
+    $data = App\Models\User::first();
 
-    return new App\Mail\ContactUsCreated($contactUs);
+    return new App\Mail\NotifyCreatedUser($data);
 });
 
 
