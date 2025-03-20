@@ -13,15 +13,18 @@ class ActionButtons extends Component
      */
     public $editUrl;
     public $viewUrl;
+    public $removeUrl;
     public $deleteItem;
     public $confirmationMessage;
     public function __construct(
         $editUrl = null,
         $viewUrl = null,
+        $removeUrl = null,
         $deleteItem = null,
         $confirmationMessage = null
     ) {
         $this->editUrl = $editUrl;
+        $this->removeUrl = $removeUrl;
         $this->deleteItem = $deleteItem;
         $this->viewUrl = $viewUrl;
         $this->confirmationMessage = $confirmationMessage;

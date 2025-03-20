@@ -15,7 +15,7 @@
     @yield('css')
     @yield('styles')
 
-    <title>{{ config('app.name') }} | @yield('title','Admin')</title>
+    <title>{{ config('app.name') }} | @yield('title', 'Admin')</title>
 </head>
 
 <body>

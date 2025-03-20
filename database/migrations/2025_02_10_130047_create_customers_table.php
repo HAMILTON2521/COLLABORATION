@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('district');
             $table->string('street');
             $table->boolean('is_active')->default(1);
+            $table->boolean('is_assigned')->default(0);
             $table->foreignUlid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });

@@ -143,33 +143,4 @@
         </div>
     </x-form>
 </div>
-@push('js')
-    <script src="{{ asset('assets/js/plugins/toastr-init.js') }}"></script>
-@endpush
-@script
-    <script>
-        $wire.on('household-create-success', () => {
-            toastr.success(
-                "Household created successfully",
-                "Success", {
-                    showMethod: "slideDown",
-                    hideMethod: "slideUp",
-                    progressBar: true,
-                    closeButton: true
-                }
-            );
-        });
-
-        $wire.on('household-create-failed', () => {
-            toastr.error(
-                "Failed to create household",
-                "Failed", {
-                    showMethod: "slideDown",
-                    hideMethod: "slideUp",
-                    progressBar: true,
-                    closeButton: true
-                }
-            );
-        });
-    </script>
-@endscript
+<x-toast />

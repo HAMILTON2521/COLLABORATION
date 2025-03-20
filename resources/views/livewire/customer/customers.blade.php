@@ -23,7 +23,8 @@
         </div>
     </div>
     <div class="action-btn layout-top-spacing mb-7 d-flex align-items-center justify-content-end flex-wrap gap-6">
-        <a href="{{ route('customers.create') }}" class="btn btn-primary" wire:navigate>Add Customer</a>
+        <a href="{{ route('customers.create') }}" class="btn btn-primary" wire:navigate>
+            <i class="ti ti-plus me-1 fs-5"></i> Add Customer</a>
     </div>
     <div class="datatables">
         <div class="card">
@@ -46,7 +47,7 @@
                             <!-- start row -->
                             @forelse ($this->customers as $customer)
                                 <tr wire:key="{{ $customer->id }}">
-                                    <td>{{ join(' ', [$customer->first_name, $customer->last_name]) }}</td>
+                                    <td>{{ $customer->full_name }}</td>
                                     <td>{{ $customer->ref }}</td>
                                     <td>{{ $customer->region }}</td>
                                     <td>{{ $customer->district }}</td>
@@ -54,7 +55,7 @@
                                     <td>
                                         <x-action-buttons editUrl="{{ route('customers.edit', $customer->id) }}"
                                             deleteItem="{{ $customer->id }}"
-                                            confirmationMessage="Delete customer {{ join(' ', [$customer->first_name, $customer->last_name]) }}"
+                                            confirmationMessage="Delete customer {{ $customer->full_name }}"
                                             viewUrl="{{ route('customers.details', $customer->id) }}" />
                                     </td>
                                 </tr>

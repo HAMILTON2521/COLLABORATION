@@ -32,7 +32,8 @@ class User extends Authenticatable
         'email',
         'password',
         'user_type',
-        'created_by'
+        'created_by',
+        'is_active'
     ];
 
     protected static function boot()
@@ -82,6 +83,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Relationship with UserAccount model
+     */
+    public function accounts()
+    {
+        return $this->hasMany(UserAccount::class);
+    }
+
+    public function unassignedAccounts()
+    {
+        return Customer::where('is_assigned', 0)
+            ->whereNotIn('id', $this->accounts()->pluck('customer_id'))
+            ->get();
+    }
+
+
+    /**
      * Scope for user search
      */
     public function scopeSearch($query, $term)
@@ -100,5 +117,17 @@ class User extends Authenticatable
             'Admin' => 'primary',
             'User' => 'success'
         ][$this->user_type] ?? 'danger';
+    }
+    public function getIsActiveColorAttribute()
+    {
+        return [
+            '1' => 'success',
+        ][$this->is_active] ?? 'danger';
+    }
+    public function getIsActiveLabelAttribute()
+    {
+        return [
+            '1' => 'Active'
+        ][$this->is_active] ?? 'Inactive';;
     }
 }

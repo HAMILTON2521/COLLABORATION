@@ -25,7 +25,7 @@ class CreateCustomer extends Component
 
         if ($customer) {
             $this->form->reset();
-            $this->dispatch('NewCustomerCreated', message: 'Customer created successfully.');
+            $this->dispatch('showToast', message: 'Customer created successfully', status: 'Success');
         }
     }
 

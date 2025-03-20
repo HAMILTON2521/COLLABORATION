@@ -129,21 +129,4 @@
         </div>
     </x-form>
 </div>
-@push('js')
-    <script src="{{ asset('assets/js/plugins/toastr-init.js') }}"></script>
-@endpush
-@script
-    <script>
-        $wire.on('NewCustomerCreated', (event) => {
-            toastr.success(
-                event.message,
-                "Success", {
-                    showMethod: "slideDown",
-                    hideMethod: "slideUp",
-                    progressBar: true,
-                    closeButton: true
-                }
-            );
-        });
-    </script>
-@endscript
+<x-toast />

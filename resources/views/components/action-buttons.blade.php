@@ -18,6 +18,16 @@
         </li>
     @endif
 
+    @if ($removeUrl)
+        <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove">
+            <a wire:navigate
+                class="d-block text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
+                href="{{ $removeUrl }}">
+                <i class="ti ti-user-minus"></i>
+            </a>
+        </li>
+    @endif
+
     @if ($deleteItem)
         <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
             <button type="button" wire:confirm="{{ $confirmationMessage }}" wire:click=delete('{{ $deleteItem }}')
@@ -26,4 +36,5 @@
             </button>
         </li>
     @endif
+
 </ul>

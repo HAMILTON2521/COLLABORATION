@@ -41,6 +41,7 @@
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Role</th>
+                        <th>Is Active</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -69,6 +70,10 @@
                                         label="{{ $user->user_type }}" />
                                 </td>
                                 <td>
+                                    <x-status-badge color="{{ $user->is_active_color }}"
+                                        label="{{ $user->is_active_label }}" />
+                                </td>
+                                <td>
                                     <x-action-buttons viewUrl="{{ route('more.users.show', $user->id) }}"
                                         editUrl="{{ route('more.users.edit', $user->id) }}" />
 
@@ -77,7 +82,7 @@
                             <!-- end row -->
                         @empty
                             <tr>
-                                <td colspan="5">No user data at the moment!</td>
+                                <td colspan="6">No user data at the moment!</td>
                             </tr>
                         @endforelse
 

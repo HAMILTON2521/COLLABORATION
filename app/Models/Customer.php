@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Customer extends Model
 {
@@ -24,7 +25,8 @@ class Customer extends Model
         'street',
         'ref',
         'created_by',
-        'is_active'
+        'is_active',
+        'is_assigned'
     ];
 
     protected static function boot()
@@ -35,5 +37,12 @@ class Customer extends Model
                 $model->id = (string) Str::ulid()->toBase32();
             }
         });
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => "{$this->first_name} {$this->last_name}"
+        );
     }
 }

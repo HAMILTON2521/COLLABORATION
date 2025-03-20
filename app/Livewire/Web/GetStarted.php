@@ -58,7 +58,8 @@ class GetStarted extends Component
         $validData = $this->validate();
         $this->user->user->update([
             'password' => Hash::make($validData['password']),
-            'email_verified_at' => Carbon::now()
+            'email_verified_at' => Carbon::now(),
+            'is_active' => 1
         ]);
 
         $this->user->update(['is_active' => 0]);

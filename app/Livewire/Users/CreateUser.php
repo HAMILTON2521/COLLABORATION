@@ -15,9 +15,9 @@ class CreateUser extends Component
     {
         $this->form->store();
 
+        $this->dispatch('showToast', message: 'User created successfully', status: 'Success');
+
         $this->form->reset();
-        session()->flash('success', 'User created successfully');
-        $this->redirectRoute('more.users', navigate: true);
     }
     public function render()
     {

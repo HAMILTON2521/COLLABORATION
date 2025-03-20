@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-bs-theme="light" data-color-theme="Green_Theme" data-layout="horizontal">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-bs-theme="light"
+    data-color-theme="Green_Theme" data-layout="horizontal">
 
 <head>
     <!-- Required meta tags -->
@@ -15,7 +16,7 @@
     @stack('css')
     @stack('styles')
 
-    <title>{{ config('app.name') }} | @yield('title',$title??'')</title>
+    <title>{{ config('app.name') }} | @yield('title', $title ?? '')</title>
 </head>
 
 <body>
@@ -53,6 +54,7 @@
     <script src="{{ asset('assets/js/theme/app.init.js') }}"></script>
     <script src="{{ asset('assets/js/theme/theme.js') }}"></script>
     <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/toastr-init.js') }}"></script>
     @stack('js')
     @stack('scripts')
 </body>

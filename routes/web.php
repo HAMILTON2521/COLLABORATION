@@ -17,8 +17,10 @@ use App\Livewire\Topup\AirtelPayments;
 use App\Livewire\User\AccountSettings;
 use App\Livewire\User\MyInvoices;
 use App\Livewire\User\MyProfile;
+use App\Livewire\Users\AssignAccount;
 use App\Livewire\Users\CreateUser;
 use App\Livewire\Users\EditUser;
+use App\Livewire\Users\UserAccounts;
 use App\Livewire\Users\UserDetails;
 use App\Livewire\Users\Users;
 use App\Livewire\Web\AboutUs;
@@ -78,6 +80,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/new', CreateUser::class)->name('more.users.create');
         Route::get('/{user}/edit', EditUser::class)->name('more.users.edit');
         Route::get('/{user}', UserDetails::class)->name('more.users.show');
+        Route::get('/{user}', UserDetails::class)->name('more.users.show');
+        Route::get('/account/assign/{user}', AssignAccount::class)->name('more.users.assign');
+        Route::get('/accounts/{user}', UserAccounts::class)->name('more.users.accounts');
     });
     Route::group(['prefix' => 'topup'], function () {
         Route::get('/remote', function () {
