@@ -15,7 +15,7 @@ class UserAccount extends Model
     protected $fillable = ['customer_id', 'user_id'];
 
     /**
-     * Relationship with User model
+     * The user assigned to the customer
      */
     public function user()
     {
@@ -23,10 +23,22 @@ class UserAccount extends Model
     }
 
     /**
-     * Relationship with Customer model
+     * The customer assigned to the user
      */
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasManyThrough(
+            Payment::class,
+            Customer::class,
+            'id',
+            'customer_id',
+            'customer_id',
+            'id'
+        );
     }
 }

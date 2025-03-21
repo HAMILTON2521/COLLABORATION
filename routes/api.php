@@ -36,7 +36,6 @@ Route::group(['prefix' => 'uat/airtel'], function () {
         return view('login.login_page');
     });
 
-    Route::post('/jwt', [Airtel::class, 'generateJWT']);
+    Route::post('/jwt', [Airtel::class, 'genNew']);
     Route::post('/validateJWT', [Airtel::class, 'validateJWT']);
-    Route::post('/jwt-new', [Airtel::class, 'genNew']);
 });

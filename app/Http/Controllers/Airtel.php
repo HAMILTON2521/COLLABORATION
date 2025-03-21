@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 class Airtel extends Controller
 {
     use GeneralHelperTrait;
+
     public function callback(Request $request)
     {
         Log::info(json_encode($request->all()));
@@ -377,7 +378,7 @@ class Airtel extends Controller
     {
         return $this->decodeJWTToken(
             token: $request->header('Authorization'),
-            key: env('JWT_SECRET')
+            key: env('JWT_AIRTEL_SECRET')
         );
     }
     public function genNew()
@@ -385,10 +386,10 @@ class Airtel extends Controller
         return json_encode([
             'token' => $this->generateJWTToken(
                 uniqueId: Str::ulid(),
-                key: env('JWT_SECRET'),
-                jwtExpiryInSeconds: (int) env('JWT_EXPIRY_SECONDS'),
-                iss: config('app.name'),
-                sub: config('app.name')
+                key: env('JWT_AIRTEL_SECRET'),
+                jwtExpiryInSeconds: (int) env('JWT_AIRTEL_EXPIRY_SECONDS'),
+                iss: env('JWT_AIRTEL_SUB'),
+                sub: env('JWT_AIRTEL_SUB'),
             )
         ]);
     }

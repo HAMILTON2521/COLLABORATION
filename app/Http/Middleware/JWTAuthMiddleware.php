@@ -6,7 +6,6 @@ use Closure;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use SimpleXMLElement;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -49,6 +48,5 @@ class JWTAuthMiddleware
             return response($xmlStringWithoutDeclaration, 400)
                 ->header('Content-Type', 'application/xml');
         }
-
     }
 }

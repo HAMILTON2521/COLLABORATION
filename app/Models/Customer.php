@@ -45,4 +45,28 @@ class Customer extends Model
             get: fn() => "{$this->first_name} {$this->last_name}"
         );
     }
+
+    /**
+     * The user who created this customer
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Users assigned to this customer (UserAccount pivot table)
+     */
+    public function assignedUsers()
+    {
+        return $this->belongsToMany(User::class, 'user_accounts', 'customer_id', 'user_id');
+    }
+
+    /**
+     * Payments associated with this customer
+     */
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

@@ -45,13 +45,16 @@ class Payment extends Model
      * Relationships
      */
 
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class);
-    }
-
     public function airtelRequest()
     {
         return $this->belongsTo(AirtelRequest::class, 'internal_txn_id');
+    }
+
+    /**
+     * The customer making the payment (nullable)
+     */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

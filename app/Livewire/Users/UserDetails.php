@@ -25,6 +25,11 @@ class UserDetails extends Component
     {
         return $this->user->accounts()->latest()->get();
     }
+    #[Computed()]
+    public function payments()
+    {
+        return $this->user->getUserPayments();
+    }
 
     public function edit()
     {

@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -83,6 +84,22 @@ class User extends Authenticatable
     }
 
     /**
+     * The user who created this user (Self-referencing)
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Users created by this user (Self-referencing)
+     */
+    public function createdUsers()
+    {
+        return $this->hasMany(User::class, 'created_by');
+    }
+
+    /**
      * Relationship with UserAccount model
      */
     public function accounts()
@@ -90,10 +107,26 @@ class User extends Authenticatable
         return $this->hasMany(UserAccount::class);
     }
 
+    /**
+     * Customers created by the user
+     */
+    public function customers()
+    {
+        return $this->hasMany(Customer::class, 'created_by');
+    }
+
+    /**
+     * Customers assigned to this user via UserAccount
+     */
+    public function assignedAccounts()
+    {
+        return $this->belongsToMany(Customer::class, 'user_accounts', 'user_id', 'customer_id');
+    }
+
     public function unassignedAccounts()
     {
         return Customer::where('is_assigned', 0)
-            ->whereNotIn('id', $this->accounts()->pluck('customer_id'))
+            ->whereNotIn('id', $this->assignedAccounts()->pluck('customer_id'))
             ->get();
     }
 
@@ -129,5 +162,16 @@ class User extends Authenticatable
         return [
             '1' => 'Active'
         ][$this->is_active] ?? 'Inactive';;
+    }
+
+    public function getUserPayments(): Collection
+    {
+        return Payment::whereIn('customer_id', function ($query) {
+            $query->select('customer_id')
+                ->from('user_accounts')
+                ->where('user_id', $this->id);
+        })
+            ->latest()
+            ->get();
     }
 }
