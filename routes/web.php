@@ -7,6 +7,10 @@ use App\Livewire\Customer\CustomerDetails;
 use App\Livewire\Customer\Customers;
 use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Dashboard\AdminHomePage;
+use App\Livewire\Equipment\Equipment;
+use App\Livewire\Equipment\NewValveControl;
+use App\Livewire\Equipment\ValveControl;
+use App\Livewire\Equipment\ValveDetails;
 use App\Livewire\Household\CreateHousehold;
 use App\Livewire\Household\EditHousehold;
 use App\Livewire\Household\Households;
@@ -80,9 +84,10 @@ Route::middleware('auth')->group(function () {
         })->name('more.data.query');
     });
     Route::group(['prefix' => 'equipment'], function () {
-        Route::get('/equipment', function () {
-            return view('dashboard.equipment.equipment');
-        })->name('more.equipment');
+        Route::get('/', Equipment::class)->name('more.equipment');
+        Route::get('/valve', ValveControl::class)->name('more.equipment.valve');
+        Route::get('/valve/{valve}', ValveDetails::class)->name('more.equipment.valve.details');
+        Route::get('/new-valve-control', NewValveControl::class)->name('more.equipment.valve.new');
     });
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', Users::class)->name('more.users');

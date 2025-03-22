@@ -229,7 +229,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="{{ route('more.equipment') }}"
+                                <a wire:navigate href="{{ route('more.equipment') }}"
                                     class="sidebar-link {{ Route::is('more.equipment') ? 'active' : '' }}">
                                     <i class="ti ti-device-desktop"></i>
                                     <span class="hide-menu">Equipment</span>

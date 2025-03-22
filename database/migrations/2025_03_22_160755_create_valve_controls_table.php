@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lorawan_recharge_requests', function (Blueprint $table) {
+        Schema::create('valve_controls', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('payment_id')->constrained()->cascadeOnDelete();
-            $table->enum('status', ['New', 'Pending', 'Sent', 'Failed', 'Success'])->default('New');
-            $table->decimal('topup_amount');
-            $table->decimal('topup_to_device_amount');
+            $table->enum('source', ['Payment', 'Manual']);
+            $table->foreignUlid('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUlid('payment_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->boolean('state');
+            $table->foreignUlid('customer_id')->constrained()->cascadeOnDelete();
             $table->string('error_code', length: 10)->nullable();
             $table->string('error_message')->nullable();
-            $table->string('order_id', length: 26)->nullable();
+            $table->string('value_id', length: 10)->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lorawan_recharge_requests');
+        Schema::dropIfExists('valve_controls');
     }
 };

@@ -5,9 +5,9 @@ namespace App\Livewire\Household;
 use App\Models\Household;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
-use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 
 #[Title('Households')]
 class Households extends Component

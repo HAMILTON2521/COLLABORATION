@@ -2,18 +2,23 @@
 
 namespace App\Observers;
 
+use App\Models\LorawanRechargeRequest;
 use App\Models\Payment;
 use App\Models\Setting;
-use Illuminate\Support\Facades\Log;
+use App\Traits\HttpHelper;
 
 class PaymentObserver
 {
+    use HttpHelper;
     /**
      * Handle the Payment "created" event.
      */
     public function created(Payment $payment): void
     {
-        //
+        $payment->lorawanRechargeRequests()->create([
+            'topup_amount' => $payment->amount,
+            'topup_to_device_amount' => $payment->accumulated_volume
+        ]);
     }
 
     /**
@@ -21,7 +26,13 @@ class PaymentObserver
      */
     public function updated(Payment $payment): void
     {
-        //
+        if ($payment->status == "Recharged") {
+            $payment->valveControl()->create([
+                'state' => 1,
+                'customer_id' => $payment->customer->id,
+                'source' => 'Payment'
+            ]);
+        }
     }
 
     /**
@@ -51,6 +62,7 @@ class PaymentObserver
     public function creating(Payment $payment)
     {
         $unitCost = Setting::where('key', 'UNIT_PRICE')->first()->value;
+
         $payment->accumulated_volume = $payment->amount / (float) $unitCost;
     }
 }

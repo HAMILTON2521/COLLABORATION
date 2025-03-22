@@ -20,7 +20,12 @@ return new class extends Migration
             $table->string('external_id')->unique();
             $table->decimal('amount');
             $table->decimal('accumulated_volume')->nullable();
-            $table->enum('status', ['Success', 'Failed', 'Received'])->default('Received');
+            $table->enum('status', [
+                'Success',
+                'Failed',
+                'Received',
+                'Recharged'
+            ])->default('Received');
             $table->timestamps();
         });
     }

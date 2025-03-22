@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('ref', length: 6)->unique();
-            $table->string('imei', length: 24)->unique();
+            $table->string('imei', length: 24)->unique()->index();
             $table->string('phone')->unique();
             $table->string('email')->nullable();
             $table->foreignUlid('region_id')->constrained();

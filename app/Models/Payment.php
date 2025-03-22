@@ -54,8 +54,9 @@ class Payment extends Model
     public function getStatusColorAttribute()
     {
         return [
-            'Received' => 'info',
+            'Received' => 'warning',
             'Success' => 'success',
+            'Recharged' => 'info'
         ][$this->status] ?? 'danger';
     }
 
@@ -74,6 +75,21 @@ class Payment extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+    /**
+     * Relationship with LorawanRechargeRequest
+     */
+    public function lorawanRechargeRequests()
+    {
+        return $this->hasMany(LorawanRechargeRequest::class);
+    }
+
+    /**
+     * Relationship with ValveControl model
+     */
+    public function valveControl()
+    {
+        return $this->hasOne(ValveControl::class);
     }
     /**
      * Scope for user search

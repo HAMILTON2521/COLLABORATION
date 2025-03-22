@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\Users;
+namespace App\Livewire\Equipment;
 
-use App\Models\User;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Title;
+use App\Models\ValveControl as ModelsValveControl;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
 
-#[Title('Users')]
-class Users extends Component
+#[Title('Valve Control')]
+class ValveControl extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
@@ -24,9 +24,9 @@ class Users extends Component
     }
 
     #[Computed()]
-    public function users()
+    public function valveControls()
     {
-        return User::latest()->search($this->search)->paginate($this->perPage);
+        return ModelsValveControl::latest()->search($this->search)->paginate($this->perPage);
     }
     #[Computed()]
     public function pages()
@@ -35,6 +35,6 @@ class Users extends Component
     }
     public function render()
     {
-        return view('livewire.users.users');
+        return view('livewire.equipment.valve-control');
     }
 }

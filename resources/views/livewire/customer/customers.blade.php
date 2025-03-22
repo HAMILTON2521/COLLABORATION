@@ -59,7 +59,8 @@
                                         <div class="ms-3">
                                             <div>
                                                 <h6 class="mb-0">
-                                                    <a href="{{ route('customers.details', $customer->id) }}"
+                                                    <a class="link-success"
+                                                        href="{{ route('customers.details', $customer->id) }}"
                                                         wire:navigate>{{ $customer->full_name }}</a>
                                                 </h6>
                                             </div>

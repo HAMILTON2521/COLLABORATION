@@ -106,6 +106,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAccount::class);
     }
+    /**
+     * Relationship with ValveControl model
+     */
+    public function valveControls()
+    {
+        return $this->hasMany(ValveControl::class);
+    }
 
     /**
      * Customers created by the user

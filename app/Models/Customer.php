@@ -69,6 +69,13 @@ class Customer extends Model
     {
         return $this->belongsTo(District::class);
     }
+    /**
+     * Relationship with ValveControl model
+     */
+    public function valveControls()
+    {
+        return $this->hasMany(ValveControl::class);
+    }
 
     /**
      * Users assigned to this customer (UserAccount pivot table)
