@@ -16,8 +16,10 @@ return new class extends Migration
             $table->foreignUlid('internal_txn_id')->constrained('airtel_requests')->cascadeOnDelete();
             $table->foreignUlid('customer_id')->nullable()->constrained('customers')->cascadeOnDelete();
             $table->string('msisdn')->nullable();
+            $table->string('channel');
             $table->string('external_id')->unique();
             $table->decimal('amount');
+            $table->decimal('accumulated_volume')->nullable();
             $table->enum('status', ['Success', 'Failed', 'Received'])->default('Received');
             $table->timestamps();
         });

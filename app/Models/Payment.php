@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Observers\PaymentObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
+#[ObservedBy(PaymentObserver::class)]
 class Payment extends Model
 {
     use HasFactory, HasUlids;
@@ -20,7 +24,9 @@ class Payment extends Model
         'status',
         'customer_id',
         'external_id',
-        'msisdn'
+        'msisdn',
+        'channel',
+        'accumulated_volume'
     ];
 
     protected static function boot()
@@ -31,6 +37,18 @@ class Payment extends Model
                 $model->id = (string) Str::ulid()->toBase32();
             }
         });
+    }
+    protected function txnId(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Str::upper(Str::substr($this->internal_txn_id ?? '-', 0, 10))
+        );
+    }
+    protected function formattedAmount(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => number_format($this->amount, 0)
+        );
     }
 
     public function getStatusColorAttribute()
@@ -56,5 +74,16 @@ class Payment extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+    /**
+     * Scope for user search
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('customer_id', 'LIKE', "%{$term}%")
+            ->orWhere('msisdn', 'LIKE', "%{$term}%")
+            ->orWhere('internal_txn_id', 'LIKE', "%{$term}%")
+            ->orWhere('channel', 'LIKE', "%{$term}%")
+            ->orWhere('external_id', 'LIKE', "%{$term}%");
     }
 }

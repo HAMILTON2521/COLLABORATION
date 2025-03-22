@@ -16,10 +16,11 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('ref', length: 6)->unique();
+            $table->string('imei', length: 24)->unique();
             $table->string('phone')->unique();
             $table->string('email')->nullable();
-            $table->string('region');
-            $table->string('district');
+            $table->foreignUlid('region_id')->constrained();
+            $table->foreignUlid('district_id')->constrained();
             $table->string('street');
             $table->boolean('is_active')->default(1);
             $table->boolean('is_assigned')->default(0);

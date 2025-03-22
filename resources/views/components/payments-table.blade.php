@@ -26,7 +26,7 @@
                     <td>
                         <span data-ref="{{ $payment->customer->ref }}">{{ $payment->customer->ref }}</span>
                     </td>
-                    <td>{{ number_format($payment->amount, 0) }}</td>
+                    <td>{{ $payment->formattedAmount }}</td>
                     <td>
                         <span data-phone="{{ $payment->msisdn }}">{{ $payment->msisdn }}</span>
                     </td>

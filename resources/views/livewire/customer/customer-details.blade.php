@@ -1,3 +1,3 @@
 <div>
-    {{-- Stop trying to control. --}}
+    <x-page-header mainTitle="Customer Details" subtitle="Customers" />
 </div>

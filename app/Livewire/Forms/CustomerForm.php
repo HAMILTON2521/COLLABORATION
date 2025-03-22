@@ -17,6 +17,9 @@ class CustomerForm extends Form
     #[Validate('required|digits:6|unique:customers,ref', as: 'account')]
     public $account = '';
 
+    #[Validate('required|string|unique:customers,imei', as: 'meter number')]
+    public $imei = '';
+
     #[Validate('required|size:10', as: 'phone number')]
     public $phone = '';
 
@@ -40,11 +43,12 @@ class CustomerForm extends Form
             'first_name' => $validData['first_name'],
             'last_name' => $validData['last_name'],
             'ref' => $validData['account'],
-            'region' => $validData['region'],
-            'district' => $validData['district'],
+            'region_id' => $validData['region'],
+            'district_id' => $validData['district'],
             'phone' => $validData['phone'],
             'email' => $validData['email'],
-            'street' => $validData['street']
+            'street' => $validData['street'],
+            'imei' => $validData['imei']
         ]);
 
         if ($customer) {

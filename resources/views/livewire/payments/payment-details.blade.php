@@ -1,3 +1,3 @@
 <div>
-    <x-page-header mainTitle="Tsh {{ number_format($payment->amount) }}" subtitle="Topup" />
+    <x-page-header mainTitle="Tsh {{ $payment->formattedAmount }}" subtitle="Topup" />
 </div>

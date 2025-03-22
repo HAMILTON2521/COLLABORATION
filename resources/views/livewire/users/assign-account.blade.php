@@ -69,10 +69,12 @@
                                     <span data-ref="{{ $customer->ref }}">{{ $customer->ref }}</span>
                                 </td>
                                 <td>
-                                    <span data-region="{{ $customer->region }}">{{ $customer->region }}</span>
+                                    <span
+                                        data-region="{{ $customer->region->name }}">{{ $customer->region->name }}</span>
                                 </td>
                                 <td>
-                                    <span data-district="{{ $customer->district }}">{{ $customer->district }}</span>
+                                    <span
+                                        data-district="{{ $customer->district->name }}">{{ $customer->district->name }}</span>
                                 </td>
                                 <td>
                                     <div class="n-chk align-self-center text-center">

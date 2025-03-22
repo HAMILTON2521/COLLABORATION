@@ -3,7 +3,7 @@
     <x-form wire:submit="save" autocomplete="off" class="form-horizontal">
         <div class="row">
             <div class="col-lg-12 ">
-                <div class="card">
+                <div class="card border-top border-success">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-7">
                             <h4 class="card-title">Customer Details</h4>
@@ -43,14 +43,26 @@
                                 <div class="mb-4">
                                     <label for="ref" class="form-label">Account <span class="text-danger">*</span>
                                     </label>
-                                    <x-input wire:model="form.account" name="ref"
+                                    <x-input maxlength="6" wire:model="form.account" name="ref"
                                         class="form-control {{ $errors->has('form.account') ? 'is-invalid' : '' }}" />
                                     @error('form.account')
                                         <span class="validation-text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
+                                <div class="mb-4">
+                                    <label for="imei" class="form-label">IMEI <span class="text-danger">*</span>
+                                    </label>
+                                    <x-input wire:model="form.imei" name="imei"
+                                        class="form-control {{ $errors->has('form.imei') ? 'is-invalid' : '' }}" />
+                                    @error('form.imei')
+                                        <span class="validation-text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
                                 <div class="mb-4">
                                     <label for="phone" class="form-label">Phone <span class="text-danger">*</span>
                                     </label>
@@ -107,7 +119,8 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="mb-4">
-                                    <label for="street" class="form-label">Street <span class="text-danger">*</span>
+                                    <label for="street" class="form-label">Street <span
+                                            class="text-danger">*</span>
                                     </label>
                                     <x-input wire:model="form.street" name="street"
                                         class="form-control {{ $errors->has('form.street') ? 'is-invalid' : '' }}" />

@@ -14,6 +14,10 @@ use App\Livewire\Login\ForgotPassword;
 use App\Livewire\Login\Login;
 use App\Livewire\Login\Signup;
 use App\Livewire\Payments\PaymentDetails;
+use App\Livewire\Portal\NewPayment;
+use App\Livewire\Portal\Payments;
+use App\Livewire\Portal\UserDashboard;
+use App\Livewire\Settings\Settings;
 use App\Livewire\Topup\AirtelPayments;
 use App\Livewire\User\AccountSettings;
 use App\Livewire\User\MyInvoices;
@@ -46,6 +50,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', AdminHomePage::class)->name('dashboard');
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
+    Route::prefix('portal')->group(function () {
+        Route::get('/', UserDashboard::class)->name('portal');
+        Route::get('/payments', Payments::class)->name('portal.payments');
+        Route::get('/payments/new', NewPayment::class)->name('portal.payments.new');
+    });
+
     Route::group(['prefix' => 'profile'], function () {
         Route::get('/my-profile', MyProfile::class)->name('profile.my.profile');
         Route::get('/my-invoices', MyInvoices::class)->name('profile.my.invoices');
@@ -62,9 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{customer}/edit', EditCustomer::class)->name('customers.edit');
     });
     Route::group(['prefix' => 'settings'], function () {
-        Route::get('/', function () {
-            return view('dashboard.settings.settings_home');
-        })->name('settings');
+        Route::get('/', Settings::class)->name('settings');
     });
     Route::group(['prefix' => 'data'], function () {
         Route::get('/query', function () {

@@ -164,14 +164,12 @@ class User extends Authenticatable
         ][$this->is_active] ?? 'Inactive';;
     }
 
-    public function getUserPayments(): Collection
+    public function getUserPayments()
     {
         return Payment::whereIn('customer_id', function ($query) {
             $query->select('customer_id')
                 ->from('user_accounts')
                 ->where('user_id', $this->id);
-        })
-            ->latest()
-            ->get();
+        });
     }
 }

@@ -53,8 +53,8 @@
                                     <div class="d-flex align-items-start">
                                         <div class="">
                                             <div class="user-meta-info">
-                                                <h6 class="household-name mb-0" data-name="{{ $payment->id }}">
-                                                    {{ Str::substr($payment->id, 0, 10) }}</h6>
+                                                <h6 class="household-name mb-0" data-name="{{ $payment->txnId }}">
+                                                    {{ Str::substr($payment->txnId, 0, 10) }}</h6>
                                             </div>
                                         </div>
                                     </div>

@@ -1,3 +1,3 @@
 <div>
-    {{-- Success is as dangerous as failure. --}}
+    <x-page-header mainTitle="Edit Customer" subtitle="Customers" />
 </div>

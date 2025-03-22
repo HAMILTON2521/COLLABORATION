@@ -197,7 +197,7 @@ class Airtel extends Controller
                 'internal_txn_id' => $req->id,
                 'msisdn' => $validated['CUSTOMERMSISDN'],
                 'external_id' => $validated['REFERENCE1'],
-
+                'channel' => 'Airtel'
             ]);
 
             if ($payment) {

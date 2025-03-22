@@ -20,13 +20,14 @@ class Customer extends Model
         'last_name',
         'phone',
         'email',
-        'region',
-        'district',
+        'region_id',
+        'district_id',
         'street',
         'ref',
         'created_by',
         'is_active',
-        'is_assigned'
+        'is_assigned',
+        'imei'
     ];
 
     protected static function boot()
@@ -53,6 +54,21 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+    /**
+     * Customer region
+     */
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    /**
+     * Customer district
+     */
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
 
     /**
      * Users assigned to this customer (UserAccount pivot table)
@@ -68,5 +84,17 @@ class Customer extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * Scope for customer search
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('first_name', 'LIKE', "%{$term}%")
+            ->orWhere('email', 'LIKE', "%{$term}%")
+            ->orWhere('phone', 'LIKE', "%{$term}%")
+            ->orWhere('ref', 'LIKE', "%{$term}%")
+            ->orWhere('last_name', 'LIKE', "%{$term}%");
     }
 }

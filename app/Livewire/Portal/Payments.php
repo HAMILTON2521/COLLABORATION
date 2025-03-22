@@ -1,37 +1,31 @@
 <?php
 
-namespace App\Livewire\Customer;
+namespace App\Livewire\Portal;
 
-use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
-#[Title('Customers')]
-class Customers extends Component
+#[Title('Payments')]
+class Payments extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
     public $search = '';
     public $perPage = 10;
 
-    public function delete(Customer $customer)
-    {
-        $customer->delete();
-        $this->dispatch('showToast', message: 'Customer deleted successfully', status: 'Success');
-    }
     // Reset pagination when search query changes
     public function updatedSearch()
     {
         $this->resetPage();
     }
-
-    #[Computed]
-    public function customers()
+    #[Computed()]
+    public function payments()
     {
-        return Customer::latest()->search($this->search)->paginate($this->perPage);
+        return Auth::user()->getUserPayments()->latest()->search($this->search)->paginate($this->perPage);
     }
     #[Computed()]
     public function pages()
@@ -40,6 +34,6 @@ class Customers extends Component
     }
     public function render()
     {
-        return view('livewire.customer.customers');
+        return view('livewire.portal.payments');
     }
 }

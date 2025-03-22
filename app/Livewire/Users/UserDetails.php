@@ -28,7 +28,7 @@ class UserDetails extends Component
     #[Computed()]
     public function payments()
     {
-        return $this->user->getUserPayments();
+        return $this->user->getUserPayments()->latest()->get();
     }
 
     public function edit()

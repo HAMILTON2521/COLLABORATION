@@ -29,11 +29,12 @@
                         <span data-ref="{{ $account->customer->ref }}">{{ $account->customer->ref }}</span>
                     </td>
                     <td>
-                        <span data-region="{{ $account->customer->region }}">{{ $account->customer->region }}</span>
+                        <span
+                            data-region="{{ $account->customer->region->name }}">{{ $account->customer->region->name }}</span>
                     </td>
                     <td>
                         <span
-                            data-district="{{ $account->customer->district }}">{{ $account->customer->district }}</span>
+                            data-district="{{ $account->customer->district->name }}">{{ $account->customer->district->name }}</span>
                     </td>
                     <td>
                         <a href="javascript:;" wire:click.prevent="remove('{{ $account->id }}')"

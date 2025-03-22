@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\ContactUs;
-use App\Observers\ContactUsObserver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -27,7 +25,5 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('web', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
-
-        ContactUs::observe(ContactUsObserver::class);
     }
 }
