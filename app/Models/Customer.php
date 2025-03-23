@@ -92,6 +92,13 @@ class Customer extends Model
     {
         return $this->hasMany(Payment::class);
     }
+    /**
+     * RealtimeData associated with this customer
+     */
+    public function realTimeData()
+    {
+        return $this->hasMany(RealtimeData::class);
+    }
 
     /**
      * Scope for customer search

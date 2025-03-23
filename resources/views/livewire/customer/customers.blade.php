@@ -69,7 +69,9 @@
                                 </td>
                                 <td>{{ $customer->ref }}</td>
                                 <td>{{ $customer->imei }}</td>
-                                <td>{{ $customer->region->name }}</td>
+                                <td><a class="link-success" wire:navigate
+                                        href="{{ route('customers.region', $customer->region_id) }}">{{ $customer->region->name }}</a>
+                                </td>
                                 <td>{{ $customer->district->name }}</td>
                                 <td>{{ date('d M Y', strtotime($customer->created_at)) }}</td>
                                 <td>

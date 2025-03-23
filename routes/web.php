@@ -6,6 +6,7 @@ use App\Livewire\Customer\CreateCustomer;
 use App\Livewire\Customer\CustomerDetails;
 use App\Livewire\Customer\Customers;
 use App\Livewire\Customer\EditCustomer;
+use App\Livewire\Customer\Region;
 use App\Livewire\Dashboard\AdminHomePage;
 use App\Livewire\Equipment\Equipment;
 use App\Livewire\Equipment\NewValveControl;
@@ -74,6 +75,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', CreateCustomer::class)->name('customers.create');
         Route::get('/{customer}', CustomerDetails::class)->name('customers.details');
         Route::get('/{customer}/edit', EditCustomer::class)->name('customers.edit');
+        Route::get('/region/{region}', Region::class)->name('customers.region');
     });
     Route::group(['prefix' => 'settings'], function () {
         Route::get('/', Settings::class)->name('settings');
