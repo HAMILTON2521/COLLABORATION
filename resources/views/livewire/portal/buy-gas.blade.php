@@ -16,7 +16,7 @@
                                             will be sent to your phone for confirmation.
                                         </div>
                                         <button
-                                            onclick="Livewire.dispatch('openModal', { component: 'portal.buy-gas-form',arguments:{customer:'{{ $customer->id }}'} })"
+                                            wire:click="$dispatch('openModal', {component: 'portal.buy-gas-form',arguments:{customer:'{{ $customer->id }}'} })"
                                             type="button" class="btn btn-primary">
                                             Pay
                                         </button>
