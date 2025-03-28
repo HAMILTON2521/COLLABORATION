@@ -26,7 +26,7 @@ class PushRequestObserver
                 'subscriber' => [
                     'country' => 'TZ',
                     'currency' => 'TZS',
-                    'msisdn' => $pushRequest->phone
+                    'msisdn' => substr($pushRequest->phone, 1, 9)
                 ],
                 'transaction' => [
                     'amount' => (int) $pushRequest->amount,

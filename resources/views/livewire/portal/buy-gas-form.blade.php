@@ -42,7 +42,11 @@
                         </button>
 
                         @isset($pushRequest)
-                            <button wire:click="checkTransaction" class="btn btn-rounded btn-success" type="button">
+                            <a href="{{ route('portal.account.buy', $customer->id) }}" class="btn btn-danger me-3"
+                                type="button">
+                                Cancel
+                            </a>
+                            <button wire:click="checkTransaction" class="btn btn-success" type="button">
                                 If you paid, click here to complete <span wire:loading wire:target="checkTransaction"
                                     class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             </button>
