@@ -16,7 +16,7 @@
     @stack('css')
     @stack('styles')
 
-    <title>xx{{ config('app.name') }} | @yield('title', $title ?? '')</title>
+    <title>{{ config('app.name') }} | @yield('title', $title ?? '')</title>
 </head>
 
 <body>
@@ -57,9 +57,7 @@
     <script src="{{ asset('assets/js/plugins/toastr-init.js') }}"></script>
     @stack('js')
     @stack('scripts')
-    @persist('modal')
-        @livewire('wire-elements-modal')
-    @endpersist
+    @livewire('wire-elements-modal')
 </body>
 
 </html>

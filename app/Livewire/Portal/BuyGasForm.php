@@ -3,8 +3,6 @@
 namespace App\Livewire\Portal;
 
 use App\Models\Customer;
-use App\Models\PushRequest;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 
 use LivewireUI\Modal\ModalComponent;
@@ -17,7 +15,7 @@ class BuyGasForm extends ModalComponent
     #[Validate('required|integer|min:100', as: 'amount')]
     public $amount = '';
 
-    public Customer $customer;
+    public $customer;
     public function mount(Customer $customer)
     {
         $this->customer = $customer;
@@ -42,6 +40,6 @@ class BuyGasForm extends ModalComponent
 
     public function render()
     {
-        return view('livewire.portal.buy-gas-form');
+        return view('livewire.portal.baba');
     }
 }

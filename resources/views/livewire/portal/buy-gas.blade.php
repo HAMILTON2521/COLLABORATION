@@ -20,6 +20,11 @@
                                             type="button" class="btn btn-primary">
                                             Pay
                                         </button>
+
+                                        <button wire:click="openModal" type="button" class="btn btn-pill btn-danger">
+                                            Done
+                                        </button>
+
                                     </div>
                                 </li>
                             </ol>

@@ -23,6 +23,15 @@ class BuyGas extends Component
         $this->status = false;
     }
 
+    public function openModal()
+    {
+        $this->dispatch('openModal', [
+            'component' => 'portal.baba',
+            'arguments' => ['customer' => $this->customer]
+        ]);
+    }
+
+
     public function render()
     {
         return view('livewire.portal.buy-gas');
