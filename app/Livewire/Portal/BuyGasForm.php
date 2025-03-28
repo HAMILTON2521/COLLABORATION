@@ -13,7 +13,7 @@ use Livewire\Attributes\Title;
 #[Title('Buy Gas')]
 class BuyGasForm extends Component
 {
-    #[Validate('required|size:10', as: 'phone number')]
+    #[Validate('required|size:10|starts_with:0', as: 'phone number')]
     public $phone = '';
 
     #[Validate('required|integer|min:100', as: 'amount')]
