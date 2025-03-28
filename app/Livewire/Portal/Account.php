@@ -11,7 +11,7 @@ class Account extends Component
 {
     public function buyGas(Customer $customer)
     {
-        $this->redirectRoute('portal.account.buy', ['customer' => $customer], navigate: true);
+        $this->redirectRoute('portal.account.buy', ['customer' => $customer]);
     }
     public function render()
     {
