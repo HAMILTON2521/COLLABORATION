@@ -16,7 +16,7 @@
     @stack('css')
     @stack('styles')
 
-    <title>{{ config('app.name') }} | @yield('title', $title ?? '')</title>
+    <title>xx{{ config('app.name') }} | @yield('title', $title ?? '')</title>
 </head>
 
 <body>
