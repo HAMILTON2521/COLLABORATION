@@ -18,6 +18,10 @@ class BuyGasForm extends ModalComponent
     public $amount = '';
 
     public Customer $customer;
+    public function mount(Customer $customer)
+    {
+        $this->customer = $customer;
+    }
 
     public function save()
     {

@@ -15,7 +15,7 @@
                                             Just enter your Airtel Money number, amount and click send. A PIN request
                                             will be sent to your phone for confirmation.
                                         </div>
-                                        <button wire:show="status"
+                                        <button
                                             onclick="Livewire.dispatch('openModal', { component: 'portal.buy-gas-form',arguments:{customer:'{{ $customer->id }}'} })"
                                             type="button" class="btn btn-primary">
                                             Pay
