@@ -55,7 +55,9 @@
     <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
     @yield('js')
     @yield('scripts')
-    @livewire('wire-elements-modal')
+    @persist('modal')
+        @livewire('wire-elements-modal')
+    @endpersist
 </body>
 
 </html>
