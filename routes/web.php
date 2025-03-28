@@ -21,6 +21,7 @@ use App\Livewire\Login\Signup;
 use App\Livewire\Payments\PaymentDetails;
 use App\Livewire\Portal\Account;
 use App\Livewire\Portal\BuyGas;
+use App\Livewire\Portal\BuyGasForm;
 use App\Livewire\Portal\NewPayment;
 use App\Livewire\Portal\Payments;
 use App\Livewire\Portal\UserDashboard;
@@ -63,6 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/payments/new', NewPayment::class)->name('portal.payments.new');
         Route::get('/account', Account::class)->name('portal.account');
         Route::get('/buy-gas/{customer}', BuyGas::class)->name('portal.account.buy');
+        Route::get('/buy-gas/airtel/{customer}', BuyGasForm::class)->name('portal.account.buy.airtel');
     });
 
     Route::group(['prefix' => 'profile'], function () {

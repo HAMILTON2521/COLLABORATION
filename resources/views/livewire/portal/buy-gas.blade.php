@@ -15,15 +15,16 @@
                                             Just enter your Airtel Money number, amount and click send. A PIN request
                                             will be sent to your phone for confirmation.
                                         </div>
-                                        <button
+                                        {{-- <button
                                             wire:click="$dispatch('openModal', {component: 'portal.buy-gas-form',arguments:{customer:'{{ $customer->id }}'} })"
                                             type="button" class="btn btn-primary">
                                             Pay
-                                        </button>
+                                        </button> --}}
 
-                                        <button wire:click="openModal" type="button" class="btn btn-pill btn-danger">
-                                            Done
-                                        </button>
+                                        <a wire:navigate href="{{ route('portal.account.buy.airtel', $customer->id) }}"
+                                            class="btn btn-primary">
+                                            Pay Now
+                                        </a>
 
                                     </div>
                                 </li>

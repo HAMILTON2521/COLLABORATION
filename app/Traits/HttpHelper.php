@@ -41,7 +41,7 @@ trait HttpHelper
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])->post($endpoint, $data);
-        Log::info('Response ==> ' . $response->json());
+        Log::info('Response ==> ' . json_encode($response->json()));
         return $response->json();
     }
 
