@@ -5,9 +5,9 @@ namespace App\Livewire\Portal;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\Attributes\Title;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
 
 #[Title('Payments')]
 class Payments extends Component

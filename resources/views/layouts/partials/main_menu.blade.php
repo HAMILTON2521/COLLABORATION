@@ -23,7 +23,7 @@
                             <span class="hide-menu">Dashboard</span>
                         </a>
                     @else
-                        <a class="sidebar-link" href="{{ route('portal') }}" aria-expanded="false" wire:navigate>
+                        <a class="sidebar-link" href="{{ route('portal') }}" aria-expanded="false">
                             <span>
                                 <iconify-icon icon="solar:layers-line-duotone" class="ti"></iconify-icon>
                             </span>
@@ -34,12 +34,19 @@
                 @if (Auth::user()->user_type == 'User')
                     <li
                         class="sidebar-item {{ Route::is('portal.payments*') || Route::is('topup.payment.details') ? 'selected' : '' }}">
-                        <a wire:navigate class="sidebar-link" href="{{ route('portal.payments') }}"
-                            aria-expanded="false">
+                        <a class="sidebar-link" href="{{ route('portal.payments') }}" aria-expanded="false">
                             <span class="rounded-3">
                                 <iconify-icon icon="solar:wallet-money-line-duotone" class="ti"></iconify-icon>
                             </span>
                             <span class="hide-menu">Payments</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ Route::is('portal.account*') ? 'selected' : '' }}">
+                        <a class="sidebar-link" href="{{ route('portal.account') }}" aria-expanded="false">
+                            <span class="rounded-3">
+                                <iconify-icon icon="solar:shield-user-line-duotone" class="ti"></iconify-icon>
+                            </span>
+                            <span class="hide-menu">My Account</span>
                         </a>
                     </li>
                 @endif

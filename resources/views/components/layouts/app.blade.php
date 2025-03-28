@@ -57,6 +57,7 @@
     <script src="{{ asset('assets/js/plugins/toastr-init.js') }}"></script>
     @stack('js')
     @stack('scripts')
+    @livewire('wire-elements-modal')
 </body>
 
 </html>

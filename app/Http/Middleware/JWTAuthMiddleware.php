@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Closure;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -31,7 +32,7 @@ class JWTAuthMiddleware
                 ->header('Content-Type', 'application/xml');
         }
 
-        $key = env('JWT_AIRTEL_SECRET');
+        $key = Setting::where('key', 'JWT_AIRTEL_SECRET')->first()->value;
 
         try {
             $decoded = JWT::decode($jwt, new Key($key, 'HS512'));

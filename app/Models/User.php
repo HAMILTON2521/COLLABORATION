@@ -74,6 +74,12 @@ class User extends Authenticatable
             get: fn() => "{$this->first_name} {$this->last_name}"
         );
     }
+    protected function userStatus(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->is_active === 1 ? 'Active' : 'Inactive'
+        );
+    }
 
     /**
      * Relationship with User Verification

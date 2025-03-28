@@ -51,6 +51,61 @@ class SettingsSeeder extends Seeder
             'value' => 86400
         ]);
         Setting::create([
+            'key' => 'AIRTEL_UAT_CLIENT_ID',
+            'type' => 'string',
+            'value' => '351c3a8f-1904-41d8-86d3-9eda1f4c4cd5'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_UAT_CLIENT_SECRET_KEY',
+            'type' => 'string',
+            'value' => '4b60ac43-8990-49cb-b7ac-b094128f174a'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_PROD_CLIENT_ID',
+            'type' => 'string',
+            'value' => 'fc350837-0bf5-4284-b1ab-7156c934c15f'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_PROD_CLIENT_SECRET_KEY',
+            'type' => 'string',
+            'value' => 'f7469040-e3e5-4259-9392-d0df434d64a5'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_C2B_UAT_CALLBACK_URL',
+            'type' => 'string',
+            'value' => 'https://demo.skttanzania.co.tz/api/callback/uat/airtel'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_C2B_PROD_CALLBACK_URL',
+            'type' => 'string',
+            'value' => 'https://demo.skttanzania.co.tz/api/callback/uat/airtel'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_C2B_UAT_HASH_KEY',
+            'type' => 'string',
+            'value' => 'c01f2a724e05458d906f115a065bd2fb'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_C2B_PROD_USSD_PUSH_URL',
+            'type' => 'string',
+            'value' => 'https://openapi.airtel.africa/'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_C2B_UAT_USSD_PUSH_URL',
+            'type' => 'string',
+            'value' => 'https://openapiuat.airtel.africa/'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_C2B_PROD_HASH_KEY',
+            'type' => 'string',
+            'value' => 'c01f2a724e05458d906f115a065bd2fb'
+        ]);
+        Setting::create([
+            'key' => 'AIRTEL_MERCHANT_CODE',
+            'type' => 'string',
+            'value' => 'RYNQXFN1'
+        ]);
+        Setting::create([
             'key' => 'JWT_AIRTEL_SECRET',
             'value' => 'KbPeShVmYq3t6w9z$C&F)J@NcQfTjWnZr4u7x!A%D*G-KaPdSgVkXp2s5v8y/B?E'
         ]);

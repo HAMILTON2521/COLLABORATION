@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Setting;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -16,13 +17,51 @@ trait HttpHelper
             'requestParams' =>  $data
         ];
 
-        Log::info('Sending http request.', ['url' => $endpoint, 'data' => $formatedRequestData]);
+        Log::info(__FUNCTION__, ['url' => $endpoint, 'data' => $formatedRequestData]);
 
         try {
             $response = Http::asForm()->post(url: $endpoint, data: $formatedRequestData);
             return $response->json();
         } catch (\Throwable $th) {
             Log::error('sendHttpRequest failed', ['exception' => $th->getMessage()]);
+            return null;
+        }
+    }
+    public function sendAirtelUssdPush($data = null, $endpoint)
+    {
+        $token = $this->getApiToken();
+
+        if (!$token) {
+            return null;
+        }
+
+        Log::info(__FUNCTION__, ['url' => $endpoint, 'data' => $data]);
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])->post($endpoint, $data);
+        Log::info('Response ==> ' . $response->json());
+        return $response->json();
+    }
+
+    public function getApiToken()
+    {
+        $url = Setting::where('key', App::environment('production') ? 'AIRTEL_C2B_PROD_USSD_PUSH_URL' : 'AIRTEL_C2B_UAT_USSD_PUSH_URL')->first()->value;
+        $clientId = Setting::where('key', App::environment('production') ? 'AIRTEL_PROD_CLIENT_ID' : 'AIRTEL_UAT_CLIENT_ID')->first()->value;
+        $clientSecret = Setting::where('key', App::environment('production') ? 'AIRTEL_PROD_CLIENT_SECRET_KEY' : 'AIRTEL_UAT_CLIENT_SECRET_KEY')->first()->value;
+
+        $endPoint = $url . 'auth/oauth2/token';
+
+        $response = Http::post($endPoint, [
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'grant_type' => 'client_credentials'
+        ]);
+
+        if ($response->successful()) {
+            return $response->json()['access_token'];
+        } else {
             return null;
         }
     }

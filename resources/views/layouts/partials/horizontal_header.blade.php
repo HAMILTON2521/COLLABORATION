@@ -8,7 +8,8 @@
                 </a>
             </li>
             <li class="nav-item d-none d-xl-flex align-items-center">
-                <a href="{{ route('dashboard') }}" class="text-nowrap nav-link">
+                <a href="{{ Auth::user()->user_type === 'Admin' ? route('dashboard') : route('portal') }}"
+                    class="text-nowrap nav-link">
                     <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="matdash-img" />
                 </a>
             </li>
@@ -17,154 +18,15 @@
                     <iconify-icon icon="solar:magnifer-linear" class="fs-6"></iconify-icon>
                 </a>
             </li>
-            <li class="nav-item d-none d-lg-flex align-items-center dropdown nav-icon-hover-bg rounded-circle">
-                <div class="hover-dd">
-                    <a class="nav-link" id="drop2" href="javascript:void(0)" aria-haspopup="true"
-                        aria-expanded="false">
-                        <iconify-icon icon="solar:widget-3-line-duotone" class="fs-6"></iconify-icon>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0 overflow-hidden"
-                        aria-labelledby="drop2">
-                        <div class="position-relative">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="p-4 pb-3">
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="position-relative">
-                                                    <a href="javascript:void(0)"
-                                                        class="d-flex align-items-center pb-9 position-relative">
-                                                        <div
-                                                            class="bg-primary-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
-                                                            <iconify-icon icon="solar:chat-line-bold-duotone"
-                                                                class="fs-7 text-primary"></iconify-icon>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">Chat Application</h6>
-                                                            <span class="fs-11 d-block text-body-color">New messages
-                                                                arrived</span>
-                                                        </div>
-                                                    </a>
-                                                    <a href="javascript:void(0)"
-                                                        class="d-flex align-items-center pb-9 position-relative">
-                                                        <div
-                                                            class="bg-secondary-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
-                                                            <iconify-icon icon="solar:bill-list-bold-duotone"
-                                                                class="fs-7 text-secondary"></iconify-icon>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">Invoice App</h6>
-                                                            <span class="fs-11 d-block text-body-color">Get latest
-                                                                invoice</span>
-                                                        </div>
-                                                    </a>
-                                                    <a href="javascript:void(0)"
-                                                        class="d-flex align-items-center pb-9 position-relative">
-                                                        <div
-                                                            class="bg-warning-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
-                                                            <iconify-icon
-                                                                icon="solar:phone-calling-rounded-bold-duotone"
-                                                                class="fs-7 text-warning"></iconify-icon>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">Contact Application</h6>
-                                                            <span class="fs-11 d-block text-body-color">2 Unsaved
-                                                                Contacts</span>
-                                                        </div>
-                                                    </a>
-                                                    <a href="javascript:void(0)"
-                                                        class="d-flex align-items-center pb-9 position-relative">
-                                                        <div
-                                                            class="bg-danger-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
-                                                            <iconify-icon icon="solar:letter-bold-duotone"
-                                                                class="fs-7 text-danger"></iconify-icon>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">Email App</h6>
-                                                            <span class="fs-11 d-block text-body-color">Get new
-                                                                emails</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="position-relative">
-                                                    <a href="javascript:void(0)"
-                                                        class="d-flex align-items-center pb-9 position-relative">
-                                                        <div
-                                                            class="bg-success-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
-                                                            <iconify-icon icon="solar:user-bold-duotone"
-                                                                class="fs-7 text-success"></iconify-icon>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">User Profile</h6>
-                                                            <span class="fs-11 d-block text-body-color">learn more
-                                                                information</span>
-                                                        </div>
-                                                    </a>
-                                                    <a href="javascript:void(0)"
-                                                        class="d-flex align-items-center pb-9 position-relative">
-                                                        <div
-                                                            class="bg-primary-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
-                                                            <iconify-icon
-                                                                icon="solar:calendar-minimalistic-bold-duotone"
-                                                                class="fs-7 text-primary"></iconify-icon>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">Calendar App</h6>
-                                                            <span class="fs-11 d-block text-body-color">Get dates</span>
-                                                        </div>
-                                                    </a>
-                                                    <a href="javascript:void(0)"
-                                                        class="d-flex align-items-center pb-9 position-relative">
-                                                        <div
-                                                            class="bg-secondary-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
-                                                            <iconify-icon icon="solar:smartphone-2-bold-duotone"
-                                                                class="fs-7 text-secondary"></iconify-icon>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">Contact List Table</h6>
-                                                            <span class="fs-11 d-block text-body-color">Add new
-                                                                contact</span>
-                                                        </div>
-                                                    </a>
-                                                    <a href="javascript:void(0)"
-                                                        class="d-flex align-items-center pb-9 position-relative">
-                                                        <div
-                                                            class="bg-warning-subtle rounded round-48 me-3 d-flex align-items-center justify-content-center">
-                                                            <iconify-icon icon="solar:notes-bold-duotone"
-                                                                class="fs-7 text-warning"></iconify-icon>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">Notes Application</h6>
-                                                            <span class="fs-11 d-block text-body-color">To-do and Daily
-                                                                tasks</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4 d-none d-lg-flex">
-                                    <img src="{{ asset('assets/images/backgrounds/mega-dd-bg.jpg') }}" alt="mega-dd"
-                                        class="img-fluid mega-dd-bg" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
         </ul>
         <div class="d-block d-xl-none">
             <a href="{{ route('dashboard') }}" class="text-nowrap nav-link">
                 <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="matdash-img" />
             </a>
         </div>
-        <a class="navbar-toggler nav-icon-hover p-0 border-0 nav-icon-hover-bg rounded-circle"
-            href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-toggler nav-icon-hover p-0 border-0 nav-icon-hover-bg rounded-circle" href="javascript:void(0)"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="p-2">
                 <i class="ti ti-dots fs-7"></i>
             </span>
@@ -181,12 +43,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-icon-hover-bg rounded-circle moon dark-layout"
-                            href="javascript:void(0)">
+                        <a class="nav-link nav-icon-hover-bg rounded-circle moon dark-layout" href="javascript:void(0)">
                             <iconify-icon icon="solar:moon-line-duotone" class="moon fs-6"></iconify-icon>
                         </a>
-                        <a class="nav-link nav-icon-hover-bg rounded-circle sun light-layout"
-                            href="javascript:void(0)" style="display: none">
+                        <a class="nav-link nav-icon-hover-bg rounded-circle sun light-layout" href="javascript:void(0)"
+                            style="display: none">
                             <iconify-icon icon="solar:sun-2-line-duotone" class="sun fs-6"></iconify-icon>
                         </a>
                     </li>

@@ -93,6 +93,13 @@ class Customer extends Model
         return $this->hasMany(Payment::class);
     }
     /**
+     * Push requests associated with this customer
+     */
+    public function pushRequests()
+    {
+        return $this->hasMany(PushRequest::class);
+    }
+    /**
      * RealtimeData associated with this customer
      */
     public function realTimeData()
