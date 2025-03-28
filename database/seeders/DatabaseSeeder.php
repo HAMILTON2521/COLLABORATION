@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
+            SettingsSeeder::class,
             UserSeeder::class,
             RegionSeeder::class,
-            DistrictSeeder::class,
-            SettingsSeeder::class
+            DistrictSeeder::class
         ]);
     }
 }

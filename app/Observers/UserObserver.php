@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Mail\UserCreated;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserVerification;
 use App\Traits\GeneralHelperTrait;
@@ -20,13 +21,13 @@ class UserObserver
         UserVerification::create([
             'user_id' => $user->id,
             'key' => $this->generateJWTToken(
-                key: env('JWT_SECRET'),
+                key: Setting::where('key', 'JWT_SECRET')->first()->value,
                 iss: config('app.name'),
                 sub: config('app.name'),
-                jwtExpiryInSeconds: (int) env('JWT_EXPIRY_SECONDS'),
+                jwtExpiryInSeconds: (int) Setting::where('key', 'JWT_EXPIRY_SECONDS')->first()->value,
                 uniqueId: $user->id
             ),
-            'expire_date' => Carbon::now()->addMinutes((int) env('JWT_EXPIRY_SECONDS'))
+            'expire_date' => Carbon::now()->addSeconds((int) Setting::where('key', 'JWT_EXPIRY_SECONDS')->first()->value)
         ]);
     }
 
