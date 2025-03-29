@@ -127,7 +127,7 @@
                                         <div class="ms-auto">
                                             <a href="{{ route('more.users.assign', $user->id) }}" wire:navigate
                                                 id="btn-add-user" class="btn btn-primary d-flex align-items-center">
-                                                <i class="ti ti-user-plus text-white me-1 fs-5"></i> Add More
+                                                <i class="ti ti-user-plus text-white me-1 fs-5"></i> Add Meter
                                             </a>
                                         </div>
                                     </div>

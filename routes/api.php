@@ -15,7 +15,7 @@ Route::get('/user', function (Request $request) {
 // Route::post('/uat/airtel', [Airtel::class, 'callback']);
 
 Route::group(['prefix' => 'uat/airtel'], function () {
-    Route::post('/callback', [Airtel::class, 'callback']);
+    Route::post('/callback', [Airtel::class, 'callback'])->middleware('callbackAck');
     Route::get('/callback', function () {
         return view('login.login_page');
     });

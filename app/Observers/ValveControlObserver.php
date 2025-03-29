@@ -45,7 +45,7 @@ class ValveControlObserver
         if ($valveControl->source == "Payment") {
             if ($valveControl->error_code === "0") {
                 Payment::findOrFail($valveControl->payment_id)->update([
-                    'status' => 'Success'
+                    'status' => 'Recharged'
                 ]);
             }
         }

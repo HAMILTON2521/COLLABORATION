@@ -91,7 +91,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="fs-7">Tsh {{ number_format($this->total->total_amount, 0) }}</h4>
+                                <h4 class="fs-7">Tsh {{ number_format($this->total->total_amount ?? 0, 0) }}</h4>
                             </div>
                         </div>
                     </div>

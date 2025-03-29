@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('airtel_requests', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->string('type', length: 20)->nullable();
-            $table->enum('request', ['Validate', 'Process', 'Enquiry']);
+            $table->enum('request', ['Validate', 'Process', 'Enquiry', 'Payment Callback']);
             $table->string('customer_msisdn', length: 12);
             $table->string('merchant_msisdn', length: 12)->nullable();
             $table->decimal('amount')->nullable();
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('enquiry_txn_id')->nullable();
             $table->enum('status', ['Success', 'Failed', 'Not Found'])->default('Failed');
             $table->string('error_message')->nullable()->default('Validation failed');
+            $table->foreignUlid('customer_id')->nullable()->constrained();
             $table->json('error_details')->nullable();
             $table->timestamps();
         });

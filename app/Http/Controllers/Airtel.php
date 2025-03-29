@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\AirtelRequest;
 use App\Models\Customer;
 use App\Models\Payment;
+use App\Models\PushRequest;
 use App\Traits\GeneralHelperTrait;
 use Carbon\Carbon;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -21,12 +20,22 @@ class Airtel extends Controller
 
     public function callback(Request $request)
     {
-        Log::info(json_encode($request->all()));
+        $data = $request->all();
 
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Callback received successfully'
-        ]);
+        if ($data['transaction']) {
+            if ($data['transaction']['id']) {
+                $pushRequest =  PushRequest::findOrFail($data['transaction']['id']);
+
+                if ($pushRequest) {
+                    $pushRequest->update([
+                        'status' => $data['transaction']['status_code'] === 'TS' ? 'Success' : 'Failed',
+                        'mno_txn_id' => $data['transaction']['airtel_money_id'],
+                        'mno_result_code' => $data['transaction']['code'] ?? $pushRequest->mno_result_code,
+                        'mno_message' => $data['transaction']['message']
+                    ]);
+                }
+            }
+        }
     }
     public function generateResponse($xml)
     {

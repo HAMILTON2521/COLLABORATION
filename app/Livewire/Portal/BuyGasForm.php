@@ -3,6 +3,7 @@
 namespace App\Livewire\Portal;
 
 use App\Models\Customer;
+use App\Models\Payment;
 use App\Models\PushRequest;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
@@ -20,7 +21,7 @@ class BuyGasForm extends Component
     public $amount = '';
 
     public $customer;
-    public PushRequest $pushRequest;
+    public ?PushRequest $pushRequest;
     public $status = true;
 
     public function mount(Customer $customer)
@@ -40,9 +41,18 @@ class BuyGasForm extends Component
         $pushRequest = PushRequest::findOrFail($this->pushRequest->id);
         if ($pushRequest) {
             if ($pushRequest->status === "Success") {
-                //
-            } else {
+                $payment = Payment::where('external_id', $pushRequest->mno_txn_id)->first();
+                if ($payment) {
+                    $this->redirectRoute('topup.payment.details', ['payment' => $payment->id], navigate: true);
+                }
+            } elseif ($pushRequest->status === "Pending") {
                 $this->dispatch('showToast', message: 'We have not received the payment. Try again.', status: 'Unpaid');
+            } elseif ($pushRequest->status === "Failed") {
+                $this->dispatch('showToast', message: 'Your request failed. Try again', status: 'Failed');
+                $this->phone = $pushRequest->phone;
+
+                $this->pushRequest = null;
+                $this->status = true;
             }
         }
     }
@@ -60,7 +70,9 @@ class BuyGasForm extends Component
         if ($pushRequestData) {
             $this->dispatch('push-request-created', pushRequest: $pushRequestData->id);
             $this->reset('phone', 'amount');
-            $this->dispatch('showToast', message: 'Please check your phone and confirm PIN.', status: 'Success');
+            if ($pushRequestData->status == 'New') {
+                $this->dispatch('showToast', message: 'Please check your phone and confirm PIN.', status: 'Success');
+            }
         }
     }
 

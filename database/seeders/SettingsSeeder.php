@@ -15,7 +15,7 @@ class SettingsSeeder extends Seeder
     {
         Setting::create([
             'key' => 'API_BASE_URL',
-            'value' => env('BACKEND_ENDPOINT'),
+            'value' => 'http://en.energy.zhongyismart.com/api/commonInternal.jsp',
             'description' => 'Endpoint for Lorawan backend'
         ]);
         Setting::create([
@@ -38,7 +38,7 @@ class SettingsSeeder extends Seeder
         Setting::create([
             'key' => 'UNIT_PRICE',
             'type' => 'decimal',
-            'value' => 5,
+            'value' => 7341.77,
             'description' => 'Unit cost for cubic meter calculation'
         ]);
         Setting::create([

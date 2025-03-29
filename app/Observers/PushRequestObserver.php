@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\AirtelRequest;
 use App\Models\PushRequest;
 use App\Models\Setting;
 use App\Traits\HttpHelper;
@@ -21,7 +22,7 @@ class PushRequestObserver
             $url = Setting::where('key', App::environment('production') ? 'AIRTEL_C2B_PROD_USSD_PUSH_URL' : 'AIRTEL_C2B_UAT_USSD_PUSH_URL')->first()->value;
             $endpoint = $url . 'merchant/v1/payments/';
 
-            $data = json_encode([
+            $data = [
                 'reference' => $pushRequest->customer->ref,
                 'subscriber' => [
                     'country' => 'TZ',
@@ -34,9 +35,43 @@ class PushRequestObserver
                     'currency' => 'TZS',
                     'id' => $pushRequest->id
                 ]
-            ]);
+            ];
 
             $response = $this->sendAirtelUssdPush($data, $endpoint);
+            if ($response) {
+                if ($response->status() === 200) {
+                    $transaction = $response->json();
+                    if ($transaction['data'] && $transaction['status']['code'] == "200") {
+                        PushRequest::find($transaction['data']['transaction']['id'])
+                            ->update([
+                                'status' => 'Pending',
+                                'mno_response_code' => $transaction['status']['response_code'],
+                                'mno_error_code' => $transaction['status']['code'],
+                                'mno_status' => $transaction['data']['transaction']['status'],
+                                'mno_result_code' => $transaction['status']['result_code'],
+                                'mno_message' => $transaction['status']['message']
+                            ]);
+                    } else {
+                        PushRequest::find($transaction['data']['transaction']['id'])
+                            ->update([
+                                'status' => 'Failed',
+                                'mno_response_code' => $transaction['status']['response_code'],
+                                'mno_error_code' => $transaction['status']['code'],
+                                'mno_status' => 'Failed',
+                                'mno_result_code' => $transaction['status']['result_code'],
+                                'mno_message' => $transaction['status']['message']
+                            ]);
+                    }
+                } else {
+                    $pushRequest->update([
+                        'status' => 'Failed'
+                    ]);
+                }
+            } else {
+                $pushRequest->update([
+                    'status' => 'Failed'
+                ]);
+            }
         }
     }
 
@@ -45,7 +80,18 @@ class PushRequestObserver
      */
     public function updated(PushRequest $pushRequest): void
     {
-        //
+        if ($pushRequest->status == "Success") {
+            AirtelRequest::create([
+                'request' => 'Payment Callback',
+                'customer_msisdn' => $pushRequest->phone,
+                'amount' => $pushRequest->amount,
+                'status' => $pushRequest->status,
+                'type' => 'C2B',
+                'error_message' => $pushRequest->mno_message,
+                'customer_id' => $pushRequest->customer_id,
+                'reference_1' => $pushRequest->mno_txn_id
+            ]);
+        }
     }
 
     /**

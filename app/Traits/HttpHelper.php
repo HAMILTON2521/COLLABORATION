@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Setting;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -27,7 +28,7 @@ trait HttpHelper
             return null;
         }
     }
-    public function sendAirtelUssdPush($data = null, $endpoint)
+    public function sendAirtelUssdPush($data = [], $endpoint)
     {
         $token = $this->getApiToken();
 
@@ -35,14 +36,35 @@ trait HttpHelper
             return null;
         }
 
-        Log::info(__FUNCTION__, ['url' => $endpoint, 'data' => $data]);
+        Log::info(__FUNCTION__, [
+            'url' => $endpoint,
+            'data' => json_encode($data),
+            'token' => $token
+        ]);
 
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-            'Accept' => 'application/json',
-        ])->post($endpoint, $data);
-        Log::info('Response ==> ' . json_encode($response->json()));
-        return $response->json();
+        try {
+            $response = Http::timeout(45)
+                ->withToken($token)
+                ->withHeaders([
+                    'X-Currency' => 'TZS',
+                    'X-Country' => 'TZ',
+                ])->post($endpoint, $data)->throw();
+            return $response;
+        } catch (RequestException $e) {
+            Log::error(__FUNCTION__ . ' - HTTP Request Exception', [
+                'request' => json_encode($data),
+                'code' => $e->getCode(),
+                'exception' => $e->getMessage()
+            ]);
+            return null;
+        } catch (\Exception $e) {
+            Log::error(__FUNCTION__ . ' - General Exception', [
+                'request' => json_encode($data),
+                'code' => $e->getCode(),
+                'exception' => $e->getMessage()
+            ]);
+            return null;
+        }
     }
 
     public function getApiToken()

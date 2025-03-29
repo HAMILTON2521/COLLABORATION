@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AutoAckMiddleware;
 use App\Http\Middleware\JWTAuthMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -17,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo('/');
         $middleware->appendToGroup('jwt', [
             JWTAuthMiddleware::class
+        ]);
+        $middleware->appendToGroup('callbackAck', [
+            AutoAckMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

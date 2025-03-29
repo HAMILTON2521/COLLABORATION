@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use App\Observers\AirtelRequestObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Support\Str;
 
+#[ObservedBy(AirtelRequestObserver::class)]
 class AirtelRequest extends Model
 {
-    use HasFactory,HasUlids;
+    use HasFactory, HasUlids;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -31,16 +34,15 @@ class AirtelRequest extends Model
         'enquiry_txn_id',
         'status',
         'error_message',
-        'error_details'
+        'error_details',
+        'customer_id'
     ];
 
-    protected static function boot()
+    /**
+     * Relationship with Payment model
+     */
+    public function payment()
     {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::ulid()->toBase32();
-            }
-        });
+        return $this->hasOne(Payment::class);
     }
 }

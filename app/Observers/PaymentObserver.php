@@ -6,6 +6,7 @@ use App\Models\LorawanRechargeRequest;
 use App\Models\Payment;
 use App\Models\Setting;
 use App\Traits\HttpHelper;
+use Illuminate\Support\Number;
 
 class PaymentObserver
 {
@@ -63,6 +64,6 @@ class PaymentObserver
     {
         $unitCost = Setting::where('key', 'UNIT_PRICE')->first()->value;
 
-        $payment->accumulated_volume = $payment->amount / (float) $unitCost;
+        $payment->accumulated_volume = Number::format($payment->amount / (float) $unitCost, 2);
     }
 }

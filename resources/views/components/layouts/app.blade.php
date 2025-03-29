@@ -55,8 +55,6 @@
     <script src="{{ asset('assets/js/theme/theme.js') }}"></script>
     <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/toastr-init.js') }}"></script>
-    @stack('js')
-    @stack('scripts')
     @livewire('wire-elements-modal')
 </body>
 

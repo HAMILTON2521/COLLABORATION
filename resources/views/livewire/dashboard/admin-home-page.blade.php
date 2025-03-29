@@ -6,13 +6,16 @@
                     <div class="col">
                         <div class="card primary-gradient">
                             <div class="card-body text-center px-9 pb-4">
-                                <div class="d-flex align-items-center justify-content-center round-48 rounded text-bg-primary flex-shrink-0 mb-3 mx-auto">
-                                    <iconify-icon icon="solar:dollar-minimalistic-linear" class="fs-7 text-white"></iconify-icon>
+                                <div
+                                    class="d-flex align-items-center justify-content-center round-48 rounded text-bg-primary flex-shrink-0 mb-3 mx-auto">
+                                    <iconify-icon icon="solar:users-group-rounded-linear"
+                                        class="fs-7 text-white"></iconify-icon>
                                 </div>
-                                <h6 class="fw-normal fs-3 mb-1">Total Orders</h6>
+                                <h6 class="fw-normal fs-3 mb-1">Total Customers</h6>
                                 <h4 class="mb-3 d-flex align-items-center justify-content-center gap-1">
-                                    16,689</h4>
-                                <a href="javascript:void(0)" class="btn btn-white fs-2 fw-semibold text-nowrap">View
+                                    {{ $this->countOfCustomers }}</h4>
+                                <a href="{{ route('customers') }}"
+                                    class="btn btn-white fs-2 fw-semibold text-nowrap">View
                                     Details</a>
                             </div>
                         </div>
@@ -20,12 +23,14 @@
                     <div class="col">
                         <div class="card warning-gradient">
                             <div class="card-body text-center px-9 pb-4">
-                                <div class="d-flex align-items-center justify-content-center round-48 rounded text-bg-warning flex-shrink-0 mb-3 mx-auto">
-                                    <iconify-icon icon="solar:recive-twice-square-linear" class="fs-7 text-white"></iconify-icon>
+                                <div
+                                    class="d-flex align-items-center justify-content-center round-48 rounded text-bg-warning flex-shrink-0 mb-3 mx-auto">
+                                    <iconify-icon icon="solar:recive-twice-square-linear"
+                                        class="fs-7 text-white"></iconify-icon>
                                 </div>
-                                <h6 class="fw-normal fs-3 mb-1">Return Item</h6>
+                                <h6 class="fw-normal fs-3 mb-1">Today's Payments</h6>
                                 <h4 class="mb-3 d-flex align-items-center justify-content-center gap-1">
-                                    148</h4>
+                                    400K</h4>
                                 <a href="javascript:void(0)" class="btn btn-white fs-2 fw-semibold text-nowrap">View
                                     Details</a>
                             </div>
@@ -34,10 +39,11 @@
                     <div class="col">
                         <div class="card secondary-gradient">
                             <div class="card-body text-center px-9 pb-4">
-                                <div class="d-flex align-items-center justify-content-center round-48 rounded text-bg-secondary flex-shrink-0 mb-3 mx-auto">
+                                <div
+                                    class="d-flex align-items-center justify-content-center round-48 rounded text-bg-secondary flex-shrink-0 mb-3 mx-auto">
                                     <iconify-icon icon="ic:outline-backpack" class="fs-7 text-white"></iconify-icon>
                                 </div>
-                                <h6 class="fw-normal fs-3 mb-1">Annual Budget</h6>
+                                <h6 class="fw-normal fs-3 mb-1">Y'day's Payments</h6>
                                 <h4 class="mb-3 d-flex align-items-center justify-content-center gap-1">
                                     $156K</h4>
                                 <a href="javascript:void(0)" class="btn btn-white fs-2 fw-semibold text-nowrap">View
@@ -48,8 +54,10 @@
                     <div class="col">
                         <div class="card danger-gradient">
                             <div class="card-body text-center px-9 pb-4">
-                                <div class="d-flex align-items-center justify-content-center round-48 rounded text-bg-danger flex-shrink-0 mb-3 mx-auto">
-                                    <iconify-icon icon="ic:baseline-sync-problem" class="fs-7 text-white"></iconify-icon>
+                                <div
+                                    class="d-flex align-items-center justify-content-center round-48 rounded text-bg-danger flex-shrink-0 mb-3 mx-auto">
+                                    <iconify-icon icon="ic:baseline-sync-problem"
+                                        class="fs-7 text-white"></iconify-icon>
                                 </div>
                                 <h6 class="fw-normal fs-3 mb-1">Cancel Orders</h6>
                                 <h4 class="mb-3 d-flex align-items-center justify-content-center gap-1">
@@ -62,7 +70,8 @@
                     <div class="col">
                         <div class="card success-gradient">
                             <div class="card-body text-center px-9 pb-4">
-                                <div class="d-flex align-items-center justify-content-center round-48 rounded text-bg-success flex-shrink-0 mb-3 mx-auto">
+                                <div
+                                    class="d-flex align-items-center justify-content-center round-48 rounded text-bg-success flex-shrink-0 mb-3 mx-auto">
                                     <iconify-icon icon="ic:outline-forest" class="fs-7 text-white"></iconify-icon>
                                 </div>
                                 <h6 class="fw-normal fs-3 mb-1">Total Income</h6>
@@ -117,8 +126,10 @@
                     </div>
                     <div class="col-md-4">
                         <div class="hstack gap-6 mb-3 mb-md-0">
-                            <span class="d-flex align-items-center justify-content-center round-48 bg-primary-subtle rounded">
-                                <iconify-icon icon="solar:dollar-minimalistic-linear" class="fs-7 text-primary"></iconify-icon>
+                            <span
+                                class="d-flex align-items-center justify-content-center round-48 bg-primary-subtle rounded">
+                                <iconify-icon icon="solar:dollar-minimalistic-linear"
+                                    class="fs-7 text-primary"></iconify-icon>
                             </span>
                             <div>
                                 <span>Profit</span>
@@ -128,7 +139,8 @@
                     </div>
                     <div class="col-md-4">
                         <div class="hstack gap-6">
-                            <span class="d-flex align-items-center justify-content-center round-48 bg-danger-subtle rounded">
+                            <span
+                                class="d-flex align-items-center justify-content-center round-48 bg-danger-subtle rounded">
                                 <iconify-icon icon="solar:database-linear" class="fs-7 text-danger"></iconify-icon>
                             </span>
                             <div>
@@ -203,7 +215,8 @@
                     <div class="col-md-6">
                         <div class="vstack gap-9 mt-2">
                             <div class="hstack align-items-center gap-3">
-                                <div class="d-flex align-items-center justify-content-center round-48 rounded bg-primary-subtle flex-shrink-0">
+                                <div
+                                    class="d-flex align-items-center justify-content-center round-48 rounded bg-primary-subtle flex-shrink-0">
                                     <iconify-icon icon="solar:shop-2-linear" class="fs-7 text-primary"></iconify-icon>
                                 </div>
                                 <div>
@@ -213,8 +226,10 @@
 
                             </div>
                             <div class="hstack align-items-center gap-3">
-                                <div class="d-flex align-items-center justify-content-center round-48 rounded bg-danger-subtle">
-                                    <iconify-icon icon="solar:filters-outline" class="fs-7 text-danger"></iconify-icon>
+                                <div
+                                    class="d-flex align-items-center justify-content-center round-48 rounded bg-danger-subtle">
+                                    <iconify-icon icon="solar:filters-outline"
+                                        class="fs-7 text-danger"></iconify-icon>
                                 </div>
                                 <div>
                                     <h6 class="mb-0">4 orders</h6>
@@ -223,8 +238,10 @@
 
                             </div>
                             <div class="hstack align-items-center gap-3">
-                                <div class="d-flex align-items-center justify-content-center round-48 rounded bg-secondary-subtle">
-                                    <iconify-icon icon="solar:pills-3-linear" class="fs-7 text-secondary"></iconify-icon>
+                                <div
+                                    class="d-flex align-items-center justify-content-center round-48 rounded bg-secondary-subtle">
+                                    <iconify-icon icon="solar:pills-3-linear"
+                                        class="fs-7 text-secondary"></iconify-icon>
                                 </div>
                                 <div>
                                     <h6 class="mb-0">12 orders</h6>
@@ -373,7 +390,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-1.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-1.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Minecraf App</h6>
                                                     <span>Jason Roy</span>
@@ -393,7 +411,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-2.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-2.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Web App Project</h6>
                                                     <span>Mathew Flintoff</span>
@@ -413,7 +432,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-3.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-3.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Modernize Dashboard</h6>
                                                     <span>Anil Kumar</span>
@@ -434,7 +454,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-4.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-4.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Dashboard Co</h6>
                                                     <span>George Cruize</span>
@@ -472,7 +493,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-2.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-2.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Web App Project</h6>
                                                     <span>Mathew Flintoff</span>
@@ -492,7 +514,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-3.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-3.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Modernize Dashboard</h6>
                                                     <span>Anil Kumar</span>
@@ -513,7 +536,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-1.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-1.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Minecraf App</h6>
                                                     <span>Jason Roy</span>
@@ -533,7 +557,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-4.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-4.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Dashboard Co</h6>
                                                     <span>George Cruize</span>
@@ -570,7 +595,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-2.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-2.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Web App Project</h6>
                                                     <span>Mathew Flintoff</span>
@@ -590,7 +616,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-1.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-1.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Minecraf App</h6>
                                                     <span>Jason Roy</span>
@@ -611,7 +638,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-3.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-3.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Modernize Dashboard</h6>
                                                     <span>Anil Kumar</span>
@@ -632,7 +660,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-4.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-4.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Dashboard Co</h6>
                                                     <span>George Cruize</span>
@@ -670,7 +699,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-1.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-1.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Minecraf App</h6>
                                                     <span>Jason Roy</span>
@@ -690,7 +720,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-3.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-3.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Modernize Dashboard</h6>
                                                     <span>Anil Kumar</span>
@@ -711,7 +742,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-2.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-2.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Web App Project</h6>
                                                     <span>Mathew Flintoff</span>
@@ -732,7 +764,8 @@
                                     <tr>
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center gap-6">
-                                                <img src="../assets/images/products/dash-prd-4.jpg" alt="prd1" width="48" class="rounded" />
+                                                <img src="../assets/images/products/dash-prd-4.jpg" alt="prd1"
+                                                    width="48" class="rounded" />
                                                 <div>
                                                     <h6 class="mb-0">Dashboard Co</h6>
                                                     <span>George Cruize</span>
@@ -766,7 +799,8 @@
         <div class="card bg-primary-subtle">
             <div class="card-body">
                 <div class="hstack align-items-center gap-3 mb-4">
-                    <span class="d-flex align-items-center justify-content-center round-48 bg-white rounded flex-shrink-0">
+                    <span
+                        class="d-flex align-items-center justify-content-center round-48 bg-white rounded flex-shrink-0">
                         <iconify-icon icon="solar:box-linear" class="fs-7 text-primary"></iconify-icon>
                     </span>
                     <div>
@@ -797,14 +831,16 @@
             </div>
         </div>
         <!-- BEGIN MODAL -->
-        <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="eventModalLabel">
                             Add / Edit Event
                         </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -821,25 +857,29 @@
                                 <div class="d-flex">
                                     <div class="n-chk">
                                         <div class="form-check form-check-primary form-check-inline">
-                                            <input class="form-check-input" type="radio" name="event-level" value="Danger" id="modalDanger" />
+                                            <input class="form-check-input" type="radio" name="event-level"
+                                                value="Danger" id="modalDanger" />
                                             <label class="form-check-label" for="modalDanger">Danger</label>
                                         </div>
                                     </div>
                                     <div class="n-chk">
                                         <div class="form-check form-check-warning form-check-inline">
-                                            <input class="form-check-input" type="radio" name="event-level" value="Success" id="modalSuccess" />
+                                            <input class="form-check-input" type="radio" name="event-level"
+                                                value="Success" id="modalSuccess" />
                                             <label class="form-check-label" for="modalSuccess">Success</label>
                                         </div>
                                     </div>
                                     <div class="n-chk">
                                         <div class="form-check form-check-success form-check-inline">
-                                            <input class="form-check-input" type="radio" name="event-level" value="Primary" id="modalPrimary" />
+                                            <input class="form-check-input" type="radio" name="event-level"
+                                                value="Primary" id="modalPrimary" />
                                             <label class="form-check-label" for="modalPrimary">Primary</label>
                                         </div>
                                     </div>
                                     <div class="n-chk">
                                         <div class="form-check form-check-danger form-check-inline">
-                                            <input class="form-check-input" type="radio" name="event-level" value="Warning" id="modalWarning" />
+                                            <input class="form-check-input" type="radio" name="event-level"
+                                                value="Warning" id="modalWarning" />
                                             <label class="form-check-label" for="modalWarning">Warning</label>
                                         </div>
                                     </div>
@@ -878,10 +918,10 @@
         <!-- END MODAL -->
     </div>
 </div>
-@push('js')
-<script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script>
-<script src="{{ asset('assets/js/apps/calendar-init.js') }}"></script>
-<script src="{{ asset('assets/js/vendor.min.js') }}"></script>
-<script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-<script src="{{ asset('assets/js/dashboards/dashboard3.js') }}"></script>
-@endpush
+@assets
+    <script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script>
+    <script src="{{ asset('assets/js/apps/calendar-init.js') }}"></script>
+    <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboards/dashboard3.js') }}"></script>
+@endassets
