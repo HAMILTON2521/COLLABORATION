@@ -22,10 +22,6 @@
                             href="{{ route('web.about-us') }}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-4 fw-bold text-dark link-primary{{ Route::is('web.blog') ? ' active' : '' }}"
-                            href="{{ route('web.blog') }}">Blog</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link fs-4 fw-bold text-dark link-primary{{ Route::is('web.pricing') ? ' active' : '' }}"
                             href="{{ route('web.pricing') }}">Pricing</a>
                     </li>
