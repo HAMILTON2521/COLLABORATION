@@ -3,7 +3,8 @@
         <div class="col-lg-11">
             <div class="card-body">
                 <a href="{{ route('login') }}" class="text-nowrap logo-img d-block mb-4 w-100">
-                    <img src="{{ asset('assets/images/logos/logo.svg') }}" class="dark-logo" alt="Logo-Dark" />
+                    <img style="width: 60%" src="{{ asset('assets/images/logos/logo.png') }}" class="dark-logo"
+                        alt="{{ config('app.name') }}" />
                 </a>
                 <h2 class="lh-base mb-4">Let's get you signed in</h2>
 
@@ -49,7 +50,7 @@
                     <button type="submit" class="btn btn-dark w-100 py-8 mb-4 rounded-1">Sign In</button>
                     <div class="d-flex align-items-center">
                         <p class="fs-12 mb-0 fw-medium">Don’t have an account yet?</p>
-                        <a class="text-primary fw-bolder ms-2" href="{{ route('signup') }}" wire:navigate>Sign Up
+                        <a class="text-primary fw-bolder ms-2" href="{{ route('signup') }}">Sign Up
                             Now</a>
                     </div>
                 </form>

@@ -12,18 +12,24 @@
                                 <div class="col-lg-11">
                                     <div class="card-body">
                                         <a href="{{ route('login') }}" class="text-nowrap logo-img d-block mb-4 w-100">
-                                            <img src="{{ asset('assets/images/logos/logo.svg') }}" class="dark-logo" alt="Logo-Dark" />
+                                            <img style="width: 60%" src="{{ asset('assets/images/logos/logo.png') }}"
+                                                class="dark-logo" alt="{{ config('app.name') }}" />
                                         </a>
-                                        <p class="text-muted">Please enter the email address associated with your account and We will
+                                        <p class="text-muted">Please enter the email address associated with your
+                                            account and We will
                                             email you a link to reset your password.</p>
                                         <form>
                                             <div class="mb-3">
                                                 <label for="text-email" class="form-label">Email Address</label>
-                                                <input type="email" class="form-control" id="text-email" placeholder="Enter your email" aria-describedby="emailHelp">
+                                                <input type="email" class="form-control" id="text-email"
+                                                    placeholder="Enter your email" aria-describedby="emailHelp">
                                             </div>
 
-                                            <a href="javascript:;" class="btn btn-dark w-100 py-8 mb-4 rounded-1">Submit</a>
-                                            <a href="{{ route('login') }}" class="btn bg-primary-subtle text-primary w-100 py-8 mb-4 rounded-1">Back to Login</a>
+                                            <a href="javascript:;"
+                                                class="btn btn-dark w-100 py-8 mb-4 rounded-1">Submit</a>
+                                            <a href="{{ route('login') }}"
+                                                class="btn bg-primary-subtle text-primary w-100 py-8 mb-4 rounded-1">Back
+                                                to Login</a>
 
                                         </form>
                                     </div>
@@ -39,33 +45,45 @@
                                 <div class="col-lg-9">
                                     <div id="auth-login" class="carousel slide auth-carousel" data-bs-ride="carousel">
                                         <div class="carousel-indicators">
-                                            <button type="button" data-bs-target="#auth-login" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                            <button type="button" data-bs-target="#auth-login" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                            <button type="button" data-bs-target="#auth-login" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                            <button type="button" data-bs-target="#auth-login" data-bs-slide-to="0"
+                                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                                            <button type="button" data-bs-target="#auth-login" data-bs-slide-to="1"
+                                                aria-label="Slide 2"></button>
+                                            <button type="button" data-bs-target="#auth-login" data-bs-slide-to="2"
+                                                aria-label="Slide 3"></button>
                                         </div>
                                         <div class="carousel-inner">
                                             <div class="carousel-item active">
-                                                <div class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
-                                                    <img src="{{ asset('assets/images/backgrounds/login-side.png') }}" alt="login-side-img" width="200" class="img-fluid" />
+                                                <div
+                                                    class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
+                                                    <img src="{{ asset('assets/images/backgrounds/login-side.png') }}"
+                                                        alt="login-side-img" width="200" class="img-fluid" />
                                                     <h4 class="mb-0">System Feature 01</h4>
 
-                                                    <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn More</a>
+                                                    <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn
+                                                        More</a>
                                                 </div>
                                             </div>
                                             <div class="carousel-item">
-                                                <div class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
-                                                    <img src="{{ asset('assets/images/backgrounds/login-side.png') }}" alt="login-side-img" width="200" class="img-fluid" />
+                                                <div
+                                                    class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
+                                                    <img src="{{ asset('assets/images/backgrounds/login-side.png') }}"
+                                                        alt="login-side-img" width="200" class="img-fluid" />
                                                     <h4 class="mb-0">System Feature 02</h4>
 
-                                                    <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn More</a>
+                                                    <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn
+                                                        More</a>
                                                 </div>
                                             </div>
                                             <div class="carousel-item">
-                                                <div class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
-                                                    <img src="{{ asset('assets/images/backgrounds/login-side.png') }}" alt="login-side-img" width="200" class="img-fluid" />
+                                                <div
+                                                    class="d-flex align-items-center justify-content-center w-100 h-100 flex-column gap-9 text-center">
+                                                    <img src="{{ asset('assets/images/backgrounds/login-side.png') }}"
+                                                        alt="login-side-img" width="200" class="img-fluid" />
                                                     <h4 class="mb-0">System Feature 03</h4>
 
-                                                    <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn More</a>
+                                                    <a href="javascript:void(0)" class="btn btn-primary rounded-1">Learn
+                                                        More</a>
                                                 </div>
                                             </div>
                                         </div>

@@ -10,7 +10,7 @@
             <li class="nav-item d-none d-xl-flex align-items-center">
                 <a href="{{ Auth::user()->user_type === 'Admin' ? route('dashboard') : route('portal') }}"
                     class="text-nowrap nav-link">
-                    <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="matdash-img" />
+                    <img style="width: 70%" src="{{ asset('assets/images/logos/logo.png') }}" alt="matdash-img" />
                 </a>
             </li>
             <li class="nav-item d-none d-xl-flex align-items-center nav-icon-hover-bg rounded-circle">
@@ -21,7 +21,7 @@
         </ul>
         <div class="d-block d-xl-none">
             <a href="{{ route('dashboard') }}" class="text-nowrap nav-link">
-                <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="matdash-img" />
+                <img style="width: 70%" src="{{ asset('assets/images/logos/logo.png') }}" alt="matdash-img" />
             </a>
         </div>
         <a class="navbar-toggler nav-icon-hover p-0 border-0 nav-icon-hover-bg rounded-circle" href="javascript:void(0)"
