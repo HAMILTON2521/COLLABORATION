@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-lg py-10">
         <div class="container-fluid d-flex justify-content-between">
             <a href="{{ route('web.home-page') }}" class="text-nowrap logo-img">
-                <img style="width: 80%" src="{{ asset('assets/images/logos/logo.png') }}"
+                <img style="width: 70%" src="{{ asset('assets/images/logos/logo.png') }}"
                     alt="{{ config('app.name', 'Logo') }}" />
             </a>
             <button class="navbar-toggler border-0 p-0 shadow-none" type="button" data-bs-toggle="offcanvas"
@@ -46,7 +46,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <a href="{{ route('web.home-page') }}" class="text-nowrap logo-img">
-            <img style="width: 80%" src="{{ asset('assets/images/logos/logo.png') }}"
+            <img style="width: 70%" src="{{ asset('assets/images/logos/logo.png') }}"
                 alt="{{ config('app.name', 'Logo') }}" />
         </a>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
