@@ -19,6 +19,7 @@ use App\Livewire\Login\ForgotPassword;
 use App\Livewire\Login\Login;
 use App\Livewire\Login\Signup;
 use App\Livewire\Payments\PaymentDetails;
+use App\Livewire\Payments\TodayPayments;
 use App\Livewire\Portal\Account;
 use App\Livewire\Portal\BuyGas;
 use App\Livewire\Portal\BuyGasForm;
@@ -113,6 +114,7 @@ Route::middleware('auth')->group(function () {
             return view('dashboard.topup.order_details');
         })->name('topup.order.details');
         Route::get('/airtel', AirtelPayments::class)->name('topup.airtel.payments');
+        Route::get('/today', TodayPayments::class)->name('topup.airtel.payments.today');
         Route::get('/{payment}', PaymentDetails::class)->name('topup.payment.details');
     });
     Route::group(['prefix' => 'households'], function () {

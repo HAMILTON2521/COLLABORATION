@@ -6,6 +6,7 @@ use App\Models\AirtelRequest;
 use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\PushRequest;
+use App\Models\Setting;
 use App\Traits\GeneralHelperTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -374,31 +375,38 @@ class Airtel extends Controller
     }
     public function getAuthToken(string $uniqueId)
     {
+        $key = Setting::where('key', 'JWT_AIRTEL_SECRET')->first()->value;
+        $sec = Setting::where('key', 'JWT_AIRTEL_EXPIRY_SECONDS')->first()->value;
+        $iss = Setting::where('key', 'JWT_AIRTEL_SUB')->first()->value;
         return $this->generateJWTToken(
             uniqueId: $uniqueId,
-            key: env('JWT_AIRTEL_SECRET'),
-            jwtExpiryInSeconds: env('JWT_AIRTEL_EXPIRY_SECONDS'),
-            sub: env('JWT_AIRTEL_SUB'),
-            iss: env('JWT_AIRTEL_SUB')
+            key: $key,
+            jwtExpiryInSeconds: $sec,
+            sub: $iss,
+            iss: $iss
         );
     }
 
     public function validateJWT(Request $request)
     {
+        $key = Setting::where('key', 'JWT_AIRTEL_SECRET')->first()->value;
         return $this->decodeJWTToken(
             token: $request->header('Authorization'),
-            key: env('JWT_AIRTEL_SECRET')
+            key: $key,
         );
     }
     public function genNew()
     {
+        $key = Setting::where('key', 'JWT_AIRTEL_SECRET')->first()->value;
+        $sec = Setting::where('key', 'JWT_AIRTEL_EXPIRY_SECONDS')->first()->value;
+        $iss = Setting::where('key', 'JWT_AIRTEL_SUB')->first()->value;
         return json_encode([
             'token' => $this->generateJWTToken(
                 uniqueId: Str::ulid(),
-                key: env('JWT_AIRTEL_SECRET'),
-                jwtExpiryInSeconds: (int) env('JWT_AIRTEL_EXPIRY_SECONDS'),
-                iss: env('JWT_AIRTEL_SUB'),
-                sub: env('JWT_AIRTEL_SUB'),
+                key: $key,
+                jwtExpiryInSeconds: (int) $sec,
+                iss: $iss,
+                sub: $iss,
             )
         ]);
     }

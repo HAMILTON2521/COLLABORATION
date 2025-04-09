@@ -33,6 +33,11 @@ class ValveControl extends Component
     {
         return [10, 25, 50, 100];
     }
+    public function delete(ModelsValveControl $valveControl)
+    {
+        $valveControl->delete();
+        session()->flash('success', 'Valve control command deleted successfully.');
+    }
     public function render()
     {
         return view('livewire.equipment.valve-control');

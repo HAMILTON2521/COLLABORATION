@@ -27,11 +27,7 @@
                 </div>
             </div>
         </div>
-        @if (session('success'))
-            <div class="alert alert-success text-success" role="alert">
-                <strong>Success - </strong> {{ session('success') }}
-            </div>
-        @endif
+        <x-alert-status />
 
         <div class="card card-body">
             <div class="table-responsive">
@@ -82,15 +78,30 @@
                                 <td>{{ date('d M Y H:i', strtotime($data->created_at)) }}</td>
 
                                 <td>
-                                    <x-action-buttons
-                                        viewUrl="{{ route('more.equipment.valve.details', $data->id) }}" />
-
+                                    <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                        <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="View">
+                                            <a wire:navigate
+                                                class="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
+                                                href="{{ route('more.equipment.valve.details', $data->id) }}">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </li>
+                                        <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Delete">
+                                            <button type="button" wire:confirm="Delete Valve Control?"
+                                                wire:click="delete('{{ $data->id }}')""
+                                                class="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5 btn btn-sm border-0">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
                             <!-- end row -->
                         @empty
                             <tr>
-                                <td colspan="8">No data at the moment!</td>
+                                <td colspan="9">No data at the moment!</td>
                             </tr>
                         @endforelse
 
@@ -106,4 +117,3 @@
 @push('js')
     <script src="{{ asset('assets/js/apps/contact.js') }}"></script>
 @endpush
-</div>

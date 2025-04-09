@@ -32,7 +32,7 @@ class ValveControlObserver
             $valveControl->update([
                 'error_code' => $response['errcode'],
                 'error_message' => $response['errmsg'],
-                'value_id' => $response['valueId']
+                'value_id' => $response['errcode'] === '0' ? $response['valueId'] : null
             ]);
         }
     }

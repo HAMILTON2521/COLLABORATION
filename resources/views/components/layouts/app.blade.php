@@ -21,7 +21,7 @@
 
 <body>
     <!-- Preloader -->
-    <div class="preloader">
+    <div wire:loading class="preloader">
         <img style="width: 15%" src="{{ asset('assets/images/logos/logo.png') }}" alt="loader"
             class="lds-ripple img-fluid" />
     </div>

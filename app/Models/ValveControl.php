@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Observers\ValveControlObserver;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 #[ObservedBy(ValveControlObserver::class)]
 class ValveControl extends Model
@@ -22,6 +24,13 @@ class ValveControl extends Model
         'value_id',
         'payment_id'
     ];
+
+    protected function txnId(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Str::upper(Str::substr($this->id, 0, 10))
+        );
+    }
 
     /**
      * Relationship with Customer model
