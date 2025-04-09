@@ -21,8 +21,9 @@
 
 <body>
     <!-- Preloader -->
-    <div wire:loading class="preloader">
-        <img src="{{ asset('assets/images/logos/favicon.png') }}" alt="loader" class="lds-ripple img-fluid" />
+    <div class="preloader">
+        <img style="width: 15%" src="{{ asset('assets/images/logos/logo.png') }}" alt="loader"
+            class="lds-ripple img-fluid" />
     </div>
     <div id="main-wrapper">
         <div class="page-wrapper">
@@ -55,7 +56,7 @@
     <script src="{{ asset('assets/js/theme/theme.js') }}"></script>
     <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/toastr-init.js') }}"></script>
-    @livewire('wire-elements-modal')
+    {{-- @livewire('wire-elements-modal') --}}
 </body>
 
 </html>

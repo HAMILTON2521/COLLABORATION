@@ -49,7 +49,8 @@ class RealtimeDataObserver
                 'reading' => $response['data']['reading'] ? (float) $response['data']['reading'] : null,
                 'rssi' => $response['data']['rssi'] ? (float) $response['data']['rssi'] : null,
                 'snr' => $response['data']['snr'] ? (float) $response['data']['snr'] : null,
-                'day_consumption' => $response['data']['dayConsumption'] ?? null
+                'day_consumption' => $response['data']['dayConsumption'] ?? null,
+                'month_consumption' => $response['data']['monthConsumption'] ?? null
             ]);
         } else {
             $realtimeData->update(['status' => 'Failed']);

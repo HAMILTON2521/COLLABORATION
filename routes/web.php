@@ -37,7 +37,6 @@ use App\Livewire\Users\UserAccounts;
 use App\Livewire\Users\UserDetails;
 use App\Livewire\Users\Users;
 use App\Livewire\Web\AboutUs;
-use App\Livewire\Web\Blog;
 use App\Livewire\Web\ContactUs;
 use App\Livewire\Web\GetStarted;
 use App\Livewire\Web\HomePage;
@@ -154,7 +153,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', HomePage::class)->name('web.home-page');
 Route::get('/about', AboutUs::class)->name('web.about-us');
-Route::get('/blog', Blog::class)->name('web.blog');
 Route::get('/contact-us', ContactUs::class)->name('web.contact-us');
 Route::get('/pricing', Pricing::class)->name('web.pricing');
 

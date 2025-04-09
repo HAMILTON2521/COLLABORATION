@@ -13,12 +13,12 @@
                 </div>
                 <div
                     class="col-md-8 col-xl-9 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                    <div class="action-btn show-btn">
-                        <a href="javascript:void(0)"
-                            class="delete-multiple bg-danger-subtle btn me-2 text-danger d-flex align-items-center ">
-                            <i class="ti ti-trash me-1 fs-5"></i> Delete All Row
-                        </a>
-                    </div>
+                    <a wire:click="fetchFromRemote" href="javascript:;"
+                        class="btn btn-success d-flex align-items-center me-3">
+                        <i class="ti ti-users text-white me-1 fs-5"></i> Fetch Households <span wire:loading
+                            wire:target="fetchFromRemote" class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"></span>
+                    </a>
                     <a href="{{ route('households.create') }}" wire:navigate id="btn-add-contact"
                         class="btn btn-primary d-flex align-items-center">
                         <i class="ti ti-users text-white me-1 fs-5"></i> Add Household

@@ -3,6 +3,8 @@
 namespace App\Livewire\Household;
 
 use App\Models\Household;
+use App\Models\Setting;
+use App\Traits\HttpHelper;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
@@ -12,22 +14,48 @@ use Livewire\Attributes\Title;
 #[Title('Households')]
 class Households extends Component
 {
+    use HttpHelper;
+
     public function fetchFromRemote()
     {
-        $accounts = [];
-        $api_token = env('BACKEND_TOKEN');
-        $area_id = env('BACKEND_AREA_ID');
-        $data = [
-            'requestParams' => '{ "action":"lorawanMeter", "method":"gethousehold", "apiToken":"' . $api_token . '","params":{ "pageNumber":"1", "pageSize":"10", "areaId":"' . $area_id . '","searchContent":""}}'
-        ];
+        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+        $area_id = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
 
-        $response = Http::asForm()->post(url: env('BACKEND_ENDPOINT'), data: $data);
+        $data = json_encode([
+            'action'  => 'lorawanMeter',
+            'method'  => 'gethousehold',
+            'apiToken' => $api_token,
+            'params'   => [
+                'pageNumber' => "1",
+                'pageSize' => "10",
+                'areaId' => $area_id,
+                'searchContent' => ""
+            ]
+        ]);
+        $response = $this->sendHttpRequest(data: $data);
 
-        if ($response->status() == 200) {
-            $json = $response->json();
-            $accounts = $json['values'];
+        if ($response['errcode'] === '0') {
+            $accounts = $response['values'];
+            foreach ($accounts as $account) {
+                Household::create([
+                    'name' => $account['householdName'],
+                    'phone' => $account['phone'],
+                    'address' => $account['householdAddress'],
+                    'area_id' => $account['areaOrgId'],
+                    'serial_number' => $account['serialnumber'],
+                    'fee' => $account['householdFee'],
+                    'household_number' => $account['id'],
+                    'status' => 'Completed',
+                ]);
+            }
         } else {
-            Log::error('gethousehold failed with error {error}', ['error' => $response->status()]);
+            Log::error(
+                'gethousehold error',
+                [
+                    'errcode' => $response['errcode'],
+                    'response' => json_encode($response['errmsg'])
+                ]
+            );
         }
     }
     #[Computed()]

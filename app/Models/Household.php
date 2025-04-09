@@ -11,30 +11,8 @@ class Household extends Model
 {
     use HasUlids, HasFactory;
 
-    public $incrementing = false;
-    protected $keyType = 'string';
+    public $guarded = ['id'];
 
-    public $fillable = [
-        'name',
-        'phone',
-        'address',
-        'created_by',
-        'fee',
-        'warn_money',
-        'password',
-        'serial_number',
-        'status'
-    ];
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::ulid()->toBase32();
-            }
-        });
-    }
 
     /**
      * Relationships

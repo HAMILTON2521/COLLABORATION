@@ -34,6 +34,7 @@ return new class extends Migration
             $table->decimal('rssi')->nullable();
             $table->decimal('snr')->nullable();
             $table->string('day_consumption')->nullable();
+            $table->string('month_consumption')->nullable();
             $table->string('error_code', length: 10)->nullable();
             $table->string('error_message')->nullable();
             $table->timestamps();

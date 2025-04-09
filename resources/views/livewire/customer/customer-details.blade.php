@@ -66,13 +66,19 @@
                                 <div>
                                     <h5 class="fs-4 fw-semibold mb-0">Get daily settlement records</h5>
                                 </div>
-                                <button class="btn bg-primary-subtle text-primary">Start</button>
+                                <button wire:click="dailySettlementRecords"
+                                    class="btn bg-primary-subtle text-primary">Start <span wire:loading
+                                        wire:target="dailySettlementRecords" class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true"></span></button>
                             </div>
                             <div class="d-flex align-items-center justify-content-between py-3 border-top">
                                 <div>
                                     <h5 class="fs-4 fw-semibold mb-0">Get monthly settlement records</h5>
                                 </div>
-                                <button class="btn bg-primary-subtle text-primary">Start</button>
+                                <button wire:click="monthlySettlementRecords"
+                                    class="btn bg-primary-subtle text-primary">Start <span wire:loading
+                                        wire:target="monthlySettlementRecords" class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true"></span></button>
                             </div>
                             <div class="d-flex align-items-center justify-content-between py-3 border-top">
                                 <div>
@@ -98,5 +104,5 @@
             </div>
         </div>
     </div>
-    @livewire('customer.real-time-data-modal')
+    @livewire('utils.custom-modal')
 </div>

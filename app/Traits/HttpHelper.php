@@ -22,13 +22,14 @@ trait HttpHelper
 
         try {
             $response = Http::asForm()->post(url: $endpoint, data: $formatedRequestData);
+            //Log::info('Response ' . __FUNCTION__, ['response' => $response->json()]);
             return $response->json();
         } catch (\Throwable $th) {
             Log::error('sendHttpRequest failed', ['exception' => $th->getMessage()]);
             return null;
         }
     }
-    public function sendAirtelUssdPush($data = [], $endpoint)
+    public function sendAirtelUssdPush($data = [], $endpoint = '')
     {
         $token = $this->getApiToken();
 

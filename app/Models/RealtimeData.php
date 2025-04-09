@@ -12,32 +12,7 @@ class RealtimeData extends Model
 {
     use HasUlids;
 
-    protected $fillable = [
-        'source',
-        'customer_id',
-        'status',
-        'balance',
-        'battery',
-        'energy_type',
-        'read_time',
-        'imei',
-        'margin',
-        'margin',
-        'leakage_mark',
-        'reading',
-        'valve_state',
-        'valve_status',
-        'temperature',
-        'class_mode',
-        'day_read_time',
-        'month_read_time',
-        'pay_mode',
-        'rssi',
-        'snr',
-        'day_consumption',
-        'error_code',
-        'error_message'
-    ];
+    protected $guarded = ['id'];
 
     /**
      * Relationshipn with Customer
