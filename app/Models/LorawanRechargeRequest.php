@@ -29,4 +29,14 @@ class LorawanRechargeRequest extends Model
     {
         return $this->belongsTo(Payment::class);
     }
+
+    public function getStatusColorAttribute()
+    {
+        return [
+            'Success' => 'success',
+            'New' => 'info',
+            'Pending' => 'info',
+            'Sent' => 'info',
+        ][$this->status] ?? 'danger';
+    }
 }

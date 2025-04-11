@@ -66,8 +66,6 @@ class UserDetails extends Component
     }
     public function render()
     {
-        return view('livewire.users.user-details', [
-            'user' => $this->user
-        ]);
+        return view('livewire.users.user-details');
     }
 }

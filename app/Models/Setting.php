@@ -14,6 +14,7 @@ class Setting extends Model
         'value',
         'type',
         'is_active',
-        'description'
+        'description',
+        'created_by'
     ];
 }

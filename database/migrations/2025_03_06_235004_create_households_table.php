@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('households', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->string('name');
-            $table->integer('household_number')->unique();
+            $table->integer('household_number')->nullable()->unique();
             $table->integer('area_id')->nullable();
             $table->string('phone', 10);
             $table->string('address');

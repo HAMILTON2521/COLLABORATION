@@ -2,16 +2,15 @@
 
 namespace App\Livewire\Equipment;
 
-use App\Livewire\Utils\CustomModal;
+
 use App\Models\Customer;
 use App\Models\ValveControl;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\Attributes\Title;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 
 #[Title('Valve Control')]
 class NewValveControl extends Component
@@ -42,6 +41,7 @@ class NewValveControl extends Component
     {
         $this->selectedCustomer = $customer;
     }
+
     public function sendCommand()
     {
         $validData = $this->validate([

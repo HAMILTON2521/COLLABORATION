@@ -3,7 +3,7 @@
         <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">
             <a wire:navigate class="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
                 href="{{ $viewUrl }}">
-                <i class="ti ti-eye"></i>
+                <i class="ti ti-info-circle"></i>
             </a>
         </li>
     @endif

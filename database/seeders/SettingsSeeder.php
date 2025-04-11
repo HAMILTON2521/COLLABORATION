@@ -36,6 +36,11 @@ class SettingsSeeder extends Seeder
             'value' => 855
         ]);
         Setting::create([
+            'key' => 'SYSTEM_CONFIG_EQUIPMENT_ID',
+            'type' => 'string',
+            'value' => 178
+        ]);
+        Setting::create([
             'key' => 'UNIT_PRICE',
             'type' => 'decimal',
             'value' => 7341.77,

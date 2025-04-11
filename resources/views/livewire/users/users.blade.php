@@ -72,11 +72,36 @@
                                 <td>
                                     <x-status-badge color="{{ $user->is_active_color }}"
                                         label="{{ $user->is_active_label }}" />
+
+
                                 </td>
                                 <td>
-                                    <x-action-buttons viewUrl="{{ route('more.users.show', $user->id) }}"
-                                        editUrl="{{ route('more.users.edit', $user->id) }}" />
-
+                                    <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                        <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="View">
+                                            <a wire:navigate
+                                                class="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
+                                                href="{{ route('more.users.show', $user->id) }}">
+                                                <i class="ti ti-info-circle"></i>
+                                            </a>
+                                        </li>
+                                        <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Edit">
+                                            <a wire:navigate
+                                                class="d-block text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
+                                                href="{{ route('more.users.edit', $user->id) }}">
+                                                <i class="ti ti-pencil"></i>
+                                            </a>
+                                        </li>
+                                        <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Delete">
+                                            <button type="button" wire:confirm="Delete user {{ $user->full_name }}?"
+                                                wire:click=delete('{{ $user->id }}')
+                                                class="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5 btn btn-sm border-0">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
                             <!-- end row -->
@@ -95,6 +120,7 @@
         </div>
     </div>
 </div>
+<x-toast />
 @push('js')
     <script src="{{ asset('assets/js/apps/contact.js') }}"></script>
 @endpush

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
@@ -117,5 +118,26 @@ class Customer extends Model
             ->orWhere('phone', 'LIKE', "%{$term}%")
             ->orWhere('ref', 'LIKE', "%{$term}%")
             ->orWhere('last_name', 'LIKE', "%{$term}%");
+    }
+    public function getIsActiveColorAttribute()
+    {
+        return [
+            '1' => 'success',
+        ][$this->is_active] ?? 'danger';
+    }
+    public function getIsActiveLabelAttribute()
+    {
+        return [
+            '1' => 'Active'
+        ][$this->is_active] ?? 'Inactive';;
+    }
+    /**
+     * Get all of the incomingReequests for the Customer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function incomingReequests(): HasMany
+    {
+        return $this->hasMany(IncomingRequest::class);
     }
 }

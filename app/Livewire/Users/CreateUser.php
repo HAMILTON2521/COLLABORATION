@@ -13,11 +13,12 @@ class CreateUser extends Component
 
     public function save()
     {
-        $this->form->store();
+        $user = $this->form->store();
 
-        $this->dispatch('showToast', message: 'User created successfully', status: 'Success');
+        session()->flash('success', 'User created successfully.');
 
         $this->form->reset();
+        $this->redirectRoute('more.users.show', ['user' => $user->id]);
     }
     public function render()
     {

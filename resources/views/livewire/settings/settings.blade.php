@@ -17,7 +17,7 @@
                     id="pills-account-tab" data-bs-toggle="pill" data-bs-target="#pills-account" type="button"
                     role="tab" aria-controls="pills-account" aria-selected="true">
                     <i class="ti ti-settings-plus me-2 fs-6"></i>
-                    <span class="d-none d-md-block">Billing</span>
+                    <span class="d-none d-md-block">Add new</span>
                 </button>
             </li>
 
@@ -30,35 +30,51 @@
                         <div class="col-lg-12">
                             <div class="card border shadow-none">
                                 <div class="card-body p-4">
-                                    <h4 class="card-title mb-3">Two-factor Authentication</h4>
-                                    <div class="d-flex align-items-center justify-content-between pb-7">
-                                        <p class="card-subtitle mb-0">Lorem ipsum, dolor sit amet consectetur
-                                            adipisicing
-                                            elit. Corporis sapiente
-                                            sunt earum officiis laboriosam ut.</p>
-                                        <button class="btn btn-primary">Enable</button>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between py-3 border-top">
-                                        <div>
-                                            <h5 class="fs-4 fw-semibold mb-0">Authentication App</h5>
-                                            <p class="mb-0">Google auth app</p>
+                                    @forelse ($this->settings as $setting)
+                                        <div wire:key="{{ $setting->id }}"
+                                            class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-bottom">
+                                            <div>
+                                                <h5 class="fs-4 fw-semibold mb-0">
+                                                    {{ Str::replace('_', ' ', $setting->key) }}</h5>
+                                                <p class="mb-0">{{ $setting->value }}</p>
+                                            </div>
+
+                                            <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                                <li class="position-relative" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="View">
+                                                    <a class="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
+                                                        href="javascript:;">
+                                                        <i class="ti ti-info-circle"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="position-relative" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Edit">
+                                                    <a class="d-block text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
+                                                        href="javascript:;">
+                                                        <i class="ti ti-pencil"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="position-relative" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Delete">
+                                                    <button type="button" wire:confirm="Delete {{ $setting->key }}?"
+                                                        wire:click="delete('{{ $setting->id }}')"
+                                                        class="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5 btn btn-sm border-0">
+                                                        <i class="ti ti-trash"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <button class="btn bg-primary-subtle text-primary">Setup</button>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between py-3 border-top">
-                                        <div>
-                                            <h5 class="fs-4 fw-semibold mb-0">Another e-mail</h5>
-                                            <p class="mb-0">E-mail to send verification link</p>
+                                    @empty
+                                        <div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon"
+                                            role="alert">
+                                            <span class="side-line bg-success"></span>
+
+                                            <div class="d-flex align-items-center ">
+                                                <i class="ti ti-info-circle fs-5 text-secondary me-2 flex-shrink-0"></i>
+                                                <span class="text-truncate">No settings data available.</span>
+                                            </div>
                                         </div>
-                                        <button class="btn bg-primary-subtle text-primary">Setup</button>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between py-3 border-top">
-                                        <div>
-                                            <h5 class="fs-4 fw-semibold mb-0">SMS Recovery</h5>
-                                            <p class="mb-0">Your phone number or something</p>
-                                        </div>
-                                        <button class="btn bg-primary-subtle text-primary">Setup</button>
-                                    </div>
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -67,44 +83,69 @@
                 <div class="tab-pane fade {{ $activeTab === 'account' ? 'show active' : '' }}" id="pills-account"
                     role="tabpanel" aria-labelledby="pills-account-tab" tabindex="0">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card border shadow-none">
-                                <div class="card-body p-4">
-                                    <h4 class="card-title mb-3">Two-factor Authentication</h4>
-                                    <div class="d-flex align-items-center justify-content-between pb-7">
-                                        <p class="card-subtitle mb-0">Lorem ipsum, dolor sit amet consectetur
-                                            adipisicing
-                                            elit. Corporis sapiente
-                                            sunt earum officiis laboriosam ut.</p>
-                                        <button class="btn btn-primary">Enable</button>
+                        <form wire:submit.prevent="save">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input wire:model="form.key" type="text" class="form-control" id="key"
+                                            placeholder="Enter key">
+                                        <label for="key">Key <span class="text-danger">*</span></label>
+                                        @error('form.key')
+                                            <span class="validation-text text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between py-3 border-top">
-                                        <div>
-                                            <h5 class="fs-4 fw-semibold mb-0">Authentication App</h5>
-                                            <p class="mb-0">Google auth app</p>
-                                        </div>
-                                        <button class="btn bg-primary-subtle text-primary">Setup</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input wire:model="form.value" type="text" class="form-control"
+                                            id="value" placeholder="Enter value">
+                                        <label for="value">Value <span class="text-danger">*</span></label>
+                                        @error('form.value')
+                                            <span class="validation-text text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between py-3 border-top">
-                                        <div>
-                                            <h5 class="fs-4 fw-semibold mb-0">Another e-mail</h5>
-                                            <p class="mb-0">E-mail to send verification link</p>
-                                        </div>
-                                        <button class="btn bg-primary-subtle text-primary">Setup</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input wire:model="form.type" type="text" class="form-control"
+                                            id="type" placeholder="Type">
+                                        <label for="type">Type e.g string, integer <span
+                                                class="text-danger">*</span></label>
+                                        @error('form.type')
+                                            <span class="validation-text text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between py-3 border-top">
-                                        <div>
-                                            <h5 class="fs-4 fw-semibold mb-0">SMS Recovery</h5>
-                                            <p class="mb-0">Your phone number or something</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input wire:model="form.description" type="text" class="form-control"
+                                            id="desc" placeholder="Description">
+                                        <label for="desc">Description</label>
+                                        @error('form.description')
+                                            <span class="validation-text text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-md-flex align-items-center">
+                                        <div class="form-check">
                                         </div>
-                                        <button class="btn bg-primary-subtle text-primary">Setup</button>
+                                        <div class="ms-auto mt-3 mt-md-0">
+                                            <button type="submit" class="btn btn-primary hstack gap-6">
+                                                <i class="ti ti-send fs-4"></i>
+                                                Submit <span wire:loading wire:target="save"
+                                                    class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<x-toast />

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Customer;
 
+use App\Livewire\Equipment\NewValveControl;
 use App\Livewire\Utils\CustomModal;
 use App\Models\Customer;
 use App\Models\RealtimeData;
@@ -78,6 +79,39 @@ class CustomerDetails extends Component
             ]
 
         )->to(CustomModal::class);
+    }
+    public function getMeterFile()
+    {
+        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+
+        $data = json_encode([
+            'action'  => 'lorawanMeter',
+            'method'  => 'getAreaArchiveInfo',
+            'apiToken' => $api_token,
+            'param'   => [
+                'deveui' => $this->customer->imei,
+            ]
+        ]);
+        $response = $this->sendHttpRequest(data: $data);
+
+        $this->dispatch(
+            'showModal',
+            payload: [
+                'title' => 'Meter File',
+                'size' => 'large',
+                'body' => view(
+                    'livewire.customer.meter-file',
+                    [
+                        'meter' => $response
+                    ]
+                )->render()
+            ]
+
+        )->to(CustomModal::class);
+    }
+    public function changeValveState()
+    {
+        $this->dispatch('changeValveState', customer: $this->customer->id);
     }
     public function monthlySettlementRecords()
     {

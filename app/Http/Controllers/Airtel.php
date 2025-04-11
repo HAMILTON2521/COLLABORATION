@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AirtelRequest;
+use App\Models\IncomingRequest;
 use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\PushRequest;
@@ -67,9 +67,10 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                $req =  AirtelRequest::create([
+                $req =  IncomingRequest::create([
                     'type' => $data['TYPE'],
                     'request' => 'Validate',
+                    'channel' => 'Airtel',
                     'customer_msisdn' => $data['CUSTOMERMSISDN'],
                     'merchant_msisdn' => $data['MERCHANTMSISDN'],
                     'amount' => $data['AMOUNT'],
@@ -92,9 +93,10 @@ class Airtel extends Controller
 
             $validated = $validator->validated();
 
-            AirtelRequest::create([
+            IncomingRequest::create([
                 'type' => $validated['TYPE'],
                 'request' => 'Validate',
+                'channel' => 'Airtel',
                 'customer_msisdn' => $validated['CUSTOMERMSISDN'],
                 'merchant_msisdn' => $validated['MERCHANTMSISDN'],
                 'amount' => $validated['AMOUNT'],
@@ -152,8 +154,9 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                $req = AirtelRequest::create([
+                $req = IncomingRequest::create([
                     'type' => $data['TYPE'],
+                    'channel' => 'Airtel',
                     'request' => 'Process',
                     'customer_msisdn' => $data['CUSTOMERMSISDN'],
                     'merchant_msisdn' => $data['MERCHANTMSISDN'],
@@ -181,9 +184,10 @@ class Airtel extends Controller
 
             $validated = $validator->validated();
 
-            $req = AirtelRequest::create([
+            $req = IncomingRequest::create([
                 'type' => $validated['TYPE'],
                 'request' => 'Process',
+                'channel' => 'Airtel',
                 'customer_msisdn' => $validated['CUSTOMERMSISDN'],
                 'merchant_msisdn' => $validated['MERCHANTMSISDN'],
                 'amount' => $validated['AMOUNT'],
@@ -204,6 +208,7 @@ class Airtel extends Controller
             $payment = Payment::create([
                 'customer_id' => $customer == null ? null : $customer->id,
                 'amount' => $validated['AMOUNT'],
+                'channel' => 'Airtel',
                 'internal_txn_id' => $req->id,
                 'msisdn' => $validated['CUSTOMERMSISDN'],
                 'external_id' => $validated['REFERENCE1'],
@@ -247,9 +252,10 @@ class Airtel extends Controller
             $validator = Validator::make($data, $rules);
 
             if ($validator->fails()) {
-                $req =  AirtelRequest::create([
+                $req =  IncomingRequest::create([
                     'type' => 'C2B',
                     'request' => 'Enquiry',
+                    'channel' => 'Airtel',
                     'customer_msisdn' => $data['MSISDN'],
                     'enquiry_txn_id' => $data['TXNID'],
                     'error_details' => json_encode($validator->errors()),
@@ -269,8 +275,9 @@ class Airtel extends Controller
 
             $payment = Payment::where(['external_id' => $validated['TXNID']])->first();
             if ($payment) {
-                $req = AirtelRequest::create([
+                $req = IncomingRequest::create([
                     'type' => 'C2B',
+                    'channel' => 'Airtel',
                     'request' => 'Enquiry',
                     'customer_msisdn' => $validated['MSISDN'],
                     'enquiry_txn_id' => $validated['TXNID'],
@@ -286,9 +293,10 @@ class Airtel extends Controller
                     ->header('Content-Type', 'application/xml')
                     ->header('Authorization', $this->getAuthToken($payment->internal_txn_id));
             }
-            $req = AirtelRequest::create([
+            $req = IncomingRequest::create([
                 'type' => 'C2B',
                 'request' => 'Enquiry',
+                'channel' => 'Airtel',
                 'customer_msisdn' => $validated['MSISDN'],
                 'enquiry_txn_id' => $validated['TXNID'],
                 'status' => 'Not Found',

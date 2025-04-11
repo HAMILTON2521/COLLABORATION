@@ -16,7 +16,7 @@
                 <!-- =================== -->
                 <li class="sidebar-item {{ Route::is('dashboard') || Route::is('portal') ? 'selected' : '' }} ">
                     @if (Auth::user()->user_type === 'Admin')
-                        <a class="sidebar-link" href="{{ route('dashboard') }}" aria-expanded="false" wire:navigate>
+                        <a class="sidebar-link" href="{{ route('dashboard') }}" aria-expanded="false">
                             <span>
                                 <iconify-icon icon="solar:layers-line-duotone" class="ti"></iconify-icon>
                             </span>
@@ -68,14 +68,14 @@
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item {{ Route::is('customers.create') ? 'selected' : '' }}">
                                 <a class="sidebar-link {{ Route::is('customers.create') ? 'active' : '' }}"
-                                    href="{{ route('customers.create') }}" wire:navigate>
+                                    href="{{ route('customers.create') }}">
                                     <i class="ti ti-file-plus"></i>
                                     <span class="hide-menu">Add Customer</span>
                                 </a>
                             </li>
                             <li class="sidebar-item {{ Route::is('customers.list') ? 'selected' : '' }}">
                                 <a href="{{ route('customers') }}"
-                                    class="sidebar-link {{ Route::is('customers') ? 'active' : '' }}" wire:navigate>
+                                    class="sidebar-link {{ Route::is('customers') ? 'active' : '' }}">
                                     <i class="ti ti-list-check"></i>
                                     <span class="hide-menu">List Customers</span>
                                 </a>
@@ -144,7 +144,7 @@
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item">
                                 <a href="{{ route('topup.remote.topup') }}"
-                                    class="sidebar-link {{ Route::is('topup.remote.topup') ? 'active' : '' }}">
+                                    class="sidebar-link {{ Route::is('topup.remote.topup') || Route::is('topup.payment.recharge') ? 'active' : '' }}">
                                     <i class="ti ti-coins"></i>
                                     <span class="hide-menu">Remote Topup</span>
                                 </a>
@@ -160,7 +160,7 @@
                                 <a href="{{ route('topup.airtel.payments') }}"
                                     class="sidebar-link {{ Route::is('topup.airtel.payments') ? 'active' : '' }}">
                                     <i class="ti ti-cloud-dollar"></i>
-                                    <span class="hide-menu">Airtel Payments</span>
+                                    <span class="hide-menu">Payments</span>
                                 </a>
                             </li>
                         </ul>
@@ -181,14 +181,14 @@
                         </a>
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item {{ Route::is('households.create') ? 'selected' : '' }}">
-                                <a wire:navigate href="{{ route('households.create') }}"
+                                <a href="{{ route('households.create') }}"
                                     class="sidebar-link {{ Route::is('households.create') ? 'active' : '' }}">
                                     <i class="ti ti-user-plus"></i>
                                     <span class="hide-menu">Add Household</span>
                                 </a>
                             </li>
                             <li class="sidebar-item {{ Route::is('households') ? 'selected' : '' }}">
-                                <a wire:navigate href="{{ route('households') }}"
+                                <a href="{{ route('households') }}"
                                     class="sidebar-link {{ Route::is('households') ? 'active' : '' }}">
                                     <i class="ti ti-users"></i>
                                     <span class="hide-menu">Households</span>
@@ -196,7 +196,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="sidebar-item {{ Route::is('settlement*') ? 'selected' : '' }}">
+                    <li class="sidebar-item d-none {{ Route::is('settlement*') ? 'selected' : '' }}">
                         <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                             <span>
                                 <i class="ti ti-mobiledata"></i>
@@ -236,7 +236,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a wire:navigate href="{{ route('more.equipment') }}"
+                                <a href="{{ route('more.equipment') }}"
                                     class="sidebar-link {{ Route::is('more.equipment') ? 'active' : '' }}">
                                     <i class="ti ti-device-desktop"></i>
                                     <span class="hide-menu">Equipment</span>
@@ -244,7 +244,7 @@
                             </li>
                             <li class="sidebar-item">
                                 <a href="{{ route('more.users') }}"
-                                    class="sidebar-link {{ Route::is('more.users*') ? 'active' : '' }}" wire:navigate>
+                                    class="sidebar-link {{ Route::is('more.users*') ? 'active' : '' }}">
                                     <i class="ti ti-users"></i>
                                     <span class="hide-menu">Users</span>
                                 </a>
@@ -252,7 +252,7 @@
                         </ul>
                     </li>
                     <li class="sidebar-item {{ Route::is('settings*') ? 'selected' : '' }}">
-                        <a wire:navigate class="sidebar-link" href="{{ route('settings') }}" aria-expanded="false">
+                        <a class="sidebar-link" href="{{ route('settings') }}" aria-expanded="false">
                             <span class="rounded-3">
                                 <iconify-icon icon="solar:settings-line-duotone" class="ti"></iconify-icon>
                             </span>

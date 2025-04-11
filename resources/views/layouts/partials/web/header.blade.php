@@ -23,10 +23,6 @@
                             href="{{ route('web.about-us') }}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-4 fw-bold text-dark link-primary{{ Route::is('web.pricing') ? ' active' : '' }}"
-                            href="{{ route('web.pricing') }}">Pricing</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link fs-4 fw-bold text-dark link-primary{{ Route::is('web.contact-us') ? ' active' : '' }}"
                             href="{{ route('web.contact-us') }}">Contact</a>
                     </li>
@@ -70,13 +66,6 @@
                 <a href="{{ route('web.about-us') }}"
                     class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary{{ Route::is('web.blog') ? ' active' : '' }}">
                     Blog
-                </a>
-            </li>
-
-            <li class="mb-1">
-                <a href="{{ route('web.pricing') }}"
-                    class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary{{ Route::is('web.pricing') ? ' active' : '' }}">
-                    Pricing
                 </a>
             </li>
 

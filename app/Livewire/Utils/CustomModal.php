@@ -26,9 +26,9 @@ class CustomModal extends Component
 
 
     #[On('showModal')]
-    public function showCustomModal($payload, $size = 'medium')
+    public function showCustomModal($payload)
     {
-        $this->modalSize($size);
+        $this->modalSize($payload['size'] ?? 'medium');
         $this->modalTitle = $payload['title'] ?? '';
         $this->modalBody = $payload['body'] ?? 'Loading...';
         $this->modalVisible = true;

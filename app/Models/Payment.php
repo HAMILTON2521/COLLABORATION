@@ -55,9 +55,9 @@ class Payment extends Model
      * Relationships
      */
 
-    public function airtelRequest()
+    public function incomingRequest()
     {
-        return $this->belongsTo(AirtelRequest::class, 'internal_txn_id');
+        return $this->belongsTo(IncomingRequest::class, 'internal_txn_id');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Payments;
 
+use App\Models\Payment;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
@@ -12,7 +13,7 @@ class TodayPayments extends Component
     #[Computed()]
     public function payments()
     {
-        return [];
+        return Payment::latest()->whereDate('created_at', now())->get();
     }
     public function render()
     {

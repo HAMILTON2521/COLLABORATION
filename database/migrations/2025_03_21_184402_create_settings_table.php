@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('value')->nullable();
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();
+            $table->foreignUlid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

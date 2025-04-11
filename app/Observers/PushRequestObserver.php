@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\AirtelRequest;
+use App\Models\IncomingRequest;
 use App\Models\PushRequest;
 use App\Models\Setting;
 use App\Traits\HttpHelper;
@@ -81,7 +81,7 @@ class PushRequestObserver
     public function updated(PushRequest $pushRequest): void
     {
         if ($pushRequest->status == "Success") {
-            AirtelRequest::create([
+            IncomingRequest::create([
                 'request' => 'Payment Callback',
                 'customer_msisdn' => $pushRequest->phone,
                 'amount' => $pushRequest->amount,

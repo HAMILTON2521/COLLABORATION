@@ -33,6 +33,12 @@ class Users extends Component
     {
         return [10, 25, 50, 100];
     }
+    public function delete(User $user)
+    {
+        $user->delete();
+
+        $this->dispatch('showToast', message: 'User deleted successfully', status: 'Success');
+    }
     public function render()
     {
         return view('livewire.users.users');

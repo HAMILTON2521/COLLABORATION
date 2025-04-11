@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('airtel_requests', function (Blueprint $table) {
+        Schema::create('incoming_requests', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->string('type', length: 20)->nullable();
             $table->enum('request', ['Validate', 'Process', 'Enquiry', 'Payment Callback']);
@@ -21,14 +21,17 @@ return new class extends Migration
             $table->string('user_name', length: 32)->nullable();
             $table->string('password')->nullable();
             $table->string('pin')->nullable();
+            $table->string('channel');
             $table->string('customer_name')->nullable();
             $table->string('reference')->nullable();
             $table->string('reference_1')->nullable();
             $table->string('reference_2')->nullable();
             $table->string('enquiry_txn_id')->nullable();
+            $table->text('remarks')->nullable();
             $table->enum('status', ['Success', 'Failed', 'Not Found'])->default('Failed');
             $table->string('error_message')->nullable()->default('Validation failed');
-            $table->foreignUlid('customer_id')->nullable()->constrained();
+            $table->foreignUlid('customer_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUlid('created_by')->nullable()->constrained('users', 'id')->nullOnDelete();
             $table->json('error_details')->nullable();
             $table->timestamps();
         });
@@ -39,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('airtel_requests');
+        Schema::dropIfExists('incoming_requests');
     }
 };

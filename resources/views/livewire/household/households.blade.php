@@ -15,8 +15,8 @@
                     class="col-md-8 col-xl-9 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
                     <a wire:click="fetchFromRemote" href="javascript:;"
                         class="btn btn-success d-flex align-items-center me-3">
-                        <i class="ti ti-users text-white me-1 fs-5"></i> Fetch Households <span wire:loading
-                            wire:target="fetchFromRemote" class="spinner-border spinner-border-sm" role="status"
+                        <i class="ti ti-plus text-white me-1 fs-5"></i> Fetch Households <span wire:loading
+                            wire:target="fetchFromRemote" class="spinner-border spinner-border-sm ml-1" role="status"
                             aria-hidden="true"></span>
                     </a>
                     <a href="{{ route('households.create') }}" wire:navigate id="btn-add-contact"
@@ -31,15 +31,6 @@
             <div class="table-responsive">
                 <table class="table search-table align-middle text-nowrap">
                     <thead class="header-item">
-                        <th>
-                            <div class="n-chk align-self-center text-center">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input primary" id="contact-check-all" />
-                                    <label class="form-check-label" for="contact-check-all"></label>
-                                    <span class="new-control-indicator"></span>
-                                </div>
-                            </div>
-                        </th>
                         <th>Name</th>
                         <th>Serial Number</th>
                         <th>Address</th>
@@ -53,42 +44,16 @@
                             <!-- start row -->
                             <tr wire:key="{{ $account->id }}" class="search-items">
                                 <td>
-                                    <div class="n-chk align-self-center text-center">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input contact-chkbox primary"
-                                                id="checkbox1" />
-                                            <label class="form-check-label" for="checkbox1"></label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
                                     <div class="d-flex align-items-center">
                                         <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="avatar"
                                             class="rounded-circle" width="35" />
-                                        <div class="ms-3">
-                                            <div class="user-meta-info">
-                                                <h6 class="household-name mb-0" data-name="{{ $account->name }}">
-                                                    {{ $account->name }}</h6>
-                                            </div>
-                                        </div>
+                                        <h6> {{ $account->name }}</h6>
                                     </div>
                                 </td>
-                                <td>
-                                    <span class="usr-email-addr"
-                                        data-serialnumber="{{ $account->serial_number ?? '-' }}">{{ $account->serial_number ?? '-' }}</span>
-                                </td>
-                                <td>
-                                    <span class="household-address"
-                                        data-address="{{ $account->address }}">{{ $account->address }}</span>
-                                </td>
-                                <td>
-                                    <span class="household-fee"
-                                        data-fee="{{ $account->fee }}">{{ $account->fee }}</span>
-                                </td>
-                                <td>
-                                    <span class="household-phone"
-                                        data-phone="{{ $account->phone ?? '-' }}">{{ $account->phone ?? '-' }}</span>
-                                </td>
+                                <td>{{ $account->serial_number ?? '-' }}</td>
+                                <td>{{ $account->address }}</td>
+                                <td>{{ $account->fee }}</td>
+                                <td>{{ $account->phone ?? '-' }}</td>
                                 <td>
                                     <div class="action-btn">
                                         <a href="{{ route('households.edit', $account->id) }}"

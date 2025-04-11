@@ -13,12 +13,10 @@ class CreateHousehold extends Component
 
     public function save()
     {
-        $response = $this->form->store();
-        if ($response->errcode == "0") {
+        $household = $this->form->store();
+        if ($household) {
             $this->form->reset();
             $this->dispatch('household-create-success');
-        } else {
-            $this->dispatch('household-create-failed');
         }
     }
     public function render()

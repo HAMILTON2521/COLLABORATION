@@ -47,7 +47,8 @@
                                 <h6 class="fw-normal fs-3 mb-1">Y'day's Payments</h6>
                                 <h4 class="mb-3 d-flex align-items-center justify-content-center gap-1">
                                     {{ $this->payments['yesterday'] }}</h4>
-                                <a href="javascript:void(0)" class="btn btn-white fs-2 fw-semibold text-nowrap">View
+                                <a href="{{ route('topup.airtel.payments.yday') }}"
+                                    class="btn btn-white fs-2 fw-semibold text-nowrap">View
                                     Details</a>
                             </div>
                         </div>
@@ -114,6 +115,7 @@
                                     <th scope="col">Amount</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Date</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="border-top">
@@ -145,6 +147,14 @@
                                         <td>
                                             <p class="fs-3 text-dark mb-0">
                                                 {{ date('d M Y H:i', strtotime($payment->created_at)) }}</p>
+                                        </td>
+                                        <td>
+                                            <div class="action-btn">
+                                                <a href="{{ route('topup.payment.details', $payment->id) }}"
+                                                    class="text-primary edit">
+                                                    <i class="ti ti-info-circle fs-7"></i>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty

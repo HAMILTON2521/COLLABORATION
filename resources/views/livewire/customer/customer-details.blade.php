@@ -53,7 +53,7 @@
                 <div class="col-lg-8">
                     <div class="card border shadow-none">
                         <div class="card-body p-4">
-                            <div class="d-flex align-items-center justify-content-between pb-3">
+                            <div class="d-flex bg-hover-light-black align-items-center justify-content-between pb-3">
                                 <div>
                                     <h5 class="fs-4 fw-semibold mb-0">Query real time data</h5>
                                 </div>
@@ -62,35 +62,64 @@
                                         wire:target="queryRealTimeData" class="spinner-border spinner-border-sm"
                                         role="status" aria-hidden="true"></span></button>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between py-3 border-top">
+                            <div
+                                class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
                                 <div>
                                     <h5 class="fs-4 fw-semibold mb-0">Get daily settlement records</h5>
                                 </div>
-                                <button wire:click="dailySettlementRecords"
+                                <button type="button" wire:click="dailySettlementRecords"
                                     class="btn bg-primary-subtle text-primary">Start <span wire:loading
                                         wire:target="dailySettlementRecords" class="spinner-border spinner-border-sm"
                                         role="status" aria-hidden="true"></span></button>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between py-3 border-top">
+                            <div
+                                class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
                                 <div>
                                     <h5 class="fs-4 fw-semibold mb-0">Get monthly settlement records</h5>
                                 </div>
-                                <button wire:click="monthlySettlementRecords"
+                                <button type="button" wire:click="monthlySettlementRecords"
                                     class="btn bg-primary-subtle text-primary">Start <span wire:loading
                                         wire:target="monthlySettlementRecords" class="spinner-border spinner-border-sm"
                                         role="status" aria-hidden="true"></span></button>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between py-3 border-top">
+                            <div
+                                class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
+                                <div>
+                                    <h5 class="fs-4 fw-semibold mb-0">Get meter file details</h5>
+                                </div>
+                                <button wire:click="getMeterFile" type="button"
+                                    class="btn bg-primary-subtle text-primary">Start <span wire:loading
+                                        wire:target="getMeterFile" class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true"></span></button>
+                            </div>
+                            <div
+                                class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
                                 <div>
                                     <h5 class="fs-4 fw-semibold mb-0">Edit meter file</h5>
                                 </div>
-                                <button class="btn bg-primary-subtle text-primary">Start</button>
+                                <button type="button" class="btn bg-primary-subtle text-primary">Start</button>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between py-3 border-top">
+                            <div
+                                class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
                                 <div>
                                     <h5 class="fs-4 fw-semibold mb-0">Recharge Meter</h5>
                                 </div>
-                                <button class="btn bg-primary-subtle text-primary">Start</button>
+                                <a href="{{ route('topup.payment.recharge', $customer->id) }}"
+                                    class="btn bg-primary-subtle text-primary">Start</a>
+                            </div>
+                            <div
+                                class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
+                                <div>
+                                    <h5 class="fs-4 fw-semibold mb-0">Open valve</h5>
+                                </div>
+                                @livewire('equipment.open-valve', ['customer' => $customer])
+                            </div>
+                            <div
+                                class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
+                                <div>
+                                    <h5 class="fs-4 fw-semibold mb-0">Close valve</h5>
+                                </div>
+                                @livewire('equipment.close-valve', ['customer' => $customer])
                             </div>
                         </div>
                     </div>

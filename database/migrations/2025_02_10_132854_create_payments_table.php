@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('internal_txn_id')->constrained('airtel_requests')->cascadeOnDelete();
+            $table->foreignUlid('internal_txn_id')->constrained('incoming_requests')->cascadeOnDelete();
             $table->foreignUlid('customer_id')->nullable()->constrained('customers')->cascadeOnDelete();
             $table->string('msisdn')->nullable();
             $table->string('channel');

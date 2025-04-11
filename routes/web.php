@@ -8,10 +8,13 @@ use App\Livewire\Customer\Customers;
 use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Customer\Region;
 use App\Livewire\Dashboard\AdminHomePage;
+use App\Livewire\Equipment\BatteryCommand;
 use App\Livewire\Equipment\Equipment;
 use App\Livewire\Equipment\NewValveControl;
+use App\Livewire\Equipment\StatusCommand;
 use App\Livewire\Equipment\ValveControl;
 use App\Livewire\Equipment\ValveDetails;
+use App\Livewire\Files\Files;
 use App\Livewire\Household\CreateHousehold;
 use App\Livewire\Household\EditHousehold;
 use App\Livewire\Household\Households;
@@ -19,7 +22,10 @@ use App\Livewire\Login\ForgotPassword;
 use App\Livewire\Login\Login;
 use App\Livewire\Login\Signup;
 use App\Livewire\Payments\PaymentDetails;
+use App\Livewire\Payments\Payments as PaymentsPayments;
+use App\Livewire\Payments\RechargeOrderDetails;
 use App\Livewire\Payments\TodayPayments;
+use App\Livewire\Payments\YdayPayments;
 use App\Livewire\Portal\Account;
 use App\Livewire\Portal\BuyGas;
 use App\Livewire\Portal\BuyGasForm;
@@ -27,7 +33,11 @@ use App\Livewire\Portal\NewPayment;
 use App\Livewire\Portal\Payments;
 use App\Livewire\Portal\UserDashboard;
 use App\Livewire\Settings\Settings;
+use App\Livewire\Settlement\Daily;
+use App\Livewire\Settlement\Monthly;
 use App\Livewire\Topup\AirtelPayments;
+use App\Livewire\Topup\RechargeDevice;
+use App\Livewire\Topup\RemoteTopup;
 use App\Livewire\User\AccountSettings;
 use App\Livewire\User\MyInvoices;
 use App\Livewire\User\MyProfile;
@@ -41,7 +51,6 @@ use App\Livewire\Web\AboutUs;
 use App\Livewire\Web\ContactUs;
 use App\Livewire\Web\GetStarted;
 use App\Livewire\Web\HomePage;
-use App\Livewire\Web\Pricing;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', Login::class)->name('login');
@@ -96,6 +105,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/valve', ValveControl::class)->name('more.equipment.valve');
         Route::get('/valve/{valve}', ValveDetails::class)->name('more.equipment.valve.details');
         Route::get('/new-valve-control', NewValveControl::class)->name('more.equipment.valve.new');
+        Route::get('/battery-command', BatteryCommand::class)->name('more.equipment.battery.command');
+        Route::get('/status-command', StatusCommand::class)->name('more.equipment.status.command');
     });
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', Users::class)->name('more.users');
@@ -107,15 +118,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/accounts/{user}', UserAccounts::class)->name('more.users.accounts');
     });
     Route::group(['prefix' => 'topup'], function () {
-        Route::get('/remote', function () {
-            return view('dashboard.topup.remote_topup');
-        })->name('topup.remote.topup');
-        Route::get('/order-details', function () {
-            return view('dashboard.topup.order_details');
-        })->name('topup.order.details');
-        Route::get('/airtel', AirtelPayments::class)->name('topup.airtel.payments');
+        Route::get('/remote', RemoteTopup::class)->name('topup.remote.topup');
+        Route::get('/order-details', RechargeOrderDetails::class)->name('topup.order.details');
+        Route::get('/payments', PaymentsPayments::class)->name('topup.airtel.payments');
         Route::get('/today', TodayPayments::class)->name('topup.airtel.payments.today');
+        Route::get('/yday', YdayPayments::class)->name('topup.airtel.payments.yday');
         Route::get('/{payment}', PaymentDetails::class)->name('topup.payment.details');
+        Route::get('/recharge-device/{customer}', RechargeDevice::class)->name('topup.payment.recharge');
     });
     Route::group(['prefix' => 'households'], function () {
         Route::get('/', Households::class)->name('households');
@@ -123,12 +132,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/{household}/edit', EditHousehold::class)->name('households.edit');
     });
     Route::group(['prefix' => 'settlement'], function () {
-        Route::get('/daily', function () {
-            return view('dashboard.settlement.daily');
-        })->name('settlement.daily');
-        Route::get('/monthly', function () {
-            return view('dashboard.settlement.monthly');
-        })->name('settlement.monthly');
+        Route::get('/daily', Daily::class)->name('settlement.daily');
+        Route::get('/monthly', Monthly::class)->name('settlement.monthly');
     });
     Route::group(['prefix' => 'files'], function () {
         Route::get('/add-meter-file', function () {
@@ -137,9 +142,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit-meter-file', function () {
             return view('dashboard.files.edit_meter_file');
         })->name('files.edit.meter.file');
-        Route::get('/get-archive-list', function () {
-            return view('dashboard.files.get_archive_list');
-        })->name('files.archive.list');
+        Route::get('/archive-list', Files::class)->name('files.archive.list');
         Route::get('/meter-file', function () {
             return view('dashboard.files.meter_file_details');
         })->name('files.meter.file.details');
@@ -156,7 +159,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/', HomePage::class)->name('web.home-page');
 Route::get('/about', AboutUs::class)->name('web.about-us');
 Route::get('/contact-us', ContactUs::class)->name('web.contact-us');
-Route::get('/pricing', Pricing::class)->name('web.pricing');
 
 /**
  * Preview email templates

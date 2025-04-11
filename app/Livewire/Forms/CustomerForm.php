@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use App\Models\Customer;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Illuminate\Support\Str;
 
 class CustomerForm extends Form
 {
@@ -40,8 +41,8 @@ class CustomerForm extends Form
         $validData = $this->validate();
 
         $customer = Customer::create([
-            'first_name' => $validData['first_name'],
-            'last_name' => $validData['last_name'],
+            'first_name' => Str::ucfirst(Str::lower($validData['first_name'])),
+            'last_name' => Str::ucfirst(Str::lower($validData['last_name'])),
             'ref' => $validData['account'],
             'region_id' => $validData['region'],
             'district_id' => $validData['district'],

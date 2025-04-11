@@ -35,6 +35,7 @@ class Households extends Component
         $response = $this->sendHttpRequest(data: $data);
 
         if ($response['errcode'] === '0') {
+            Household::truncate();
             $accounts = $response['values'];
             foreach ($accounts as $account) {
                 Household::create([

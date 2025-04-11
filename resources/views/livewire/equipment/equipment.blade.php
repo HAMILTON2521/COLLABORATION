@@ -28,7 +28,7 @@
                     </svg>
                     <h5 class="fw-semibold fs-5 mb-2">Status Command</h5>
                     <p class="mb-3 px-xl-5">Send commands to the device to query traffic and status.</p>
-                    <button type="button" class="btn btn-primary">Send Command</button>
+                    <button wire:click="statusCommand" type="button" class="btn btn-primary">Send Command</button>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
                     </svg>
                     <h5 class="fw-semibold fs-5 mb-2">Battery Command</h5>
                     <p class="mb-3 px-xl-5">Send a command to the device to check the battery.</p>
-                    <button type="button" class="btn btn-primary">Send Command</button>
+                    <button wire:click="batteryCommand" type="button" class="btn btn-primary">Send Command</button>
                 </div>
             </div>
         </div>
