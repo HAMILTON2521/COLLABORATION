@@ -12,9 +12,6 @@
                                     height="22"></i>
                             </div>
                             <h4 class="card-title mb-0">{{ $customer->imei }}</h4>
-                            <p class="mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit Rem.</p>
-                            <button type="button" wire:click="checkBalance" class="btn btn-success mb-4">Check
-                                Balance</button>
                             <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
                                 <div class="d-flex align-items-center gap-3">
                                     <i class="ti ti-user text-dark d-block fs-7" width="26" height="26"></i>
@@ -102,10 +99,18 @@
                             <div
                                 class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
                                 <div>
-                                    <h5 class="fs-4 fw-semibold mb-0">Recharge Meter</h5>
+                                    <h5 class="fs-4 fw-semibold mb-0">Recharge meter</h5>
                                 </div>
                                 <a href="{{ route('topup.payment.recharge', $customer->id) }}"
                                     class="btn bg-primary-subtle text-primary">Start</a>
+                            </div>
+                            <div
+                                class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">
+                                <div>
+                                    <h5 class="fs-4 fw-semibold mb-0">Valve control records</h5>
+                                </div>
+                                <a href="{{ route('more.equipment.valve.control', $customer->id) }}"
+                                    class="btn bg-primary-subtle text-primary">Start </a>
                             </div>
                             <div
                                 class="d-flex bg-hover-light-black align-items-center justify-content-between py-3 border-top">

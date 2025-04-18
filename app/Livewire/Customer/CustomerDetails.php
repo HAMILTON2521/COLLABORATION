@@ -113,6 +113,7 @@ class CustomerDetails extends Component
     {
         $this->dispatch('changeValveState', customer: $this->customer->id);
     }
+
     public function monthlySettlementRecords()
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;

@@ -157,4 +157,29 @@ trait HttpHelper
             return [];
         }
     }
+    public function queryValveControlRecords(string $startDate, string $endDate, string $imei)
+    {
+        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+
+        $data = json_encode([
+            'action'  => 'lorawanMeter',
+            'method'  => 'getValverecord',
+            'apiToken' => $api_token,
+            'param'   => [
+                'pageNumber' => 1,
+                'pageSize' => 10,
+                'deveui' => $imei,
+                'startDate' => Carbon::parse($startDate)->format('Y-m-d'),
+                'endDate' => Carbon::parse($endDate)->format('Y-m-d')
+            ]
+        ]);
+
+        $response = $this->sendHttpRequest(data: (string) $data);
+
+        if ($response  && $response['errcode'] == '0') {
+            return $response['values'] ?? [];
+        } else {
+            return [];
+        }
+    }
 }

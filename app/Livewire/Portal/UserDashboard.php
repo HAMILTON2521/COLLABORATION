@@ -23,6 +23,11 @@ class UserDashboard extends Component
             ->selectRaw('SUM(amount) as total_amount')
             ->first();
     }
+    #[Computed()]
+    public function recentPayment()
+    {
+        return Auth::user()->getUserPayments()->latest()->first()->amount;
+    }
 
     public function render()
     {

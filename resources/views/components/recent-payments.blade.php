@@ -30,8 +30,8 @@
                             <tr>
                                 <td class="ps-0">
                                     <div class="d-flex align-items-center gap-6">
-                                        <img src="{{ asset('assets/images/products/dash-prd-1.jpg') }}" alt="prd1"
-                                            width="35" class="rounded" />
+                                        <iconify-icon icon="solar:money-bag-bold"
+                                            class="fs-7 text-success"></iconify-icon>
                                         <div>
                                             <h6 class="mb-0">{{ $payment->txnId }}</h6>
                                             <span>{{ $payment->msisdn }}</span>

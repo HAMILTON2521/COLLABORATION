@@ -1,9 +1,9 @@
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <!-- ----------------------------------------- -->
         <!-- Welcome Card -->
         <!-- ----------------------------------------- -->
-        <div class="card text-white bg-primary-gt overflow-hidden">
+        <div class="card text-white bg-primary-gt overflow-hidden card-hover">
             <div class="card-body position-relative z-1">
                 <span class="badge badge-custom-dark d-inline-flex align-items-center gap-2 fs-3">
                     <iconify-icon icon="solar:calendar-outline" class="fs-5"></iconify-icon>
@@ -22,70 +22,37 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="row">
-            <div class="col-md-6">
-                <!-- ----------------------------------------- -->
-                <!-- Subscriptions -->
-                <!-- ----------------------------------------- -->
-                <div class="card bg-danger-subtle overflow-hidden shadow-none">
-                    <div class="card-body px-4">
-                        <div class="d-flex align-items-center justify-content-between mb-8">
-                            <div>
-                                <span class="text-dark-light fw-semibold fs-12">Subscriptions</span>
-                                <div class="hstack gap-2">
-                                    <h5 class="card-title fw-semibold mb-0 fs-7">78,298</h5>
-                                    <span class="fs-11 text-dark-light fw-semibold">-12%</span>
-                                </div>
-                            </div>
-                            <span class="round-48 d-flex align-items-center justify-content-center bg-white rounded">
-                                <iconify-icon icon="solar:layers-linear" class="text-danger fs-6"></iconify-icon>
+            <div class="col-md-6 col-lg-12">
+                <div class="card border-top border-primary card-hover">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-6 mb-4">
+                            <span
+                                class="round-48 d-flex align-items-center justify-content-center rounded bg-success-subtle">
+                                <iconify-icon icon="solar:money-bag-bold" class="fs-7 text-success"></iconify-icon>
                             </span>
+                            <h6 class="mb-0 fs-4 fw-medium">Recent Payment</h6>
                         </div>
-                        <div class="me-n2">
-                            <div id="subscriptions" class="rounded-bars"></div>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="fs-7">Tsh {{ number_format($this->recentPayment ?? 0, 0) }}</h4>
+                            </div>
                         </div>
                     </div>
-
-                </div>
-            </div>
-            <div class="col-md-6">
-                <!-- ----------------------------------------- -->
-                <!-- Users -->
-                <!-- ----------------------------------------- -->
-                <div class="card bg-secondary-subtle overflow-hidden shadow-none">
-                    <div class="card-body px-4">
-                        <div class="d-flex align-items-center justify-content-between mb-9">
-                            <div>
-                                <span class="text-dark-light fw-semibold">Users</span>
-                                <div class="hstack gap-2">
-                                    <h5 class="card-title fw-semibold mb-0 fs-7">14,872</h5>
-                                    <span class="fs-11 text-dark-light fw-semibold">+6.4%</span>
-                                </div>
-                            </div>
-                            <span class="round-48 d-flex align-items-center justify-content-center bg-white rounded">
-                                <iconify-icon icon="solar:pie-chart-3-line-duotone"
-                                    class="text-secondary fs-6"></iconify-icon>
-                            </span>
-                        </div>
-
-
-                    </div>
-                    <div id="users"></div>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="col-lg-4">
         <div class="row">
             <div class="col-md-6 col-lg-12">
-                <div class="card">
+                <div class="card border-top border-info card-hover">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-6 mb-4">
                             <span
-                                class="round-48 d-flex align-items-center justify-content-center rounded bg-danger-subtle">
-                                <iconify-icon icon="solar:box-linear" class="fs-7 text-danger"></iconify-icon>
+                                class="round-48 d-flex align-items-center justify-content-center rounded bg-info-subtle">
+                                <iconify-icon icon="solar:box-linear" class="fs-7 text-info"></iconify-icon>
                             </span>
                             <h6 class="mb-0 fs-4 fw-medium">Total Payments</h6>
                         </div>
@@ -99,32 +66,8 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
-        <div class="row">
-            <div class="col-md-6 col-lg-12">
-                <div class="card">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-center gap-6 mb-4 pb-9">
-                            <span
-                                class="round-48 d-flex align-items-center justify-content-center rounded bg-secondary-subtle">
-                                <iconify-icon icon="solar:football-outline" class="fs-7 text-secondary">
-                                </iconify-icon>
-                            </span>
-                            <h6 class="mb-0 fs-4 fw-medium">New Customers</h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between mb-6">
-                            <h6 class="mb-0 fw-medium">New goals</h6>
-                            <h6 class="mb-0 fw-medium">83%</h6>
-                        </div>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
-                            aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-secondary" style="width: 83%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+
     <!-- ----------------------------------------- -->
     <!-- Recent Payments -->
     <!-- ----------------------------------------- -->

@@ -124,9 +124,8 @@
                                         <td class="ps-0">
                                             <div class="d-flex align-items-center">
                                                 <div class="me-2 pe-1">
-                                                    <img src="{{ asset('assets/images/profile/user-3.jpg') }}"
-                                                        class="rounded-circle" width="40" height="40"
-                                                        alt="modernize-img">
+                                                    <iconify-icon icon="solar:money-bag-bold"
+                                                        class="fs-7 text-success"></iconify-icon>
                                                 </div>
                                                 <div>
                                                     <h6 class="fw-semibold mb-1">{{ $payment->customer->full_name }}
@@ -152,7 +151,7 @@
                                             <div class="action-btn">
                                                 <a href="{{ route('topup.payment.details', $payment->id) }}"
                                                     class="text-primary edit">
-                                                    <i class="ti ti-info-circle fs-7"></i>
+                                                    <i class="ti ti-info-circle fs-6"></i>
                                                 </a>
                                             </div>
                                         </td>

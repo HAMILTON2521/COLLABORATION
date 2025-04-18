@@ -15,6 +15,7 @@ use App\Livewire\Equipment\Equipment;
 use App\Livewire\Equipment\NewValveControl;
 use App\Livewire\Equipment\StatusCommand;
 use App\Livewire\Equipment\ValveControl;
+use App\Livewire\Equipment\ValveControlRecords;
 use App\Livewire\Equipment\ValveDetails;
 use App\Livewire\Files\AddMeterFile;
 use App\Livewire\Files\EditFile;
@@ -110,6 +111,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/new-valve-control', NewValveControl::class)->name('more.equipment.valve.new');
         Route::get('/battery-command', BatteryCommand::class)->name('more.equipment.battery.command');
         Route::get('/status-command', StatusCommand::class)->name('more.equipment.status.command');
+        Route::get('/valve-control/{customer}', ValveControlRecords::class)->name('more.equipment.valve.control');
     });
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', Users::class)->name('more.users');
