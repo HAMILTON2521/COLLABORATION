@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Web;
 
+use App\Models\Setting;
 use App\Models\UserVerification;
 use App\Traits\GeneralHelperTrait;
 use Carbon\Carbon;
@@ -26,9 +27,10 @@ class GetStarted extends Component
 
     public function mount(string $token)
     {
+        $key = Setting::where('key', 'JWT_SECRET')->first()->value;
         $user = UserVerification::with('user')->where('key', $token)->first();
         if ($user) {
-            $keyStatus = $this->decodeJWTToken(token: $token, key: env('JWT_SECRET'));
+            $keyStatus = $this->decodeJWTToken(token: $token, key: $key);
             if ($keyStatus->getStatusCode() === 200) {
                 $this->user = $user;
                 $this->hasSetPassword = $user->user->hasVerifiedEmail();

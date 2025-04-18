@@ -1,0 +1,58 @@
+.svg {
+    background-color: #FFF;
+    width: 90vw;
+    height: 420px;
+}
+
+.image {
+    width: 100%;
+    height: 200px;
+}
+
+.why-ingredient {
+    width: 20%;
+    height: 10px;
+    x: 20px;
+    y: 220px;
+}
+
+.title {
+    width: 50%;
+    height: 30px;
+    x: 20px;
+    y: 240px;
+}
+
+.description-first-line {
+    width: 85%;
+    height: 15px;
+    x: 20px;
+    y: 285px;
+}
+
+.description-second-line {
+    width: 75%;
+    height: 15px;
+    x: 20px;
+    y: 310px;
+}
+
+.avatar {
+    r: 25px;
+    cx: 47px;
+    cy: 370px;
+}
+
+.author-name {
+    width: 30%;
+    height: 17px;
+    x: 90px;
+    y: 350px;
+}
+
+.date {
+    width: 20%;
+    height: 14px;
+    x: 90px;
+    y: 375px;
+}

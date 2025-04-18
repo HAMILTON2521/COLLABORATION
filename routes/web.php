@@ -8,12 +8,17 @@ use App\Livewire\Customer\Customers;
 use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Customer\Region;
 use App\Livewire\Dashboard\AdminHomePage;
+use App\Livewire\Data\DataQuery;
+use App\Livewire\Data\ReadDeviceData;
 use App\Livewire\Equipment\BatteryCommand;
 use App\Livewire\Equipment\Equipment;
 use App\Livewire\Equipment\NewValveControl;
 use App\Livewire\Equipment\StatusCommand;
 use App\Livewire\Equipment\ValveControl;
 use App\Livewire\Equipment\ValveDetails;
+use App\Livewire\Files\AddMeterFile;
+use App\Livewire\Files\EditFile;
+use App\Livewire\Files\FileDetails;
 use App\Livewire\Files\Files;
 use App\Livewire\Household\CreateHousehold;
 use App\Livewire\Household\EditHousehold;
@@ -35,7 +40,6 @@ use App\Livewire\Portal\UserDashboard;
 use App\Livewire\Settings\Settings;
 use App\Livewire\Settlement\Daily;
 use App\Livewire\Settlement\Monthly;
-use App\Livewire\Topup\AirtelPayments;
 use App\Livewire\Topup\RechargeDevice;
 use App\Livewire\Topup\RemoteTopup;
 use App\Livewire\User\AccountSettings;
@@ -96,9 +100,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', Settings::class)->name('settings');
     });
     Route::group(['prefix' => 'data'], function () {
-        Route::get('/query', function () {
-            return view('dashboard.data.data_query');
-        })->name('more.data.query');
+        Route::get('/query', DataQuery::class)->name('more.data.query');
+        Route::get('/device-data', ReadDeviceData::class)->name('more.data.device.data');
     });
     Route::group(['prefix' => 'equipment'], function () {
         Route::get('/', Equipment::class)->name('more.equipment');
@@ -136,16 +139,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/monthly', Monthly::class)->name('settlement.monthly');
     });
     Route::group(['prefix' => 'files'], function () {
-        Route::get('/add-meter-file', function () {
-            return view('dashboard.files.add_meter_file');
-        })->name('files.add.meter.file');
-        Route::get('/edit-meter-file', function () {
-            return view('dashboard.files.edit_meter_file');
-        })->name('files.edit.meter.file');
-        Route::get('/archive-list', Files::class)->name('files.archive.list');
-        Route::get('/meter-file', function () {
-            return view('dashboard.files.meter_file_details');
-        })->name('files.meter.file.details');
+        Route::get('/add-meter-file', AddMeterFile::class)->name('files.add.meter.file');
+        Route::get('/edit-meter-file', EditFile::class)->name('files.edit.meter.file');
+        Route::get('/archive-list', Files::class)->name('files.archive.list')->lazy();
+        Route::get('/meter-file/{imei}', FileDetails::class)->name('files.meter.file.details')->lazy();
     });
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -164,7 +161,7 @@ Route::get('/contact-us', ContactUs::class)->name('web.contact-us');
  * Preview email templates
  */
 Route::get('/mail', function () {
-    $data = App\Models\User::first();
+    $data = App\Models\User::where('email', 'bmahuvi@gmail.com')->first();
 
     return new App\Mail\NotifyCreatedUser($data);
 });

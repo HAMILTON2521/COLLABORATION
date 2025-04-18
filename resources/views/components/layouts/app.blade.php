@@ -13,6 +13,7 @@
 
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/placeholder.css') }}" />
     @stack('css')
     @stack('styles')
 

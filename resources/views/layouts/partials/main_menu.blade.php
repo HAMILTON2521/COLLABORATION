@@ -105,24 +105,10 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="{{ route('files.edit.meter.file') }}"
-                                    class="sidebar-link {{ Route::is('files.edit.meter.file') ? 'active' : '' }}">
-                                    <i class="ti ti-file-pencil"></i>
-                                    <span class="hide-menu">Edit Meter File</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
                                 <a href="{{ route('files.archive.list') }}"
                                     class="sidebar-link {{ Route::is('files.archive.list') ? 'active' : '' }}">
                                     <i class="ti ti-file-text"></i>
                                     <span class="hide-menu">Get Archive List</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="{{ route('files.meter.file.details') }}"
-                                    class="sidebar-link {{ Route::is('files.meter.file.details') ? 'active' : '' }}">
-                                    <i class="ti ti-file-info"></i>
-                                    <span class="hide-menu">Get Meter File Details</span>
                                 </a>
                             </li>
                         </ul>

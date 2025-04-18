@@ -19,7 +19,7 @@ class NotifyCreatedUser extends Mailable
      */
     public function __construct(public User $user)
     {
-        Log::critical(json_encode($user));
+        //
     }
 
     /**

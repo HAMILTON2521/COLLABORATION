@@ -11,11 +11,12 @@
                     <th>IMEI</th>
                     <th>Readings</th>
                     <th>Valve Status</th>
-                    <th>Energy</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
                 </thead>
                 <tbody>
 
-                    @forelse ($files as $file)
+                    @forelse ($this->files as $file)
                         <!-- start row -->
                         <tr wire:key="{{ $file['id'] }}" class="search-items">
                             <td>
@@ -37,7 +38,26 @@
                                         class="text-danger"></iconify-icon>
                                 @endif
                             </td>
-                            <td>{{ $file['energyType'] }}</td>
+                            <td>{{ $file['phone'] }}</td>
+                            <td>
+                                <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                    <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="View">
+                                        <a wire:navigate
+                                            class="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
+                                            href="{{ route('files.meter.file.details', $file['deveui']) }}">
+                                            <i class="ti ti-info-circle"></i>
+                                        </a>
+                                    </li>
+                                    <li class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Edit">
+                                        <a class="d-block text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5"
+                                            href="javascript:void(0);">
+                                            <i class="ti ti-pencil"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
                         </tr>
                         <!-- end row -->
                     @empty

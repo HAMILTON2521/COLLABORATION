@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
@@ -86,6 +87,74 @@ trait HttpHelper
             return $response->json()['access_token'];
         } else {
             return null;
+        }
+    }
+    public function getFiles()
+    {
+        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+        $areaId = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
+        $sysconfigEquipmentId = Setting::where('key', 'SYSTEM_CONFIG_EQUIPMENT_ID')->first()->value;
+
+        $data = json_encode([
+            'action'  => 'lorawanMeter',
+            'method'  => 'getAreaArchives',
+            'apiToken' => $api_token,
+            'params'   => [
+                'energyType' => 'LIQUEFIED GAS',
+                'pageNumber' => '10',
+                'pageSize' => '10',
+                'areaId'      => $areaId,
+                'searchContent' => '',
+                'sysconfigEquipmentId' => $sysconfigEquipmentId
+            ]
+        ]);
+
+        $response = $this->sendHttpRequest(data: (string) $data);
+
+        return $response['values'] ?? [];
+    }
+    public function getMeterFileDetails($imei)
+    {
+        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+
+        $data = json_encode([
+            'action'  => 'lorawanMeter',
+            'method'  => 'getAreaArchiveInfo',
+            'apiToken' => $api_token,
+            'param'   => [
+                'deveui' => $imei,
+            ]
+        ]);
+
+        $response = $this->sendHttpRequest(data: (string) $data);
+
+        return $response['value'] ?? null;
+    }
+    public function readDeviceData(string $startDate, string $endDate)
+    {
+        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+        $areaId = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
+
+        $data = json_encode([
+            'action'  => 'lorawanMeter',
+            'method'  => 'getMeterReadings',
+            'apiToken' => $api_token,
+            'params'   => [
+                'pageNumber' => 1,
+                'pageSize' => 10,
+                'areaId' => $areaId,
+                'energyType' => 'LIQUEFIED GAS',
+                'startDate' => Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
+                'endDate' => Carbon::parse($endDate)->endOfDay()->toDateTimeString()
+            ]
+        ]);
+
+        $response = $this->sendHttpRequest(data: (string) $data);
+
+        if ($response  && $response['errcode'] == '0') {
+            return $response['values'] ?? [];
+        } else {
+            return [];
         }
     }
 }
