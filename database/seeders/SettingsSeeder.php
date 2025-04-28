@@ -123,5 +123,25 @@ class SettingsSeeder extends Seeder
             'type' => 'integer',
             'value' => 86400
         ]);
+        Setting::create([
+            'key' => 'SELCOM_VENDOR_ID',
+            'value' => 'TILL61135303'
+        ]);
+        Setting::create([
+            'key' => 'SELCOM_API_KEY',
+            'value' => 'TILL61135303-10a7019541044a58b63e66b1e5f922e0'
+        ]);
+        Setting::create([
+            'key' => 'SELCOM_API_SECRET',
+            'value' => 'a8e3a8-8ddc29-44e4a8-98c27f-fe4f0a-81'
+        ]);
+        Setting::create([
+            'key' => 'SELCOM_BASE_URL',
+            'value' => 'https://apigw.selcommobile.com/v1'
+        ]);
+        Setting::create([
+            'key' => 'SELCOM_CALLBACK_URL',
+            'value' => route('selcom.callback')
+        ]);
     }
 }

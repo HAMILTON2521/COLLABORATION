@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Airtel;
+use App\Http\Controllers\Api\SelcomController;
 use App\Http\Middleware\JWTAuthMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,4 +39,9 @@ Route::group(['prefix' => 'uat/airtel'], function () {
 
     Route::post('/jwt', [Airtel::class, 'genNew']);
     Route::post('/validateJWT', [Airtel::class, 'validateJWT']);
+});
+
+Route::group(['prefix' => 'selcom'], function () {
+    Route::post('/callback', [SelcomController::class, 'callback'])->name('selcom.callback');
+    Route::post('/createOrder', [SelcomController::class, 'createOrder']);
 });
