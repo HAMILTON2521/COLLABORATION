@@ -2,36 +2,37 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Request;
 use App\Traits\SelcomHelperTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRquest;
 
 class SelcomController extends Controller
 {
     use SelcomHelperTrait;
 
-    public function createOrder(Request $request)
+    public function createOrder(OrderRquest $request)
     {
-        info('Request to create minimum order', ['request' => $request->all()]);
+        try {
+            $validatedData = $request->validated();
 
-        $data = [
-            'orderId' => Str::uuid(),
-            'email' => 'bmahuvi@gmail.com',
-            'phone' => '255762691069',
-            'amount' => 500,
-            'name' => 'Bryson Mahuvi'
-        ];
+            $response = $this->createMinimumOrder(
+                order_id: $validatedData['order_id'],
+                amount: $validatedData['amount'],
+                phone: $validatedData['phone'],
+                email: $validatedData['email'],
+                name: $validatedData['name']
+            );
 
-        $response = $this->createMinimumOrder(
-            order_id: $data['orderId'],
-            amount: $data['amount'],
-            phone: $data['phone'],
-            email: $data['email'],
-            name: $data['name']
-        );
-
-        return response()->json($response);
+            return response()->json($response);
+        } catch (HttpException $e) {
+            if ($e->getStatusCode() == 401) {
+                return response()->json([
+                    'message' => 'Failed to create order',
+                ], 400);
+            }
+        }
     }
     public function cancelOrder(Request $request)
     {
