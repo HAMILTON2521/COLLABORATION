@@ -26,7 +26,7 @@ class UserDashboard extends Component
     #[Computed()]
     public function recentPayment()
     {
-        return Auth::user()->getUserPayments()->latest()->first()->amount;
+        return Auth::user()->getUserPayments()->latest()->first()->amount ?? 0;
     }
 
     public function render()

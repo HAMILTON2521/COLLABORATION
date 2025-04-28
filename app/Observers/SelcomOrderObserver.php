@@ -35,8 +35,8 @@ class SelcomOrderObserver
                 'reference' => $selcomOrder->customer->ref,
                 'reference_1' => $selcomOrder->reference,
                 'status' => 'Success',
-                'customer_msisdn' => $selcomOrder->customer->account->user->phone,
-                'customer_name' => $selcomOrder->customer->account->user->full_name,
+                'customer_msisdn' => $selcomOrder->customer->phone,
+                'customer_name' => $selcomOrder->customer->full_name,
                 'customer_id' => $selcomOrder->customer_id,
             ]);
         }
