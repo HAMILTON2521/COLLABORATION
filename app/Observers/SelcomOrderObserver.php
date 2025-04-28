@@ -27,18 +27,20 @@ class SelcomOrderObserver
             }
         }
         if ($selcomOrder->status === 'Success') {
-            $selcomOrder->customer->incomingReequests()->create([
-                'amount' => $selcomOrder->amount,
-                'type' => 'Payment',
-                'request' => 'Process',
-                'channel' => 'Selcom',
-                'reference' => $selcomOrder->customer->ref,
-                'reference_1' => $selcomOrder->reference,
-                'status' => 'Success',
-                'customer_msisdn' => $selcomOrder->customer->phone,
-                'customer_name' => $selcomOrder->customer->full_name,
-                'customer_id' => $selcomOrder->customer_id,
-            ]);
+            $response = $this->c2b($selcomOrder);
+            info('C2B response', ['resp' => $response]);
+            // $selcomOrder->customer->incomingReequests()->create([
+            //     'amount' => $selcomOrder->amount,
+            //     'type' => 'Payment',
+            //     'request' => 'Process',
+            //     'channel' => 'Selcom',
+            //     'reference' => $selcomOrder->customer->ref,
+            //     'reference_1' => $selcomOrder->reference,
+            //     'status' => 'Success',
+            //     'customer_msisdn' => $selcomOrder->phone,
+            //     'customer_name' => $selcomOrder->customer->full_name,
+            //     'customer_id' => $selcomOrder->customer_id,
+            // ]);
         }
     }
 

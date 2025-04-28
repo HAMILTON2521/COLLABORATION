@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('selcom_orders', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->foreignUlid('customer_id')->constrained()->cascadeOnDelete();
+            $table->string('phone', length: 10);
             $table->decimal('amount');
             $table->enum('status', ['New', 'Success', 'Failed'])->default('New');
             $table->string('reference')->nullable();

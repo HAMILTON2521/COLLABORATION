@@ -31,14 +31,14 @@ trait SelcomHelperTrait
     }
     public function createMinimumOrder(SelcomOrder $selcomOrder)
     {
-        $url = $this->getSettingValue('SELCOM_BASE_URL') . '/checkout/create-order-minimal';
+        $url =  '/checkout/create-order-minimal';
 
         $order = [
             'vendor' => $this->getSettingValue('SELCOM_VENDOR_ID'),
             'order_id' => $selcomOrder->id,
             'buyer_email' => $selcomOrder->customer->account->user->email,
-            'buyer_name' => $selcomOrder->customer->account->user->full_name,
-            'buyer_phone' => $selcomOrder->customer->account->user->phone,
+            'buyer_name' => $selcomOrder->customer->full_name,
+            'buyer_phone' => $selcomOrder->phone,
             'amount' => $selcomOrder->amount,
             'currency' => 'TZS',
             'webhook' => base64_encode($this->getSettingValue('SELCOM_CALLBACK_URL')),
@@ -47,6 +47,19 @@ trait SelcomHelperTrait
 
         Log::info(__FUNCTION__, ['url' => $url, 'data' => $order]);
 
+
+        return $this->sendHttpRequest($url, $order, $this->generateHeader(date('c', strtotime($selcomOrder->created_at)), $order));
+    }
+    public function c2b(SelcomOrder $selcomOrder)
+    {
+        $url =  '/checkout/wallet-payment';
+
+        $order = [
+            'transid' => $selcomOrder->id,
+            'order_id' => $selcomOrder->id,
+            'msisdn' => $selcomOrder->phone,
+        ];
+        Log::info(__FUNCTION__, ['url' => $url, 'data' => $order]);
 
         return $this->sendHttpRequest($url, $order, $this->generateHeader(date('c', strtotime($selcomOrder->created_at)), $order));
     }
@@ -64,9 +77,10 @@ trait SelcomHelperTrait
     }
     public function sendHttpRequest(string $url, $data = [], $headers = [])
     {
+        $baseUrl = $this->getSettingValue('SELCOM_BASE_URL');
         try {
             $response = Http::withHeaders($headers)
-                ->post($url, $data);
+                ->post($baseUrl . $url, $data);
             Log::info('Response ' . __FUNCTION__, ['response' => $response->json()]);
             return $response->json();
         } catch (\Throwable $th) {

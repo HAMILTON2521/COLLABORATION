@@ -62,6 +62,7 @@ class SelcomForm extends Component
 
         $order = $this->customer->selcomOrders()->create([
             'amount' => $validData['amount'],
+            'phone' => $validData['phone'],
             'status' => 'New'
         ]);
 
