@@ -41,7 +41,7 @@ trait SelcomHelperTrait
             'buyer_phone' => $phone,
             'amount' => $amount,
             'currency' => 'TZS',
-            'webhook' => $this->getSettingValue('SELCOM_CALLBACK_URL'),
+            'webhook' => base64_encode($this->getSettingValue('SELCOM_CALLBACK_URL')),
             'no_of_items' => 1,
         ];
 
