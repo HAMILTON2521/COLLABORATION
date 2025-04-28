@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\SelcomOrder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
@@ -28,18 +29,17 @@ trait SelcomHelperTrait
     {
         return implode(',', array_keys($data));
     }
-    public function createMinimumOrder(string $order_id, string $email, string $name, string $phone, int $amount)
+    public function createMinimumOrder(SelcomOrder $selcomOrder)
     {
-        $timestamp = date('c');
         $url = $this->getSettingValue('SELCOM_BASE_URL') . '/checkout/create-order-minimal';
 
         $order = [
             'vendor' => $this->getSettingValue('SELCOM_VENDOR_ID'),
-            'order_id' => $order_id,
-            'buyer_email' => $email,
-            'buyer_name' => $name,
-            'buyer_phone' => $phone,
-            'amount' => $amount,
+            'order_id' => $selcomOrder->id,
+            'buyer_email' => $selcomOrder->customer->account->user->email,
+            'buyer_name' => $selcomOrder->customer->account->user->full_name,
+            'buyer_phone' => $selcomOrder->customer->account->user->phone,
+            'amount' => $selcomOrder->amount,
             'currency' => 'TZS',
             'webhook' => base64_encode($this->getSettingValue('SELCOM_CALLBACK_URL')),
             'no_of_items' => 1,
@@ -48,7 +48,7 @@ trait SelcomHelperTrait
         Log::info(__FUNCTION__, ['url' => $url, 'data' => $order]);
 
 
-        return $this->sendHttpRequest($url, $order, $this->generateHeader($timestamp, $order));
+        return $this->sendHttpRequest($url, $order, $this->generateHeader(date('c', strtotime($selcomOrder->created_at)), $order));
     }
     public function generateHeader($timestamp, $order)
     {

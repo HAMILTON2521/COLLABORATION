@@ -1,13 +1,10 @@
 <?php
 
-use App\Http\Controllers\Airtel;
-use App\Http\Controllers\Api\SelcomController;
-use App\Http\Middleware\JWTAuthMiddleware;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-use function PHPUnit\Framework\callback;
+use App\Http\Controllers\Airtel;
 use App\Traits\GeneralHelperTrait;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\SelcomOrderController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -42,6 +39,5 @@ Route::group(['prefix' => 'uat/airtel'], function () {
 });
 
 Route::group(['prefix' => 'selcom'], function () {
-    Route::post('/callback', [SelcomController::class, 'callback'])->name('selcom.callback');
-    Route::post('/createOrder', [SelcomController::class, 'createOrder']);
+    Route::post('/callback', [SelcomOrderController::class, 'callback'])->name('selcom.callback');
 });

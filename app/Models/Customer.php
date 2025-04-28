@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Customer extends Model
 {
@@ -81,10 +82,10 @@ class Customer extends Model
     /**
      * Users assigned to this customer (UserAccount pivot table)
      */
-    public function assignedUsers()
-    {
-        return $this->belongsToMany(User::class, 'user_accounts', 'customer_id', 'user_id');
-    }
+    // public function assignedUsers()
+    // {
+    //     return $this->belongsToMany(User::class, 'user_accounts', 'customer_id', 'user_id');
+    // }
 
     /**
      * Payments associated with this customer
@@ -139,5 +140,23 @@ class Customer extends Model
     public function incomingReequests(): HasMany
     {
         return $this->hasMany(IncomingRequest::class);
+    }
+    /**
+     * Get all of the selcomOrders for the Customer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function selcomOrders(): HasMany
+    {
+        return $this->hasMany(SelcomOrder::class);
+    }
+    /**
+     * Get the user that owns the Customer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function account(): HasOne
+    {
+        return $this->hasOne(UserAccount::class);
     }
 }

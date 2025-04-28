@@ -8,11 +8,13 @@
     "require": {
         "php": "^8.2",
         "blade-ui-kit/blade-ui-kit": "^0.7.0",
+        "devrabiul/laravel-toaster-magic": "^1.0",
         "firebase/php-jwt": "^6.11",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.6",
+        "php-flasher/flasher-laravel": "^2.1",
         "tymon/jwt-auth": "^2.2",
         "wire-elements/modal": "^2.0"
     },

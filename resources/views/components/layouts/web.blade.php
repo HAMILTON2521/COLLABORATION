@@ -21,6 +21,7 @@
     <!-- Owl Carousel  -->
     <link rel="stylesheet" href="{{ asset('assets/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
     @bukStyles
+    {!! ToastMagic::styles() !!}
 </head>
 
 <body>
@@ -73,6 +74,7 @@
     @stack('js')
     @stack('scripts')
     @bukScripts
+    {!! ToastMagic::scripts() !!}
 </body>
 
 </html>

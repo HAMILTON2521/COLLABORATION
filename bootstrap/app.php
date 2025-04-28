@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Application;
 use App\Http\Middleware\AutoAckMiddleware;
 use App\Http\Middleware\JWTAuthMiddleware;
-use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 

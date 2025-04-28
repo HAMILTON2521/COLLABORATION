@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Observers;
+
+use App\Models\SelcomOrder;
+use App\Traits\SelcomHelperTrait;
+
+class SelcomOrderObserver
+{
+    use SelcomHelperTrait;
+    /**
+     * Handle the SelcomOrder "created" event.
+     */
+    public function created(SelcomOrder $selcomOrder): void
+    {
+        if ($selcomOrder->status === 'New') {
+            $order = $this->createMinimumOrder($selcomOrder);
+            if ($order && $order['resultcode']) {
+                $selcomOrder->update([
+                    'status' => $order['resultcode'] === '000' ? 'Success' : 'Failed',
+                    'reference' => $order['reference'],
+                    'result' => $order['result'],
+                    'message' => $order['message'],
+                    'payment_token' => $order['payment_token'] ?? null,
+                    'payment_gateway_url' => $order['payment_gateway_url'] ?? null,
+                ]);
+            }
+        }
+        if ($selcomOrder->status === 'Success') {
+            $selcomOrder->customer->incomingReequests()->create([
+                'amount' => $selcomOrder->amount,
+                'type' => 'Payment',
+                'request' => 'Process',
+                'channel' => 'Selcom',
+                'reference' => $selcomOrder->customer->ref,
+                'reference_1' => $selcomOrder->reference,
+                'status' => 'Success',
+                'customer_msisdn' => $selcomOrder->customer->account->user->phone,
+                'customer_name' => $selcomOrder->customer->account->user->full_name,
+                'customer_id' => $selcomOrder->customer_id,
+            ]);
+        }
+    }
+
+    /**
+     * Handle the SelcomOrder "updated" event.
+     */
+    public function updated(SelcomOrder $selcomOrder): void
+    {
+        //
+    }
+
+    /**
+     * Handle the SelcomOrder "deleted" event.
+     */
+    public function deleted(SelcomOrder $selcomOrder): void
+    {
+        //
+    }
+
+    /**
+     * Handle the SelcomOrder "restored" event.
+     */
+    public function restored(SelcomOrder $selcomOrder): void
+    {
+        //
+    }
+
+    /**
+     * Handle the SelcomOrder "force deleted" event.
+     */
+    public function forceDeleted(SelcomOrder $selcomOrder): void
+    {
+        //
+    }
+}
