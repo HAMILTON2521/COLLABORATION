@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\SelcomOrder;
+use App\Models\SelcomPush;
 use App\Traits\SelcomHelperTrait;
 
 class SelcomOrderObserver
@@ -19,6 +20,7 @@ class SelcomOrderObserver
                 $selcomOrder->update([
                     'status' => $order['resultcode'] === '000' ? 'Success' : 'Failed',
                     'reference' => $order['reference'],
+                    'resultcode' => $order['resultcode'],
                     'result' => $order['result'],
                     'message' => $order['message'],
                     'payment_token' => $order['payment_token'] ?? null,
@@ -28,7 +30,18 @@ class SelcomOrderObserver
         }
         if ($selcomOrder->status === 'Success') {
             $response = $this->c2b($selcomOrder);
-            info('C2B response', ['resp' => $response]);
+
+            if ($response && $response['resultcode']) {
+                SelcomPush::create([
+                    'status' => $order['resultcode'] === '000' ? 'Success' : 'Failed',
+                    'reference' => $order['reference'],
+                    'message' => $order['message'],
+                    'resultcode' => $order['resultcode'],
+                    'result' => $order['result'],
+                    'selcom_order_id' => $order['transid'],
+                ]);
+            }
+            //info('C2B response', ['resp' => $response]);
             // $selcomOrder->customer->incomingReequests()->create([
             //     'amount' => $selcomOrder->amount,
             //     'type' => 'Payment',
