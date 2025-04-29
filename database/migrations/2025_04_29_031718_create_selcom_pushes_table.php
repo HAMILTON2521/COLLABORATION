@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('selcom_pushes', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('selcom_order_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUlid('selcom_order_id')->nullable()->constrained()->cascadeOnDelete();
             $table->enum('status', ['Success', 'Failed', 'Paid']);
             $table->string('reference')->nullable();
             $table->string('resultcode')->nullable();
