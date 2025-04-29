@@ -8,7 +8,7 @@
             <div class="form-body">
                 <div class="card-body">
                     <h6 class="card-title mb-0">Enter phone number and amount. PIN confirmation will be sent to
-                        you phone for confirmation.</h6>
+                        your phone for confirmation.</h6>
                 </div>
                 <hr class="m-0" />
                 <div class="card-body">

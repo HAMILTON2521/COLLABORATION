@@ -14,24 +14,21 @@ class SelcomOrderObserver
     public function created(SelcomOrder $selcomOrder): void
     {
         if ($selcomOrder->status === 'New') {
-            // $order = $this->createMinimumOrder($selcomOrder);
-            // if ($order && $order['resultcode']) {
-            //     $selcomOrder->update([
-            //         'status' => $order['resultcode'] === '000' ? 'Success' : 'Failed',
-            //         'reference' => $order['reference'],
-            //         'result' => $order['result'],
-            //         'message' => $order['message'],
-            //         'payment_token' => $order['payment_token'] ?? null,
-            //         'payment_gateway_url' => $order['payment_gateway_url'] ?? null,
-            //     ]);
-            // }
-            $response = $this->c2b($selcomOrder);
-
-            info('C2B response', ['resp' => $response]);
+            $order = $this->createMinimumOrder($selcomOrder);
+            if ($order && $order['resultcode']) {
+                $selcomOrder->update([
+                    'status' => $order['resultcode'] === '000' ? 'Success' : 'Failed',
+                    'reference' => $order['reference'],
+                    'result' => $order['result'],
+                    'message' => $order['message'],
+                    'payment_token' => $order['payment_token'] ?? null,
+                    'payment_gateway_url' => $order['payment_gateway_url'] ?? null,
+                ]);
+            }
         }
         if ($selcomOrder->status === 'Success') {
-            // $response = $this->c2b($selcomOrder);
-            // info('C2B response', ['resp' => $response]);
+            $response = $this->c2b($selcomOrder);
+            info('C2B response', ['resp' => $response]);
             // $selcomOrder->customer->incomingReequests()->create([
             //     'amount' => $selcomOrder->amount,
             //     'type' => 'Payment',
