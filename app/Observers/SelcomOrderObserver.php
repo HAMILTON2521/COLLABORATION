@@ -33,12 +33,12 @@ class SelcomOrderObserver
 
             if ($response && $response['resultcode']) {
                 SelcomPush::create([
-                    'status' => $order['resultcode'] === '000' ? 'Success' : 'Failed',
-                    'reference' => $order['reference'],
-                    'message' => $order['message'],
-                    'resultcode' => $order['resultcode'],
-                    'result' => $order['result'],
-                    'selcom_order_id' => $order['transid'],
+                    'status' => $response['resultcode'] === '000' ? 'Success' : 'Failed',
+                    'reference' => $response['reference'],
+                    'message' => $response['message'],
+                    'resultcode' => $response['resultcode'],
+                    'result' => $response['result'],
+                    'selcom_response_id' => $response['transid'],
                 ]);
             }
             //info('C2B response', ['resp' => $response]);

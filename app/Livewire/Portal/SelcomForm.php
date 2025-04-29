@@ -16,7 +16,7 @@ class SelcomForm extends Component
     #[Validate('required|size:10|starts_with:0', as: 'phone number')]
     public $phone = '';
 
-    #[Validate('required|decimal:0,2|min:100', as: 'amount')]
+    #[Validate('required|decimal:0,2|min:200', as: 'amount')]
     public $amount = '';
 
     public $customer;

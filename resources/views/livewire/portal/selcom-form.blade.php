@@ -23,7 +23,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="amount">Amount (minimum is Tsh 100) <span class="text-danger">*</span></label>
+                            <label for="amount">Amount (minimum is Tsh 200) <span class="text-danger">*</span></label>
                             <input wire:model="amount"
                                 class="form-control {{ $errors->has('amount') ? 'is-invalid' : '' }}" type="amount"
                                 type="number" id="amount">
