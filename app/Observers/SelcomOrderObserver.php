@@ -23,8 +23,8 @@ class SelcomOrderObserver
                     'resultcode' => $order['resultcode'],
                     'result' => $order['result'],
                     'message' => $order['message'],
-                    'payment_token' => $order['payment_token'] ?? null,
-                    'payment_gateway_url' => $order['payment_gateway_url'] ?? null,
+                    'payment_token' => $order['data']['payment_token'] ?? null,
+                    'payment_gateway_url' => $order['data']['payment_gateway_url'] ?? null,
                 ]);
             }
         }
