@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use App\Observers\PaymentObserver;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[ObservedBy(PaymentObserver::class)]
 class Payment extends Model
@@ -55,7 +58,7 @@ class Payment extends Model
      * Relationships
      */
 
-    public function incomingRequest()
+    public function incomingRequest(): BelongsTo
     {
         return $this->belongsTo(IncomingRequest::class, 'internal_txn_id');
     }
@@ -63,14 +66,14 @@ class Payment extends Model
     /**
      * The customer making the payment (nullable)
      */
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
     /**
      * Relationship with LorawanRechargeRequest
      */
-    public function lorawanRechargeRequests()
+    public function lorawanRechargeRequests(): HasMany
     {
         return $this->hasMany(LorawanRechargeRequest::class);
     }
@@ -78,9 +81,18 @@ class Payment extends Model
     /**
      * Relationship with ValveControl model
      */
-    public function valveControl()
+    public function valveControl(): HasOne
     {
         return $this->hasOne(ValveControl::class);
+    }
+    /**
+     * Get the selcomOrder associated with the Payment
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function selcomOrder(): HasOne
+    {
+        return $this->hasOne(SelcomOrder::class);
     }
     /**
      * Scope for user search

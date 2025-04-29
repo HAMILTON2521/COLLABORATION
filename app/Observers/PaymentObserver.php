@@ -4,6 +4,8 @@ namespace App\Observers;
 
 use App\Models\LorawanRechargeRequest;
 use App\Models\Payment;
+use App\Models\SelcomOrder;
+use App\Models\SelcomPush;
 use App\Models\Setting;
 use App\Traits\HttpHelper;
 use Illuminate\Support\Number;
@@ -20,6 +22,14 @@ class PaymentObserver
             'topup_amount' => $payment->amount,
             'topup_to_device_amount' => $payment->accumulated_volume
         ]);
+
+        $push = SelcomPush::where('external_id', $payment->external_id)->first();
+        if ($push) {
+            SelcomOrder::find($push->selcom_order_id)->update([
+                'is_paid' => true,
+                'payment_id' => $payment->id
+            ]);
+        }
     }
 
     /**

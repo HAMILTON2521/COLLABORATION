@@ -5,6 +5,7 @@ namespace App\Livewire\Portal;
 use App\Models\Payment;
 use Livewire\Component;
 use App\Models\Customer;
+use App\Models\IncomingRequest;
 use App\Models\PushRequest;
 use App\Models\SelcomOrder;
 use Livewire\Attributes\Validate;
@@ -36,20 +37,13 @@ class SelcomForm extends Component
         $this->status = false;
     }
 
-    public function checkTransaction()
-    {
-        $selcomOrder = SelcomOrder::findOrFail($this->selcomOrder->id);
-        if ($selcomOrder) {
-            if ($selcomOrder->is_paid) {
-                $this->redirectRoute('portal.payments');
-            } else {
-                $this->dispatch('showToast', message: 'We have not received the payment. Try again.', status: 'Unpaid');
-            }
-        }
-    }
     public function checkPaymentStatus()
     {
         $this->selcomOrder = SelcomOrder::findOrFail($this->selcomOrder->id);
+
+        if ($this->selcomOrder->is_paid) {
+            $this->redirectRoute('topup.payment.details', ['payment' => $this->selcomOrder->payment_id], navigate: true);
+        }
     }
 
     public function save()

@@ -17,7 +17,6 @@ class SelcomOrderController extends Controller
     {
         info('Callback received', ['request transid' => $request['transid']]);
 
-
         if ($request && $request['resultcode']) {
             $push = SelcomPush::where('selcom_order_id', $request['order_id'])->first();
 

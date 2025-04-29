@@ -34,4 +34,13 @@ class SelcomOrder extends Model
     {
         return $this->hasOne(SelcomPush::class);
     }
+    /**
+     * Get the payment that owns the SelcomOrder
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(Payment::class);
+    }
 }
