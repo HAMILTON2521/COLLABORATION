@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('external_id')->nullable();
             $table->string('payment_result_code')->nullable();
             $table->string('payment_status')->nullable();
-            $table->string('reference')->nullable();
+            $table->string('payment_reference')->nullable();
             $table->string('channel')->nullable();
             $table->timestamps();
         });

@@ -28,7 +28,7 @@ class SelcomOrderController extends Controller
                     'amount_paid' => $callback['amount'] ? number_format((float) $callback['amount'], 2, '.', '') : null,
                     'external_id' => $callback['transid'],
                     'payment_result_code' => $callback['resultcode'],
-                    'reference' => $callback['reference'],
+                    'payment_reference' => $callback['reference'],
                     'channel' => $callback['channel'],
                 ]);
             }
