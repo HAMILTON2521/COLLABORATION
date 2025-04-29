@@ -19,6 +19,13 @@ return new class extends Migration
             $table->string('resultcode')->nullable();
             $table->string('result')->nullable();
             $table->string('message')->nullable();
+            $table->boolean('is_paid')->default(false);
+            $table->decimal('amount_paid')->nullable();
+            $table->string('external_id')->nullable();
+            $table->string('payment_result_code')->nullable();
+            $table->string('payment_status')->nullable();
+            $table->string('reference')->nullable();
+            $table->string('channel')->nullable();
             $table->timestamps();
         });
     }

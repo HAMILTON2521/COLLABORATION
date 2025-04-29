@@ -41,19 +41,6 @@ class SelcomOrderObserver
                     'selcom_order_id' => $response['transid'],
                 ]);
             }
-            //info('C2B response', ['resp' => $response]);
-            // $selcomOrder->customer->incomingReequests()->create([
-            //     'amount' => $selcomOrder->amount,
-            //     'type' => 'Payment',
-            //     'request' => 'Process',
-            //     'channel' => 'Selcom',
-            //     'reference' => $selcomOrder->customer->ref,
-            //     'reference_1' => $selcomOrder->reference,
-            //     'status' => 'Success',
-            //     'customer_msisdn' => $selcomOrder->phone,
-            //     'customer_name' => $selcomOrder->customer->full_name,
-            //     'customer_id' => $selcomOrder->customer_id,
-            // ]);
         }
     }
 
