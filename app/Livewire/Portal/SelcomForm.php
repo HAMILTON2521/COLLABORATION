@@ -47,6 +47,10 @@ class SelcomForm extends Component
             }
         }
     }
+    public function checkPaymentStatus()
+    {
+        $this->selcomOrder = SelcomOrder::findOrFail($this->selcomOrder->id);
+    }
 
     public function save()
     {

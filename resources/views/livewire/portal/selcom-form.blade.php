@@ -46,10 +46,18 @@
                                 type="button">
                                 Cancel
                             </a>
-                            <button wire:click="checkTransaction" class="btn btn-success" type="button">
-                                If you paid, click here to complete <span wire:loading wire:target="checkTransaction"
-                                    class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            </button>
+                            @if (!$selcomOrder->is_paid)
+                                <div wire:poll.5s="checkPaymentStatus">
+                                    <p>Please complete payment on your phone. Waiting for confirmation...</p>
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="alert alert-success">
+                                    Payment received! Thank you.
+                                </div>
+                            @endif
                         @endisset
                     </div>
                 </div>
