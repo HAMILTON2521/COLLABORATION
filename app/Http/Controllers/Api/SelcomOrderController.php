@@ -18,20 +18,20 @@ class SelcomOrderController extends Controller
         info('Callback received', ['request transid' => $request['transid']]);
 
 
-        // if ($callback && $callback['resultcode']) {
-        //     $push = SelcomPush::where('selcom_order_id', $callback['order_id'])->first();
+        if ($request && $request['resultcode']) {
+            $push = SelcomPush::where('selcom_order_id', $request['order_id'])->first();
 
-        //     if ($push) {
-        //         $push->update([
-        //             'payment_status' => $callback['payment_status'],
-        //             'is_paid' => $callback['resultcode'] === '000',
-        //             'amount_paid' => $callback['amount'] ? number_format((float) $callback['amount'], 2, '.', '') : null,
-        //             'external_id' => $callback['transid'],
-        //             'payment_result_code' => $callback['resultcode'],
-        //             'payment_reference' => $callback['reference'],
-        //             'channel' => $callback['channel'],
-        //         ]);
-        //     }
-        // }
+            if ($push) {
+                $push->update([
+                    'payment_status' => $request['payment_status'],
+                    'is_paid' => $request['resultcode'] === '000',
+                    'amount_paid' => $request['amount'] ? number_format((float) $request['amount'], 2, '.', '') : null,
+                    'external_id' => $request['transid'],
+                    'payment_result_code' => $request['resultcode'],
+                    'payment_reference' => $request['reference'],
+                    'channel' => $request['channel'],
+                ]);
+            }
+        }
     }
 }
