@@ -13,14 +13,20 @@ class IncomingRequestObserver
      */
     public function created(IncomingRequest $incomingRequest): void
     {
-        if (($incomingRequest->request == "Payment Callback" || $incomingRequest->channel == "Manual") && $incomingRequest->status == "Success") {
+        if (
+            (
+                $incomingRequest->request === "Payment Callback" ||
+                in_array($incomingRequest->channel, ["Manual", "Selcom"])
+            ) &&
+            $incomingRequest->status === "Success"
+        ) {
             Payment::create([
-                'customer_id' => $incomingRequest->customer_id,
-                'msisdn' => $incomingRequest->customer_msisdn,
-                'channel' => $incomingRequest->channel,
-                'amount' => $incomingRequest->amount,
-                'status' => 'Received',
-                'external_id' => $incomingRequest->reference_1,
+                'customer_id'    => $incomingRequest->customer_id,
+                'msisdn'         => $incomingRequest->customer_msisdn,
+                'channel'        => $incomingRequest->channel,
+                'amount'         => $incomingRequest->amount,
+                'status'         => 'Received',
+                'external_id'    => $incomingRequest->reference_1,
                 'internal_txn_id' => $incomingRequest->id
             ]);
         }
