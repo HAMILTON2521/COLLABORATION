@@ -44,14 +44,21 @@
                         @isset($selcomOrder)
                             @if (!$selcomOrder->is_paid)
                                 <div wire:poll.5s="checkPaymentStatus">
-                                    <p>Please complete payment on your phone. Waiting for confirmation...</p>
-                                    <div class="spinner-border text-primary" role="status">
-                                        <span class="visually-hidden">Loading...</span>
+                                    <div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon"
+                                        role="alert">
+                                        <span class="side-line bg-success"></span>
+
+                                        <div class="d-flex align-items-center ">
+                                            <i class="ti ti-info-circle fs-5 text-secondary me-2 flex-shrink-0"></i>
+                                            <span class="text-truncate">Please complete payment on your phone. Waiting for
+                                                confirmation...</span>
+                                            <div class="ms-auto d-flex justify-content-end">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            @else
-                                <div class="alert alert-success">
-                                    Payment received! Thank you.
                                 </div>
                             @endif
                         @endisset
