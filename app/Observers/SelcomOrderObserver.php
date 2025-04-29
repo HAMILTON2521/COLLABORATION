@@ -38,7 +38,7 @@ class SelcomOrderObserver
                     'message' => $response['message'],
                     'resultcode' => $response['resultcode'],
                     'result' => $response['result'],
-                    'selcom_response_id' => $response['transid'],
+                    'selcom_order_id' => $response['transid'],
                 ]);
             }
             //info('C2B response', ['resp' => $response]);
