@@ -4,21 +4,14 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="card border-top border-primary">
+                    <div class="card border-top border-primary card-hover">
                         <div class="card-body">
                             <h4 class="card-title mb-3">SELCOM</h4>
                             <div class="ms-2 me-auto">
-                                <div class="fw-bold">Airtel Money</div>
                                 <div class="mb-3">
-                                    Just enter your Airtel Money number, amount and click send. A PIN request
+                                    Enter your phone number and amount. A PIN request
                                     will be sent to your phone for confirmation.
                                 </div>
-                                {{-- <button
-                                    wire:click="$dispatch('openModal', {component: 'portal.buy-gas-form',arguments:{customer:'{{ $customer->id }}'} })"
-                                    type="button" class="btn btn-primary">
-                                    Pay
-                                </button> --}}
-
                                 <a wire:navigate href="{{ route('portal.account.buy.selcom', $customer->id) }}"
                                     class="btn btn-primary">
                                     Pay Now
@@ -29,37 +22,32 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="card border-top border-primary">
+                    <div class="card border-top border-danger card-hover">
                         <div class="card-body">
-                            <h4 class="card-title mb-3">USSD PUSH</h4>
-                            <ol class="list-group list-group-numbered">
-                                <li class="list-group-item d-flex justify-content-between align-items-start m-0">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">Airtel Money</div>
-                                        <div class="mb-3">
-                                            Just enter your Airtel Money number, amount and click send. A PIN request
-                                            will be sent to your phone for confirmation.
-                                        </div>
-                                        {{-- <button
-                                            wire:click="$dispatch('openModal', {component: 'portal.buy-gas-form',arguments:{customer:'{{ $customer->id }}'} })"
-                                            type="button" class="btn btn-primary">
-                                            Pay
-                                        </button> --}}
+                            <h4 class="card-title mb-3">AIRTEL MONEY</h4>
+                            <div class="ms-2 me-auto">
+                                <div class="mb-3">
+                                    Enter your Airtel Money number and amount. A PIN request
+                                    will be sent to your phone for confirmation.
+                                </div>
+                                {{-- <button
+                                    wire:click="$dispatch('openModal', {component: 'portal.buy-gas-form',arguments:{customer:'{{ $customer->id }}'} })"
+                                    type="button" class="btn btn-primary">
+                                    Pay
+                                </button> --}}
 
-                                        <a wire:navigate href="{{ route('portal.account.buy.airtel', $customer->id) }}"
-                                            class="btn btn-primary">
-                                            Pay Now
-                                        </a>
+                                <a wire:navigate href="{{ route('portal.account.buy.airtel', $customer->id) }}"
+                                    class="btn btn-primary">
+                                    Pay Now
+                                </a>
 
-                                    </div>
-                                </li>
-                            </ol>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-6 d-flex align-items-stretch">
-                    <div class="card w-100 border-top border-success">
+                <div class="col-lg-12 d-flex align-items-stretch">
+                    <div class="card w-100 border-top border-info">
                         <div class="card-body">
                             <h4 class="card-title mb-3">Mobile Payment using *150*</h4>
                             <div class="accordion accordion-flush" id="accordionFlushExample">
