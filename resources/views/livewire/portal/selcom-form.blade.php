@@ -41,7 +41,7 @@
                                 role="status" aria-hidden="true"></span>
                         </button>
 
-                        @isset($pushRequest)
+                        @isset($selcomOrder)
                             <a href="{{ route('portal.account.buy', $customer->id) }}" class="btn btn-danger me-3"
                                 type="button">
                                 Cancel
