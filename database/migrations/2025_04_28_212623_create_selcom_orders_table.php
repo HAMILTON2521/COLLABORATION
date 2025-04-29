@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('message')->nullable();
             $table->string('payment_token')->nullable();
             $table->text('payment_gateway_url')->nullable();
+            $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });
     }

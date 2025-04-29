@@ -6,6 +6,7 @@ use App\Models\Payment;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\PushRequest;
+use App\Models\SelcomOrder;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
@@ -20,7 +21,7 @@ class SelcomForm extends Component
     public $amount = '';
 
     public $customer;
-    public ?PushRequest $pushRequest;
+    public ?SelcomOrder $selcomOrder;
     public $status = true;
 
     public function mount(Customer $customer)
@@ -28,30 +29,21 @@ class SelcomForm extends Component
         $this->customer = $customer;
     }
 
-    #[On('push-request-created')]
-    public function pushRequestCreated(PushRequest $pushRequest)
+    #[On('selcom-request-created')]
+    public function pushRequestCreated(SelcomOrder $selcomOrder)
     {
-        $this->pushRequest = $pushRequest;
+        $this->selcomOrder = $selcomOrder;
         $this->status = false;
     }
 
     public function checkTransaction()
     {
-        $pushRequest = PushRequest::findOrFail($this->pushRequest->id);
-        if ($pushRequest) {
-            if ($pushRequest->status === "Success") {
-                $payment = Payment::where('external_id', $pushRequest->mno_txn_id)->first();
-                if ($payment) {
-                    $this->redirectRoute('topup.payment.details', ['payment' => $payment->id], navigate: true);
-                }
-            } elseif ($pushRequest->status === "Pending") {
+        $selcomOrder = SelcomOrder::findOrFail($this->selcomOrder->id);
+        if ($selcomOrder) {
+            if ($selcomOrder->is_paid) {
+                $this->redirectRoute('portal.payments');
+            } else {
                 $this->dispatch('showToast', message: 'We have not received the payment. Try again.', status: 'Unpaid');
-            } elseif ($pushRequest->status === "Failed") {
-                $this->dispatch('showToast', message: 'Your request failed. Try again', status: 'Failed');
-                $this->phone = $pushRequest->phone;
-
-                $this->pushRequest = null;
-                $this->status = true;
             }
         }
     }
@@ -67,10 +59,11 @@ class SelcomForm extends Component
         ]);
 
         if ($order) {
-            flash()->success('Please check your phone and confirm PIN', [
-                'timeout' => 10000
-            ]);
+            $this->dispatch('selcom-request-created', selcomOrder: $order->id);
             $this->reset(['amount', 'phone']);
+            if ($order->status == 'New') {
+                $this->dispatch('showToast', message: 'Please check your phone and confirm PIN.', status: 'Success');
+            }
         }
     }
     public function render()
