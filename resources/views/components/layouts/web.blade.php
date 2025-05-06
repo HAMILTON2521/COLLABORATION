@@ -26,8 +26,9 @@
 
 <body>
     <!-- Preloader -->
-    <div class="preloader">
-        <img src="{{ asset('assets/images/logos/favicon.png') }}" alt="loader" class="lds-ripple img-fluid" />
+    <div class="preloader" wire:loading>
+        <img src="{{ asset('assets/images/logos/logo.png') }}" alt="loader" style="width: 15%;"
+            class="lds-ripple img-fluid" />
     </div>
     <!-- ------------------------------------- -->
     <!-- Top Bar Start -->
