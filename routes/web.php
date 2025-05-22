@@ -59,6 +59,7 @@ use App\Livewire\Payments\RechargeOrderDetails;
 use App\Http\Controllers\Api\SelcomOrderController;
 use App\Livewire\Payments\Payments as PaymentsPayments;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Livewire\Settings\Sms\SmsSettings;
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
@@ -101,7 +102,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/region/{region}', Region::class)->name('customers.region');
     });
     Route::group(['prefix' => 'settings'], function () {
-        Route::get('/', Settings::class)->name('settings');
+        Route::get('/sms', SmsSettings::class)->name('settings.sms');
+        Route::get('/general', Settings::class)->name('settings.general');
     });
     Route::group(['prefix' => 'data'], function () {
         Route::get('/query', DataQuery::class)->name('more.data.query');

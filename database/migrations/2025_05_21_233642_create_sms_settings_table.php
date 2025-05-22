@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('sms_settings', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->string('key')->unique();
             $table->string('type')->default('string');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('sms_settings');
     }
 };

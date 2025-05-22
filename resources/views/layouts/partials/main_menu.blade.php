@@ -238,12 +238,28 @@
                         </ul>
                     </li>
                     <li class="sidebar-item {{ Route::is('settings*') ? 'selected' : '' }}">
-                        <a class="sidebar-link" href="{{ route('settings') }}" aria-expanded="false">
+                        <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                             <span class="rounded-3">
                                 <iconify-icon icon="solar:settings-line-duotone" class="ti"></iconify-icon>
                             </span>
                             <span class="hide-menu">Settings</span>
                         </a>
+                        <ul aria-expanded="false" class="collapse first-level">
+                            <li class="sidebar-item">
+                                <a href="{{ route('settings.sms') }}"
+                                    class="sidebar-link {{ Route::is('settings.sms') ? 'active' : '' }}">
+                                    <i class="ti ti-message-cog"></i>
+                                    <span class="hide-menu">SMS Settings</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ route('settings.general') }}"
+                                    class="sidebar-link {{ Route::is('settings.general') ? 'active' : '' }}">
+                                    <i class="ti ti-settings-cog"></i>
+                                    <span class="hide-menu">General Settings</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
 

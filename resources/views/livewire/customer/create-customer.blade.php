@@ -134,8 +134,7 @@
                 </div>
                 <div class="form-actions text-end">
                     <button type="submit" class="btn btn-primary">
-                        Save changes <span wire:loading wire:target="save" class="spinner-border spinner-border-sm"
-                            role="status" aria-hidden="true"></span>
+                        Save changes
                     </button>
                 </div>
             </div>

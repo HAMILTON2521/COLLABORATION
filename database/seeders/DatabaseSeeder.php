@@ -24,7 +24,10 @@ class DatabaseSeeder extends Seeder
             SettingsSeeder::class,
             UserSeeder::class,
             RegionSeeder::class,
-            DistrictSeeder::class
+            DistrictSeeder::class,
+            MessageTemplateSeeder::class,
+            SmsSettingsSeeder::class,
+            MessageActivitySeeder::class
         ]);
     }
 }
