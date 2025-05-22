@@ -2,8 +2,11 @@
 
 namespace App\Traits;
 
-use App\Models\MessageActivity;
 use App\Models\SmsSetting;
+use App\Models\MessageActivity;
+use App\Models\MessageTemplate;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 trait SmsHelper
 {
@@ -27,5 +30,39 @@ trait SmsHelper
         }
 
         return $template;
+    }
+    public function sendNormalSms(string $msg, string $phone): bool
+    {
+        $baseUrl = $this->getConfig('SMS_API_BASE_URL');
+        $apiKey = $this->getConfig('SMS_API_KEY');
+        $campaign = $this->getConfig('CAMPAIGN_ID');
+        $routeId = $this->getConfig('ROUTE_ID');
+        $senderId = $this->getConfig('SMS_SENDER_ID');
+
+        if ($baseUrl && $apiKey && $campaign && $routeId && $senderId) {
+            $message = urlencode($msg);
+            $url = $baseUrl . 'smsapi/index.php?key=' . $apiKey . '&campaign=' . $campaign . '&routeid=' . $routeId . '&type=text&contacts=' . $phone . '&senderid=' . $senderId . '&msg=' . $message;
+            $response = Http::post($url);
+
+            return $response->successful();
+        } else {
+            Log::error('Cannot send SMS due to missing configuration for SmsSetting');
+            return false;
+        }
+    }
+    public function getTemplate(string $activity, string $phone, array $data)
+    {
+        $data = $this->sendMessageEnabledFor($activity);
+        if ($data['canSendSms']) {
+            if ($data['hasTemplate']) {
+                if ($phone) {
+                    $template = MessageTemplate::find($data['templateId']);
+                    $message = $this->parseTemplate($template->body, $data);
+                    return $message;
+                }
+            } else {
+                info('SMS not sent, template for ' . $activity . ' missing');
+            }
+        }
     }
 }

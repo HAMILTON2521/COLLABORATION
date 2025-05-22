@@ -37,7 +37,7 @@ class MessageTemplateSeeder extends Seeder
             'title' => 'Welcome_Customer',
             'body' => 'Dear {fullName}, welcome to our service! We are glad to have you.',
             'description' => 'Template for welcoming new customers',
-            'placeholders' => '{firstName}, {lastName}, {fullName}, {deviceImei}, {account}',
+            'placeholders' => '{firstName}, {lastName}, {fullName}, {deviceImei}, {account}, {street}, {district}, {region}',
             'ti_icon' => 'ti-user'
         ]);
         MessageTemplate::create([
