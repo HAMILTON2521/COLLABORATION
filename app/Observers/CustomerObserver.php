@@ -19,7 +19,7 @@ class CustomerObserver
             'lastName' => $customer->last_name,
             'fullName' => $customer->full_name,
             'deviceImei' => $customer->imei,
-            'account' => $customer->account,
+            'account' => $customer->ref,
             'street' => $customer->street,
             'region' => $customer->region->name,
             'district' => $customer->district->name
