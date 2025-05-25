@@ -40,7 +40,9 @@ trait SmsHelper
         $senderId = $this->getConfig('SMS_SENDER_ID');
 
         if ($baseUrl && $apiKey && $campaign && $routeId && $senderId) {
+            info('Msg', ['msg' => $msg]);
             $message = urlencode($msg);
+            info('Message', ['message' => $message]);
             $url = $baseUrl . 'smsapi/index.php?key=' . $apiKey . '&campaign=' . $campaign . '&routeid=' . $routeId . '&type=text&contacts=' . $phone . '&senderid=' . $senderId . '&msg=' . $message;
             $response = Http::post($url);
 
@@ -52,11 +54,11 @@ trait SmsHelper
     }
     public function getTemplate(string $activity, string $phone, array $data)
     {
-        $data = $this->sendMessageEnabledFor($activity);
-        if ($data['canSendSms']) {
-            if ($data['hasTemplate']) {
+        $sms = $this->sendMessageEnabledFor($activity);
+        if ($sms['canSendSms']) {
+            if ($sms['hasTemplate']) {
                 if ($phone) {
-                    $template = MessageTemplate::find($data['templateId']);
+                    $template = MessageTemplate::find($sms['templateId']);
                     $message = $this->parseTemplate($template->body, $data);
                     return $message;
                 }
