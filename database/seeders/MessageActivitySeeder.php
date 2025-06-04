@@ -18,7 +18,7 @@ class MessageActivitySeeder extends Seeder
             'description' => 'Send message when customer is created'
         ]);
         MessageActivity::create([
-            'activity' => 'Payment_eceived',
+            'activity' => 'Payment_Received',
             'description' => 'Send message when payment is received from customer'
         ]);
         MessageActivity::create([

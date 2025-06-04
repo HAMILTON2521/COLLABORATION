@@ -88,7 +88,7 @@ class PaymentObserver
             'account' => $payment->customer->account,
             'volume' => $payment->accumulated_volume
         ];
-        $message = $this->getTemplate(activity: 'Payment_Success', phone: $payment->customer->phone, data: $data);
+        $message = $this->getTemplate(activity: 'Payment_Received', phone: $payment->customer->phone, data: $data);
         if ($message) {
             $phone = '255' . substr($payment->customer->phone, 1, 9);
             $this->sendNormalSms(msg: $message, phone: $phone);

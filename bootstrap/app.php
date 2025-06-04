@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\AutoAckMiddleware;
 use App\Http\Middleware\JWTAuthMiddleware;
+use App\Http\Middleware\SelcomMerchantMiddleware;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -21,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->appendToGroup('callbackAck', [
             AutoAckMiddleware::class
+        ]);
+        $middleware->appendToGroup('selcomMerchantToken', [
+            SelcomMerchantMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

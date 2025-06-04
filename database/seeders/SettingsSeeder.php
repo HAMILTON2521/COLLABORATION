@@ -124,6 +124,11 @@ class SettingsSeeder extends Seeder
             'value' => 86400
         ]);
         Setting::create([
+            'key' => 'MINIMUM_PAYMENT_AMOUNT',
+            'type' => 'decimal',
+            'value' => 1000
+        ]);
+        Setting::create([
             'key' => 'SELCOM_VENDOR_ID',
             'value' => 'TILL61135303'
         ]);
@@ -142,6 +147,14 @@ class SettingsSeeder extends Seeder
         Setting::create([
             'key' => 'SELCOM_CALLBACK_URL',
             'value' => route('selcom.callback')
+        ]);
+        Setting::create([
+            'key' => 'SELCOM_MERCHANT_CALLBACK_URL',
+            'value' => route('selcom.merchant.callback')
+        ]);
+        Setting::create([
+            'key' => 'SELCOM_MERCHANT_TOKEN',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTS1QgVGFuemFuaWEiLCJpYXQiOjE3NDkwNTUyNjUsImV4cCI6MTkwNjgxMDkzNCwiYXVkIjoiU2VsY29tIiwic3ViIjoiU2VsY29tIE1vYmlsZSJ9.LiBc_ixMVHZRr7hkZSpofWLGkVXd_G2ylVgYeA7VhL8'
         ]);
     }
 }

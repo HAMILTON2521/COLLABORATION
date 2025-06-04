@@ -95,7 +95,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-floating mb-3">
                                         <x-password wire:model="form.password"
-                                            class="form-control  {{ $errors->has('form.password') ? 'is-invalid' : '' }}"
+                                            class="form-control {{ $errors->has('form.password') ? 'is-invalid' : '' }}"
                                             placeholder="Password" />
                                         <label>
                                             <i class="ti ti-lock me-2 fs-4"></i>Password

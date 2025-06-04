@@ -56,7 +56,7 @@ use App\Livewire\Equipment\NewValveControl;
 use App\Livewire\Household\CreateHousehold;
 use App\Livewire\Equipment\ValveControlRecords;
 use App\Livewire\Payments\RechargeOrderDetails;
-use App\Http\Controllers\Api\SelcomOrderController;
+use App\Http\Controllers\Api\SelcomController;
 use App\Livewire\Payments\Payments as PaymentsPayments;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Livewire\Settings\Sms\SmsSettings;
@@ -163,7 +163,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/', HomePage::class)->name('web.home-page');
 Route::get('/about', AboutUs::class)->name('web.about-us');
 Route::get('/contact-us', ContactUs::class)->name('web.contact-us');
-Route::get('/c2b', [SelcomOrderController::class, 'cancelOrder']);
+Route::get('/c2b', [SelcomController::class, 'cancelOrder']);
 
 /**
  * Preview email templates
