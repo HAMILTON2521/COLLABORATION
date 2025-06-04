@@ -20,20 +20,7 @@ class Customer extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'phone',
-        'email',
-        'region_id',
-        'district_id',
-        'street',
-        'ref',
-        'created_by',
-        'is_active',
-        'is_assigned',
-        'imei'
-    ];
+    protected $guarded = ['id'];
 
     protected static function boot()
     {

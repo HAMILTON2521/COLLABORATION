@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignUlid('region_id')->constrained();
             $table->foreignUlid('district_id')->constrained();
             $table->string('street');
+            $table->string('street');
             $table->boolean('is_active')->default(1);
             $table->boolean('is_assigned')->default(0);
             $table->foreignUlid('created_by')->nullable()->constrained('users')->nullOnDelete();

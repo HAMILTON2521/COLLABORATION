@@ -14,21 +14,21 @@ class CustomerObserver
      */
     public function created(Customer $customer): void
     {
-        $data = [
-            'firstName' => $customer->first_name,
-            'lastName' => $customer->last_name,
-            'fullName' => $customer->full_name,
-            'deviceImei' => $customer->imei,
-            'account' => $customer->ref,
-            'street' => $customer->street,
-            'region' => $customer->region->name,
-            'district' => $customer->district->name
-        ];
-        $message = $this->getTemplate(activity: 'Customer_Creation', phone: $customer->phone, data: $data);
-        if ($message) {
-            $phone = '255' . substr($customer->phone, 1, 9);
-            $this->sendNormalSms(msg: $message, phone: $phone);
-        }
+        // $data = [
+        //     'firstName' => $customer->first_name,
+        //     'lastName' => $customer->last_name,
+        //     'fullName' => $customer->full_name,
+        //     'deviceImei' => $customer->imei,
+        //     'account' => $customer->ref,
+        //     'street' => $customer->street,
+        //     'region' => $customer->region->name,
+        //     'district' => $customer->district->name
+        // ];
+        // $message = $this->getTemplate(activity: 'Customer_Creation', phone: $customer->phone, data: $data);
+        // if ($message) {
+        //     $phone = '255' . substr($customer->phone, 1, 9);
+        //     $this->sendNormalSms(msg: $message, phone: $phone);
+        // }
     }
 
     /**

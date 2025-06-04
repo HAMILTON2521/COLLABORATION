@@ -90,9 +90,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/my-invoices', MyInvoices::class)->name('profile.my.invoices');
         Route::get('/account-settings', AccountSettings::class)->name('profile.account.settings');
     });
-    Route::get('my-invoices', function () {
-        return view('dashboard.profile.my_invoices');
-    })->name('dashboard.account.invoices');
 
     Route::group(['prefix' => 'customers'], function () {
         Route::get('/', Customers::class)->name('customers');

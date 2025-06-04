@@ -22,7 +22,7 @@
                 </div>
                 <div
                     class="col-md-6 col-xl-8 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                    <a href="{{ route('customers.create') }}" class="btn btn-primary" wire:navigate>
+                    <a href="{{ route('customers.create') }}" class="btn btn-primary">
                         <i class="ti ti-plus me-1 fs-5"></i> Add Customer</a>
                 </div>
             </div>
@@ -60,8 +60,7 @@
                                             <div>
                                                 <h6 class="mb-0">
                                                     <a class="link-success"
-                                                        href="{{ route('customers.details', $customer->id) }}"
-                                                        wire:navigate>{{ $customer->full_name }}</a>
+                                                        href="{{ route('customers.details', $customer->id) }}">{{ $customer->full_name }}</a>
                                                 </h6>
                                             </div>
                                         </div>
@@ -69,7 +68,7 @@
                                 </td>
                                 <td>{{ $customer->ref }}</td>
                                 <td>{{ $customer->imei }}</td>
-                                <td><a class="link-success" wire:navigate
+                                <td><a class="link-success"
                                         href="{{ route('customers.region', $customer->region_id) }}">{{ $customer->region->name }}</a>
                                 </td>
                                 <td>{{ $customer->district->name }}</td>

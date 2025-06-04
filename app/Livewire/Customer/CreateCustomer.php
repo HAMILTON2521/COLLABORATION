@@ -2,15 +2,17 @@
 
 namespace App\Livewire\Customer;
 
-use App\Livewire\Forms\CustomerForm;
 use App\Models\Region;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Computed;
+use App\Livewire\Forms\CustomerForm;
 
 #[Title('Create Customer')]
 class CreateCustomer extends Component
 {
+    use WithFileUploads;
     public CustomerForm $form;
 
     #[Computed()]
