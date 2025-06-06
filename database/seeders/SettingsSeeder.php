@@ -154,7 +154,7 @@ class SettingsSeeder extends Seeder
         ]);
         Setting::create([
             'key' => 'SELCOM_MERCHANT_TOKEN',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTS1QgVGFuemFuaWEiLCJpYXQiOjE3NDkwNTUyNjUsImV4cCI6MTkwNjgxMDkzNCwiYXVkIjoiU2VsY29tIiwic3ViIjoiU2VsY29tIE1vYmlsZSJ9.LiBc_ixMVHZRr7hkZSpofWLGkVXd_G2ylVgYeA7VhL8'
+            'value' => 'eyJpc3MiOiJTS1QgVGFuemFuaWEiLCJpYXQiOjE3NDkwNTUyNj'
         ]);
     }
 }

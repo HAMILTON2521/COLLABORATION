@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Models\Customer;
 use App\Models\SelcomPush;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +18,7 @@ class SelcomController extends Controller
     {
         flash()->error('Please check your phone and confirm PIN');
     }
+
     public function callback(Request $request)
     {
         info('Callback received', ['request transid' => $request['transid']]);
@@ -28,7 +30,7 @@ class SelcomController extends Controller
                 $push->update([
                     'payment_status' => $request['payment_status'],
                     'is_paid' => $request['resultcode'] === '000',
-                    'amount_paid' => $request['amount'] ? number_format((float) $request['amount'], 2, '.', '') : null,
+                    'amount_paid' => $request['amount'] ? number_format((float)$request['amount'], 2, '.', '') : null,
                     'external_id' => $request['transid'],
                     'payment_result_code' => $request['resultcode'],
                     'payment_reference' => $request['reference'],
@@ -37,21 +39,75 @@ class SelcomController extends Controller
             }
         }
     }
-    public function merchantSelcomPayment(Request $request)
-    {
-        info(__FUNCTION__, ['request' => json_encode($request->all())]);
 
+    public function merchantSelcomValidation(Request $request)
+    {
         $data = [
             'operator' => $request['operator'],
             'transid' => $request['transid'],
             'reference' => $request['reference'],
-            'utilityref' =>  $request['utilityref'],
-            'amount' => (float) $request['amount'],
+            'utilityref' => $request['utilityref'],
+            'amount' => (float)$request['amount'],
             'transid' => $request['transid'],
             'msisdn' => $request['msisdn'],
         ];
         $setting = Setting::where('key', 'MINIMUM_PAYMENT_AMOUNT')->first()->value;
-        $minimum_amount = (float) $setting;
+        $minimum_amount = (float)$setting;
+        try {
+            $rules = [
+                'operator' => 'required|string',
+                'transid' => 'required|string',
+                'reference' => 'required|string',
+                'utilityref' => 'required|string|exists:customers,ref',
+                'amount' => 'required|decimal:0,4|gte:' . $minimum_amount,
+                'msisdn' => 'required|string'
+            ];
+
+            $validator = Validator::make($data, $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'reference' => $data['reference'],
+                    'resultcode' => $this->getErrorCode($validator->errors())['code'],
+                    'result' => 'FAILED',
+                    'message' => $this->getErrorCode($validator->errors())['message']
+                ], 400);
+            }
+            $validated = $validator->validated();
+            $customer=Customer::where('ref',$validated['utilityref'])->first();
+
+            return response()->json([
+                'reference' => $data['reference'],
+                'resultcode' => 000,
+                'result' => 'SUCCESS',
+                'message' => 'Success',
+                'name'=>$customer->full_name
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error(__FUNCTION__, ['exception' => $e->getMessage()]);
+            return response()->json([
+                'reference' => $data['reference'],
+                'resultcode' => 400,
+                'result' => 'FAILED',
+                'message' => 'Validation failed'
+            ], 400);
+        }
+    }
+
+    public function merchantSelcomPayment(Request $request)
+    {
+        $data = [
+            'operator' => $request['operator'],
+            'transid' => $request['transid'],
+            'reference' => $request['reference'],
+            'utilityref' => $request['utilityref'],
+            'amount' => (float)$request['amount'],
+            'transid' => $request['transid'],
+            'msisdn' => $request['msisdn'],
+        ];
+        $setting = Setting::where('key', 'MINIMUM_PAYMENT_AMOUNT')->first()->value;
+        $minimum_amount = (float)$setting;
 
         try {
             $rules = [
@@ -95,6 +151,7 @@ class SelcomController extends Controller
             ], 400);
         }
     }
+
     public function getErrorCode($errors): array
     {
         Log::error(__FUNCTION__ . ' validation error', ['errors' => json_encode($errors)]);
