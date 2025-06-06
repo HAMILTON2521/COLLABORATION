@@ -54,7 +54,7 @@
                             <tr wire:key="{{ $customer->id }}">
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="avatar"
+                                        <img src="{{ $customer->profilePhoto }}" alt="avatar"
                                             class="rounded-circle" width="35" />
                                         <div class="ms-3">
                                             <div>
@@ -67,7 +67,7 @@
                                     </div>
                                 </td>
                                 <td>{{ $customer->ref }}</td>
-                                <td>{{ $customer->imei }}</td>
+                                <td>{{ $customer->photo->photo }}</td>
                                 <td><a class="link-success"
                                         href="{{ route('customers.region', $customer->region_id) }}">{{ $customer->region->name }}</a>
                                 </td>

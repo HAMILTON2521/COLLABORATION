@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Observers\CustomerObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -110,13 +111,13 @@ class Customer extends Model
             ->orWhere('ref', 'LIKE', "%{$term}%")
             ->orWhere('last_name', 'LIKE', "%{$term}%");
     }
-    public function getIsActiveColorAttribute()
+    public function getIsActiveColorAttribute(): string
     {
         return [
             '1' => 'success',
         ][$this->is_active] ?? 'danger';
     }
-    public function getIsActiveLabelAttribute()
+    public function getIsActiveLabelAttribute(): string
     {
         return [
             '1' => 'Active'
@@ -125,7 +126,7 @@ class Customer extends Model
     /**
      * Get all of the incomingReequests for the Customer
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function incomingReequests(): HasMany
     {
@@ -134,7 +135,7 @@ class Customer extends Model
     /**
      * Get all of the selcomOrders for the Customer
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function selcomOrders(): HasMany
     {
@@ -143,10 +144,23 @@ class Customer extends Model
     /**
      * Get the user that owns the Customer
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return HasOne
      */
     public function account(): HasOne
     {
         return $this->hasOne(UserAccount::class);
+    }
+
+    public function photo():HasOne
+    {
+        return $this->hasOne(CustomerProfile::class);
+    }
+    public function getProfilePhotoAttribute(): string
+    {
+//        if ($this->photo && $this->photo->photo && Storage::disk('public')->exists($this->photo->photo)) {
+//            return Storage::url($this->photo->photo);
+//        }
+//        return asset('assets/images/profile/avatar.jpg');
+        return Storage::url($this->photo->photo);
     }
 }

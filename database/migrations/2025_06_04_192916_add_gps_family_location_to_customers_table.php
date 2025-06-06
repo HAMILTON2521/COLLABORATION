@@ -17,10 +17,9 @@ return new class extends Migration
             $table->string('family_size')->after('house_number')->nullable();
             $table->enum('current_energy_source', ['Electricity', 'Firewood', 'Charcoal', 'Gas', 'Mixture'])->after('family_size')->nullable();
             $table->string('occupation')->after('last_name')->nullable();
-            $table->text('photo')->after('current_energy_source')->nullable();
-            $table->smallInteger('cooks_per_day')->after('photo')->nullable();
+            $table->smallInteger('cooks_per_day')->after('occupation')->nullable();
             $table->string('alternative_phone_number')->after('phone')->nullable();
-            $table->string('latitude')->after('photo')->nullable();
+            $table->string('latitude')->after('occupation')->nullable();
             $table->string('longitude')->after('latitude')->nullable();
         });
     }
@@ -37,7 +36,6 @@ return new class extends Migration
                 'family_size',
                 'current_energy_source',
                 'occupation',
-                'photo',
                 'cooks_per_day',
                 'alternative_phone_number',
                 'latitude',

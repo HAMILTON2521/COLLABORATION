@@ -72,17 +72,6 @@ class CustomerForm extends Form
     {
         $validData = $this->validate();
 
-        if (isset($validData['photo'])) {
-            if (!Storage::disk('public')->exists('customer_photos')) {
-                Storage::disk('public')->makeDirectory('customer_photos');
-            }
-            try {
-                $filePath = $this->photo->store('customer_photos', 'public');
-            } catch (\Exception $e) {
-                Log::error("Failed to upload file for create_customer", ['error' => $e->getMessage()]);
-            }
-        }
-
         $customer = Customer::create([
             'first_name' => Str::ucfirst(Str::lower($validData['first_name'])),
             'last_name' => Str::ucfirst(Str::lower($validData['last_name'])),
@@ -102,10 +91,31 @@ class CustomerForm extends Form
             'current_energy_source' => $validData['current_source'],
             'cooks_per_day' => $validData['cooks_per_day'],
             'alternative_phone_number' => $validData['alt_phone'],
-            'photo' => $filePath
         ]);
 
         if ($customer) {
+            if (isset($validData['photo'])) {
+                if (!Storage::disk('public')->exists('customer_photos')) {
+                    Storage::disk('public')->makeDirectory('customer_photos');
+                }
+                try {
+                    $filePath = $this->photo->store('customer_photos', 'public');
+                    $existing = $customer->photo;
+                    if ($existing) {
+                        // Delete old file if it exists
+                        if (Storage::disk('public')->exists($existing->photo)) {
+                            Storage::disk('public')->delete($existing->photo);
+                        }
+                        // Update existing record
+                        $existing->update(['photo' => $filePath]);
+                    } else {
+                        // Create new record
+                        $customer->photo()->create(['photo' => $filePath]);
+                    }
+                } catch (\Exception $e) {
+                    Log::error("Failed to upload file for create_customer", ['error' => $e->getMessage()]);
+                }
+            }
             return true;
         }
     }
