@@ -157,10 +157,9 @@ class Customer extends Model
     }
     public function getProfilePhotoAttribute(): string
     {
-//        if ($this->photo && $this->photo->photo && Storage::disk('public')->exists($this->photo->photo)) {
-//            return Storage::url($this->photo->photo);
-//        }
-//        return asset('assets/images/profile/avatar.jpg');
-        return Storage::url($this->photo->photo);
+        if ($this->photo && $this->photo->photo && Storage::disk('public')->exists($this->photo->photo)) {
+            return Storage::url($this->photo->photo);
+        }
+        return asset('assets/images/profile/avatar.jpg');
     }
 }

@@ -67,7 +67,7 @@
                                     </div>
                                 </td>
                                 <td>{{ $customer->ref }}</td>
-                                <td>{{ $customer->photo->photo }}</td>
+                                <td>{{ $customer->imei }}</td>
                                 <td><a class="link-success"
                                         href="{{ route('customers.region', $customer->region_id) }}">{{ $customer->region->name }}</a>
                                 </td>
