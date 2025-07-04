@@ -2,8 +2,8 @@
 
 namespace App\Livewire\User;
 
-use Livewire\Component;
 use Livewire\Attributes\Title;
+use Livewire\Component;
 
 #[Title('Account Settings')]
 class AccountSettings extends Component

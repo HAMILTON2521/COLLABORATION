@@ -94,9 +94,7 @@
                                 <div class="mt-3 mt-md-0 ms-auto">
                                     <x-primary-button class="mt-3 px-9 py-6" wire:loading.attr="disabled"
                                         wire:target="save">
-                                        Save Changes <span wire:loading wire:target="save"
-                                            class="spinner-border spinner-border-sm" role="status"
-                                            aria-hidden="true"></span>
+                                        Save Changes <x-spinner target="save"/>
                                     </x-primary-button>
                                 </div>
                             </div>

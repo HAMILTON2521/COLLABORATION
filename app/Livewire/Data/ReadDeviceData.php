@@ -12,7 +12,7 @@ use Livewire\Attributes\Validate;
 class ReadDeviceData extends Component
 {
     use HttpHelper;
-    public $deviceData = [];
+    public array $deviceData = [];
 
 
     #[Validate('required|date_format:Y-m-d')]
@@ -21,14 +21,14 @@ class ReadDeviceData extends Component
     #[Validate('required|date_format:Y-m-d|after_or_equal:startDate')]
     public $endDate;
 
-    public function mount()
+    public function mount(): void
     {
         $this->startDate = Carbon::now()->format('Y-m-d');
         $this->endDate = Carbon::now()->format('Y-m-d');
     }
 
 
-    public function queryDeviceData()
+    public function queryDeviceData(): void
     {
         $this->validate();
 

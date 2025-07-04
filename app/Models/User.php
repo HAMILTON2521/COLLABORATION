@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 
 #[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
@@ -36,13 +39,6 @@ class User extends Authenticatable
         'is_active'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->id = $model->id ?? Str::ulid()->toBase32();
-        });
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -53,6 +49,114 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * Relationship with User Verification
+     */
+    public function verificationToken(): HasOne
+    {
+        return $this->hasOne(UserVerification::class);
+    }
+
+    /**
+     * The user who created this user (Self-referencing)
+     */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Users created by this user (Self-referencing)
+     */
+    public function createdUsers(): HasMany
+    {
+        return $this->hasMany(User::class, 'created_by');
+    }
+
+    /**
+     * Relationship with UserAccount model
+     */
+    public function accounts(): HasMany
+    {
+        return $this->hasMany(UserAccount::class);
+    }
+
+    /**
+     * Relationship with ValveControl model
+     */
+    public function valveControls(): HasMany
+    {
+        return $this->hasMany(ValveControl::class);
+    }
+
+    /**
+     * Customers created by the user
+     */
+    public function customers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'created_by');
+    }
+
+    public function unassignedAccounts()
+    {
+        return Customer::where('is_assigned', 0)
+            ->whereNotIn('id', $this->assignedAccounts()->pluck('customer_id'))
+            ->get();
+    }
+
+    /**
+     * Customers assigned to this user via UserAccount
+     */
+    public function assignedAccounts(): BelongsToMany
+    {
+        return $this->belongsToMany(Customer::class, 'user_accounts', 'user_id', 'customer_id');
+    }
+
+    /**
+     * Scope for user search
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('first_name', 'LIKE', "%{$term}%")
+            ->orWhere('email', 'LIKE', "%{$term}%")
+            ->orWhere('phone', 'LIKE', "%{$term}%")
+            ->orWhere('last_name', 'LIKE', "%{$term}%");
+    }
+
+    /**
+     * Badge color to display user types
+     */
+    public function getStatusColorAttribute(): string
+    {
+        return [
+            'Admin' => 'primary',
+            'User' => 'success'
+        ][$this->user_type] ?? 'danger';
+    }
+
+    public function getIsActiveColorAttribute(): string
+    {
+        return [
+            '1' => 'success',
+        ][$this->is_active] ?? 'danger';
+    }
+
+    public function getIsActiveLabelAttribute(): string
+    {
+        return [
+            '1' => 'Active'
+        ][$this->is_active] ?? 'Inactive';;
+    }
+
+    public function getUserPayments()
+    {
+        return Payment::whereIn('customer_id', function ($query) {
+            $query->select('customer_id')
+                ->from('user_accounts')
+                ->where('user_id', $this->id);
+        });
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -73,115 +177,11 @@ class User extends Authenticatable
             get: fn() => "{$this->first_name} {$this->last_name}"
         );
     }
+
     protected function userStatus(): Attribute
     {
         return Attribute::make(
             get: fn() => $this->is_active === 1 ? 'Active' : 'Inactive'
         );
-    }
-
-    /**
-     * Relationship with User Verification
-     */
-    public function verificationToken()
-    {
-        return $this->hasOne(UserVerification::class);
-    }
-
-    /**
-     * The user who created this user (Self-referencing)
-     */
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    /**
-     * Users created by this user (Self-referencing)
-     */
-    public function createdUsers()
-    {
-        return $this->hasMany(User::class, 'created_by');
-    }
-
-    /**
-     * Relationship with UserAccount model
-     */
-    public function accounts()
-    {
-        return $this->hasMany(UserAccount::class);
-    }
-    /**
-     * Relationship with ValveControl model
-     */
-    public function valveControls()
-    {
-        return $this->hasMany(ValveControl::class);
-    }
-
-    /**
-     * Customers created by the user
-     */
-    public function customers()
-    {
-        return $this->hasMany(Customer::class, 'created_by');
-    }
-
-    /**
-     * Customers assigned to this user via UserAccount
-     */
-    public function assignedAccounts()
-    {
-        return $this->belongsToMany(Customer::class, 'user_accounts', 'user_id', 'customer_id');
-    }
-
-    public function unassignedAccounts()
-    {
-        return Customer::where('is_assigned', 0)
-            ->whereNotIn('id', $this->assignedAccounts()->pluck('customer_id'))
-            ->get();
-    }
-
-
-    /**
-     * Scope for user search
-     */
-    public function scopeSearch($query, $term)
-    {
-        return $query->where('first_name', 'LIKE', "%{$term}%")
-            ->orWhere('email', 'LIKE', "%{$term}%")
-            ->orWhere('phone', 'LIKE', "%{$term}%")
-            ->orWhere('last_name', 'LIKE', "%{$term}%");
-    }
-    /**
-     * Badge color to display user types
-     */
-    public function getStatusColorAttribute()
-    {
-        return [
-            'Admin' => 'primary',
-            'User' => 'success'
-        ][$this->user_type] ?? 'danger';
-    }
-    public function getIsActiveColorAttribute()
-    {
-        return [
-            '1' => 'success',
-        ][$this->is_active] ?? 'danger';
-    }
-    public function getIsActiveLabelAttribute()
-    {
-        return [
-            '1' => 'Active'
-        ][$this->is_active] ?? 'Inactive';;
-    }
-
-    public function getUserPayments()
-    {
-        return Payment::whereIn('customer_id', function ($query) {
-            $query->select('customer_id')
-                ->from('user_accounts')
-                ->where('user_id', $this->id);
-        });
     }
 }

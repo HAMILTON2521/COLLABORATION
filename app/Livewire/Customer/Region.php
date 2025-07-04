@@ -11,7 +11,7 @@ class Region extends Component
 {
     public ModelsRegion $region;
 
-    public function mount(ModelsRegion $region)
+    public function mount(ModelsRegion $region): void
     {
         $this->region = $region;
     }

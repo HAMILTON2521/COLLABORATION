@@ -4,68 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9fdf9862c0f5f8ab8a56a860e8d5693f",
+    "content-hash": "0008f01b1b7eae2aceddfa45c8eddb17",
     "packages": [
-        {
-            "name": "aliqasemzadeh/livewire-bootstrap-modal",
-            "version": "v2.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aliqasemzadeh/livewire-bootstrap-modal.git",
-                "reference": "17f35f110402765e00f35b9a1f4e0e013e42fa25"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aliqasemzadeh/livewire-bootstrap-modal/zipball/17f35f110402765e00f35b9a1f4e0e013e42fa25",
-                "reference": "17f35f110402765e00f35b9a1f4e0e013e42fa25",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "^8.0|^9.0|^10.0|^11.0|^12.0",
-                "livewire/livewire": "^3.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "AliQasemzadeh\\LaravelLivewireModals\\Providers\\LaravelLivewireModalsProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "AliQasemzadeh\\LaravelLivewireModals\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kevin Dion",
-                    "email": "bastinald@icloud.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Ali Qasemzadeh",
-                    "email": "aliqasemzadeh7@gmail.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Lungdsuo Mozhui",
-                    "email": "mozhui.lungdsuo@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Dynamic Laravel Livewire 3 Bootstrap modals.",
-            "homepage": "https://github.com/aliqasemzadeh/livewire-bootstrap-modal",
-            "support": {
-                "issues": "https://github.com/aliqasemzadeh/livewire-bootstrap-modal/issues",
-                "source": "https://github.com/aliqasemzadeh/livewire-bootstrap-modal/tree/v2.3.0"
-            },
-            "time": "2025-02-28T06:11:45+00:00"
-        },
         {
             "name": "blade-ui-kit/blade-ui-kit",
             "version": "0.7.0",
@@ -275,16 +215,16 @@
         },
         {
             "name": "devrabiul/laravel-toaster-magic",
-            "version": "v1.0.1",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devrabiul/laravel-toaster-magic.git",
-                "reference": "890530c08ae2e387736ba60e4acd401bf87e3772"
+                "reference": "e717c19e908532f50dcc699bcb51fade74abaad7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devrabiul/laravel-toaster-magic/zipball/890530c08ae2e387736ba60e4acd401bf87e3772",
-                "reference": "890530c08ae2e387736ba60e4acd401bf87e3772",
+                "url": "https://api.github.com/repos/devrabiul/laravel-toaster-magic/zipball/e717c19e908532f50dcc699bcb51fade74abaad7",
+                "reference": "e717c19e908532f50dcc699bcb51fade74abaad7",
                 "shasum": ""
             },
             "type": "library",
@@ -320,6 +260,8 @@
                 "flash-notifications",
                 "laravel",
                 "laravel-toastr",
+                "livewire",
+                "livewire-toaster",
                 "magic",
                 "notifications",
                 "php",
@@ -328,9 +270,9 @@
             ],
             "support": {
                 "issues": "https://github.com/devrabiul/laravel-toaster-magic/issues",
-                "source": "https://github.com/devrabiul/laravel-toaster-magic/tree/v1.0.1"
+                "source": "https://github.com/devrabiul/laravel-toaster-magic/tree/v1.2"
             },
-            "time": "2025-04-30T06:58:29+00:00"
+            "time": "2025-06-26T04:36:05+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

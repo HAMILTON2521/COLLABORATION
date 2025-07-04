@@ -18,7 +18,7 @@ class AdminHomePage extends Component
         return Customer::count();
     }
     #[Computed()]
-    public function payments()
+    public function payments(): array
     {
         return [
             'yesterday' => Number::abbreviate(Payment::whereDate('created_at', now()->subDay())->sum('amount')),

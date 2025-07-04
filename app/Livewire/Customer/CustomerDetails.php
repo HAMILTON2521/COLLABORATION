@@ -2,32 +2,33 @@
 
 namespace App\Livewire\Customer;
 
-use App\Livewire\Equipment\NewValveControl;
 use App\Livewire\Utils\CustomModal;
 use App\Models\Customer;
 use App\Models\RealtimeData;
 use App\Models\Setting;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
-use Livewire\Attributes\Title;
 use App\Traits\HttpHelper;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
 #[Title('Customer Details')]
 class CustomerDetails extends Component
 {
     use HttpHelper;
+
     public $customer;
 
-    public function mount(Customer $customer)
+    public function mount(Customer $customer): void
     {
         $this->customer = $customer;
     }
-    public function editCustomer()
+
+    public function editCustomer(): void
     {
         $this->redirectRoute('customers.edit', ['customer' => $this->customer->id], navigate: true);
     }
-    public function queryRealTimeData()
+
+    public function queryRealTimeData(): void
     {
         $data = $this->customer->realTimeData()->create([
             'source' => 'Manual',
@@ -35,11 +36,17 @@ class CustomerDetails extends Component
             'status' => 'New',
         ]);
         if ($data) {
+            if ($data->status === 'Failed') {
+                flash()->error($data->error_message);
+                return;
+            }
             $this->dispatch(
                 'showModal',
                 payload: [
                     'title' => 'Device ' . $this->customer->imei,
-                    'body' => view(
+                    'size' => 'large',
+                    'body' => null,
+                    'view' => view(
                         'livewire.customer.realtime-data',
                         [
                             'realtime' => RealtimeData::findOrFail($data->id)
@@ -50,16 +57,22 @@ class CustomerDetails extends Component
             )->to(CustomModal::class);
         }
     }
-    public function dailySettlementRecords()
+
+    public function render()
+    {
+        return view('livewire.customer.customer-details');
+    }
+
+    public function dailySettlementRecords(): void
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'queryDayBillInfo',
+            'action' => 'lorawanMeter',
+            'method' => 'queryDayBillInfo',
             'apiToken' => $api_token,
-            'param'   => [
-                'deveui'      => $this->customer->imei,
+            'param' => [
+                'deveui' => $this->customer->imei,
                 'billDate' => date('Y-m-d', strtotime('-1 day')),
             ]
         ]);
@@ -80,15 +93,16 @@ class CustomerDetails extends Component
 
         )->to(CustomModal::class);
     }
-    public function getMeterFile()
+
+    public function getMeterFile(): void
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'getAreaArchiveInfo',
+            'action' => 'lorawanMeter',
+            'method' => 'getAreaArchiveInfo',
             'apiToken' => $api_token,
-            'param'   => [
+            'param' => [
                 'deveui' => $this->customer->imei,
             ]
         ]);
@@ -109,21 +123,22 @@ class CustomerDetails extends Component
 
         )->to(CustomModal::class);
     }
-    public function changeValveState()
+
+    public function changeValveState(): void
     {
         $this->dispatch('changeValveState', customer: $this->customer->id);
     }
 
-    public function monthlySettlementRecords()
+    public function monthlySettlementRecords(): void
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'queryMonthBillInfo',
+            'action' => 'lorawanMeter',
+            'method' => 'queryMonthBillInfo',
             'apiToken' => $api_token,
-            'param'   => [
-                'deveui'      => $this->customer->imei,
+            'param' => [
+                'deveui' => $this->customer->imei,
                 'billDate' => date('Y-m-d'),
             ]
         ]);
@@ -144,12 +159,9 @@ class CustomerDetails extends Component
 
         )->to(CustomModal::class);
     }
+
     public function checkBalance()
     {
         //
-    }
-    public function render()
-    {
-        return view('livewire.customer.customer-details');
     }
 }

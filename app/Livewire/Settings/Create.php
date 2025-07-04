@@ -7,9 +7,12 @@ use Livewire\Component;
 
 class Create extends Component
 {
-    public $key, $value, $type, $description;
+    public string $key = '';
+    public string $value = '';
+    public string $type = '';
+    public string $description = '';
 
-    public function save()
+    public function save(): void
     {
         $this->validate([
             'key' => 'required|string|max:255|unique:settings',
@@ -27,8 +30,9 @@ class Create extends Component
 
         $this->dispatch('hideModal');
         $this->dispatch('refreshSettings');
-        $this->dispatch('showToast', message: 'New setting created successfully', status: 'Success');
+        flash()->success('New setting created successfully');
     }
+
     public function render()
     {
         return view('livewire.settings.create');

@@ -17,12 +17,12 @@ class BatteryCommand extends Component
 {
     use WithPagination, WithoutUrlPagination, HttpHelper;
 
-    public $search = '';
-    public $perPage = 10;
+    public string $search = '';
+    public int $perPage = 10;
     public Customer $selectedCustomer;
     public $valveStatus = '';
 
-    public function updatedSearch()
+    public function updatedSearch(): void
     {
         $this->resetPage();
     }
@@ -33,11 +33,11 @@ class BatteryCommand extends Component
         return Customer::latest()->search($this->search)->paginate($this->perPage);
     }
     #[Computed()]
-    public function pages()
+    public function pages(): array
     {
         return [10, 25, 50, 100];
     }
-    public function sendCommand()
+    public function sendCommand(): void
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
@@ -85,11 +85,11 @@ class BatteryCommand extends Component
             }
         }
     }
-    public function setCustomer(Customer $customer)
+    public function setCustomer(Customer $customer): void
     {
         $this->selectedCustomer = $customer;
     }
-    public function resetCustomer()
+    public function resetCustomer(): void
     {
         $this->reset('selectedCustomer');
     }

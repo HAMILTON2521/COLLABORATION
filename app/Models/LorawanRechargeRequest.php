@@ -6,6 +6,7 @@ use App\Observers\LorawanRechargeObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[ObservedBy(LorawanRechargeObserver::class)]
 class LorawanRechargeRequest extends Model
@@ -25,12 +26,12 @@ class LorawanRechargeRequest extends Model
     /**
      * Relationship with Payment
      */
-    public function payment()
+    public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class);
     }
 
-    public function getStatusColorAttribute()
+    public function getStatusColorAttribute(): string
     {
         return [
             'Success' => 'success',

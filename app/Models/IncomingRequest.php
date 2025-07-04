@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[ObservedBy(IncomingRequestObserver::class)]
 class IncomingRequest extends Model
@@ -23,7 +22,7 @@ class IncomingRequest extends Model
     /**
      * Relationship with Payment model
      */
-    public function payment()
+    public function payment(): HasOne
     {
         return $this->hasOne(Payment::class, 'internal_txn_id', 'id');
     }

@@ -4,8 +4,8 @@ namespace App\Livewire\Customer;
 
 use App\Models\Customer;
 use Livewire\Attributes\Computed;
-use Livewire\Component;
 use Livewire\Attributes\Title;
+use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
@@ -17,13 +17,14 @@ class Customers extends Component
     public $search = '';
     public $perPage = 10;
 
-    public function delete(Customer $customer)
+    public function delete(Customer $customer): void
     {
         $customer->delete();
-        $this->dispatch('showToast', message: 'Customer deleted successfully', status: 'Success');
+        flash()->success('Customer deleted successfully');
     }
+
     // Reset pagination when search query changes
-    public function updatedSearch()
+    public function updatedSearch(): void
     {
         $this->resetPage();
     }
@@ -33,11 +34,13 @@ class Customers extends Component
     {
         return Customer::latest()->search($this->search)->paginate($this->perPage);
     }
+
     #[Computed()]
-    public function pages()
+    public function pages(): array
     {
         return [10, 25, 50, 100];
     }
+
     public function render()
     {
         return view('livewire.customer.customers');

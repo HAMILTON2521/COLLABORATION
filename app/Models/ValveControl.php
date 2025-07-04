@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Observers\ValveControlObserver;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 #[ObservedBy(ValveControlObserver::class)]
@@ -25,24 +26,18 @@ class ValveControl extends Model
         'payment_id'
     ];
 
-    protected function txnId(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => Str::upper(Str::substr($this->id, 0, 10))
-        );
-    }
-
     /**
      * Relationship with Customer model
      */
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
+
     /**
      * Relationship with Payment model
      */
-    public function payment()
+    public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class);
     }
@@ -50,7 +45,7 @@ class ValveControl extends Model
     /**
      * User who changed valve state, in case of Manual
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -69,10 +64,17 @@ class ValveControl extends Model
             });
     }
 
-    public function getStatusColorAttribute()
+    public function getStatusColorAttribute(): string
     {
         return [
             '0' => 'success'
         ][$this->error_code] ?? 'danger';
+    }
+
+    protected function txnId(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Str::upper(Str::substr($this->id, 0, 10))
+        );
     }
 }

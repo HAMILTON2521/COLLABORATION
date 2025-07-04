@@ -5,11 +5,11 @@ namespace App\Observers;
 use App\Models\RealtimeData;
 use App\Models\Setting;
 use App\Traits\HttpHelper;
-use Illuminate\Support\Facades\Log;
 
 class RealtimeDataObserver
 {
     use HttpHelper;
+
     /**
      * Handle the RealtimeData "created" event.
      */
@@ -18,42 +18,60 @@ class RealtimeDataObserver
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'queryRealTimeData',
+            'action' => 'lorawanMeter',
+            'method' => 'queryRealTimeData',
             'apiToken' => $api_token,
-            'param'   => [
-                'deveui'      => $realtimeData->customer->imei
+            'param' => [
+                'deveui' => $realtimeData->customer->imei
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string) $data);
-        if ($response) {
+        try {
+            $response = $this->sendHttpRequest(data: (string)$data);
+
+            if ($response) {
+                if ($response['errcode'] === '0') {
+                    $realtimeData->update([
+                        'error_code' => '0',
+                        'error_message' => $response['errmsg'] ?? null,
+                        'balance' => $response['data']['balance'] ?? null,
+                        'battery' => $response['data']['battery'] ?? null,
+                        'status' => 'Success',
+                        'energy_type' => $response['data']['energyType'] ?? null,
+                        'read_time' => $response['data']['readTime'] ?? null,
+                        'imei' => $response['data']['devEui'] ?? null,
+                        'margin' => $response['data']['margin'] ?? null,
+                        'leakage_mark' => $response['data']['leakageMark'] ?? null,
+                        'valve_state' => $response['data']['valveState'] ?? null,
+                        'valve_status' => $response['data']['valveStatus'] ?? null,
+                        'temperature' => $response['data']['temperature'] ?? null,
+                        'class_mode' => $response['data']['classMode'] ?? null,
+                        'day_read_time' => $response['data']['dayReadTime'] ?? null,
+                        'month_read_time' => $response['data']['monthReadTime'] ?? null,
+                        'pay_mode' => $response['data']['payMode'] ?? null,
+                        'reading' => $response['data']['reading'] ? (float)$response['data']['reading'] : null,
+                        'rssi' => $response['data']['rssi'] ? (float)$response['data']['rssi'] : null,
+                        'snr' => $response['data']['snr'] ? (float)$response['data']['snr'] : null,
+                        'day_consumption' => $response['data']['dayConsumption'] ?? null,
+                        'month_consumption' => $response['data']['monthConsumption'] ?? null
+                    ]);
+                } else {
+                    $realtimeData->update([
+                        'error_code' => $response['errcode'],
+                        'error_message' => $response['errmsg'] ?? null,
+                        'status' => 'Failed',
+                    ]);
+                }
+
+            } else {
+                $realtimeData->update(['status' => 'Failed']);
+            }
+        } catch (\Exception $exception) {
             $realtimeData->update([
-                'error_code' => $response['errcode'] ?? null,
-                'error_message' => $response['errmsg'] ?? null,
-                'balance' => $response['data']['balance'] ?? null,
-                'battery' => $response['data']['battery'] ?? null,
-                'status' => $response['errcode'] === "0" ? "Success" : "Failed",
-                'energy_type' => $response['data']['energyType'] ?? null,
-                'read_time' => $response['data']['readTime'] ?? null,
-                'imei' => $response['data']['devEui'] ?? null,
-                'margin' => $response['data']['margin'] ?? null,
-                'leakage_mark' => $response['data']['leakageMark'] ?? null,
-                'valve_state' => $response['data']['valveState'] ?? null,
-                'valve_status' => $response['data']['valveStatus'] ?? null,
-                'temperature' => $response['data']['temperature'] ?? null,
-                'class_mode' => $response['data']['classMode'] ?? null,
-                'day_read_time' => $response['data']['dayReadTime'] ?? null,
-                'month_read_time' => $response['data']['monthReadTime'] ?? null,
-                'pay_mode' => $response['data']['payMode'] ?? null,
-                'reading' => $response['data']['reading'] ? (float) $response['data']['reading'] : null,
-                'rssi' => $response['data']['rssi'] ? (float) $response['data']['rssi'] : null,
-                'snr' => $response['data']['snr'] ? (float) $response['data']['snr'] : null,
-                'day_consumption' => $response['data']['dayConsumption'] ?? null,
-                'month_consumption' => $response['data']['monthConsumption'] ?? null
+                'status' => 'Failed',
+                'error_message' => $exception->getMessage(),
+                'error_code' => -2,
             ]);
-        } else {
-            $realtimeData->update(['status' => 'Failed']);
         }
     }
 

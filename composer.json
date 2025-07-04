@@ -7,9 +7,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "aliqasemzadeh/livewire-bootstrap-modal": "^2.3",
         "blade-ui-kit/blade-ui-kit": "^0.7.0",
-        "devrabiul/laravel-toaster-magic": "^1.0",
+        "devrabiul/laravel-toaster-magic": "^1.2",
         "firebase/php-jwt": "^6.11",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",

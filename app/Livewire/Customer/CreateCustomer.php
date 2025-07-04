@@ -2,17 +2,18 @@
 
 namespace App\Livewire\Customer;
 
+use App\Livewire\Forms\CustomerForm;
 use App\Models\Region;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Computed;
-use App\Livewire\Forms\CustomerForm;
 
 #[Title('Create Customer')]
 class CreateCustomer extends Component
 {
     use WithFileUploads;
+
     public CustomerForm $form;
 
     #[Computed()]
@@ -21,13 +22,13 @@ class CreateCustomer extends Component
         return Region::all();
     }
 
-    public function save()
+    public function save(): void
     {
         $customer = $this->form->store();
 
         if ($customer) {
             $this->form->reset();
-            $this->dispatch('showToast', message: 'Customer created successfully', status: 'Success');
+            flash()->success('Customer created successfully');
         }
     }
 

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class MessageTemplate extends Model
 {
@@ -15,7 +15,7 @@ class MessageTemplate extends Model
     /**
      * Get the activity associated with the MessageTemplate
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function activity(): HasOne
     {

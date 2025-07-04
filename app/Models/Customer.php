@@ -4,14 +4,14 @@ namespace App\Models;
 
 use App\Observers\CustomerObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Storage;
 
 #[ObservedBy(CustomerObserver::class)]
 class Customer extends Model
@@ -19,34 +19,17 @@ class Customer extends Model
     use HasFactory, HasUlids;
 
     public $incrementing = false;
-    protected $keyType = 'string';
 
     protected $guarded = ['id'];
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::ulid()->toBase32();
-            }
-        });
-    }
-
-    protected function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => "{$this->first_name} {$this->last_name}"
-        );
-    }
 
     /**
      * The user who created this customer
      */
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
     /**
      * Customer region
      */
@@ -62,12 +45,21 @@ class Customer extends Model
     {
         return $this->belongsTo(District::class);
     }
+
     /**
      * Relationship with ValveControl model
      */
     public function valveControls()
     {
         return $this->hasMany(ValveControl::class);
+    }
+
+    /**
+     * Payments associated with this customer
+     */
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
     /**
@@ -79,19 +71,13 @@ class Customer extends Model
     // }
 
     /**
-     * Payments associated with this customer
-     */
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
-    /**
      * Push requests associated with this customer
      */
     public function pushRequests()
     {
         return $this->hasMany(PushRequest::class);
     }
+
     /**
      * RealtimeData associated with this customer
      */
@@ -111,18 +97,21 @@ class Customer extends Model
             ->orWhere('ref', 'LIKE', "%{$term}%")
             ->orWhere('last_name', 'LIKE', "%{$term}%");
     }
+
     public function getIsActiveColorAttribute(): string
     {
         return [
             '1' => 'success',
         ][$this->is_active] ?? 'danger';
     }
+
     public function getIsActiveLabelAttribute(): string
     {
         return [
             '1' => 'Active'
         ][$this->is_active] ?? 'Inactive';;
     }
+
     /**
      * Get all of the incomingReequests for the Customer
      *
@@ -132,6 +121,7 @@ class Customer extends Model
     {
         return $this->hasMany(IncomingRequest::class);
     }
+
     /**
      * Get all of the selcomOrders for the Customer
      *
@@ -141,6 +131,7 @@ class Customer extends Model
     {
         return $this->hasMany(SelcomOrder::class);
     }
+
     /**
      * Get the user that owns the Customer
      *
@@ -151,15 +142,23 @@ class Customer extends Model
         return $this->hasOne(UserAccount::class);
     }
 
-    public function photo():HasOne
+    public function photo(): HasOne
     {
         return $this->hasOne(CustomerProfile::class);
     }
+
     public function getProfilePhotoAttribute(): string
     {
         if ($this->photo && $this->photo->photo && Storage::disk('public')->exists($this->photo->photo)) {
             return Storage::url($this->photo->photo);
         }
         return asset('assets/images/profile/avatar.jpg');
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => "{$this->first_name} {$this->last_name}"
+        );
     }
 }

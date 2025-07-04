@@ -4,32 +4,15 @@ namespace App\Traits;
 
 use App\Models\Setting;
 use Carbon\Carbon;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 trait HttpHelper
 {
-    public function sendHttpRequest(string $data)
-    {
-        $endpoint = Setting::where('key', 'API_BASE_URL')->first()->value;
-
-        $formatedRequestData = [
-            'requestParams' =>  $data
-        ];
-
-        Log::info(__FUNCTION__, ['url' => $endpoint, 'data' => $formatedRequestData]);
-
-        try {
-            $response = Http::asForm()->post(url: $endpoint, data: $formatedRequestData);
-            //Log::info('Response ' . __FUNCTION__, ['response' => $response->json()]);
-            return $response->json();
-        } catch (\Throwable $th) {
-            Log::error('sendHttpRequest failed', ['exception' => $th->getMessage()]);
-            return null;
-        }
-    }
     public function sendAirtelUssdPush($data = [], $endpoint = '')
     {
         $token = $this->getApiToken();
@@ -89,6 +72,7 @@ trait HttpHelper
             return null;
         }
     }
+
     public function getFiles()
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
@@ -96,50 +80,72 @@ trait HttpHelper
         $sysconfigEquipmentId = Setting::where('key', 'SYSTEM_CONFIG_EQUIPMENT_ID')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'getAreaArchives',
+            'action' => 'lorawanMeter',
+            'method' => 'getAreaArchives',
             'apiToken' => $api_token,
-            'params'   => [
+            'params' => [
                 'energyType' => 'LIQUEFIED GAS',
                 'pageNumber' => '10',
                 'pageSize' => '10',
-                'areaId'      => $areaId,
+                'areaId' => $areaId,
                 'searchContent' => '',
                 'sysconfigEquipmentId' => $sysconfigEquipmentId
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string) $data);
+        $response = $this->sendHttpRequest(data: (string)$data);
 
         return $response['values'] ?? [];
     }
+
+    /**
+     * @throws Throwable
+     * @throws ConnectionException
+     */
+    public function sendHttpRequest(string $data)
+    {
+        $endpoint = Setting::where('key', 'API_BASE_URL')->first()->value;
+
+        $formatedRequestData = [
+            'requestParams' => $data
+        ];
+
+        Log::info(__FUNCTION__, ['url' => $endpoint, 'data' => $formatedRequestData]);
+
+        $response = Http::asForm()->post(url: $endpoint, data: $formatedRequestData);
+        $response->throw();
+        
+        return $response->json();
+    }
+
     public function getMeterFileDetails($imei)
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'getAreaArchiveInfo',
+            'action' => 'lorawanMeter',
+            'method' => 'getAreaArchiveInfo',
             'apiToken' => $api_token,
-            'param'   => [
+            'param' => [
                 'deveui' => $imei,
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string) $data);
+        $response = $this->sendHttpRequest(data: (string)$data);
 
         return $response['value'] ?? null;
     }
+
     public function readDeviceData(string $startDate, string $endDate)
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
         $areaId = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'getMeterReadings',
+            'action' => 'lorawanMeter',
+            'method' => 'getMeterReadings',
             'apiToken' => $api_token,
-            'params'   => [
+            'params' => [
                 'pageNumber' => 1,
                 'pageSize' => 10,
                 'areaId' => $areaId,
@@ -149,23 +155,24 @@ trait HttpHelper
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string) $data);
+        $response = $this->sendHttpRequest(data: (string)$data);
 
-        if ($response  && $response['errcode'] == '0') {
+        if ($response && $response['errcode'] == '0') {
             return $response['values'] ?? [];
         } else {
             return [];
         }
     }
+
     public function queryValveControlRecords(string $startDate, string $endDate, string $imei)
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'getValverecord',
+            'action' => 'lorawanMeter',
+            'method' => 'getValverecord',
             'apiToken' => $api_token,
-            'param'   => [
+            'param' => [
                 'pageNumber' => 1,
                 'pageSize' => 10,
                 'deveui' => $imei,
@@ -174,9 +181,9 @@ trait HttpHelper
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string) $data);
+        $response = $this->sendHttpRequest(data: (string)$data);
 
-        if ($response  && $response['errcode'] == '0') {
+        if ($response && $response['errcode'] == '0') {
             return $response['values'] ?? [];
         } else {
             return [];

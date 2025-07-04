@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[ObservedBy(HouseholdObserver::class)]
 class Household extends Model
@@ -20,7 +20,7 @@ class Household extends Model
     /**
      * Relationships
      */
-    public function createdBy()
+    public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by')->select('id', 'first_name', 'last_name');
     }

@@ -9,18 +9,13 @@ use Livewire\Component;
 class Edit extends Component
 {
     public $setting;
-    public $key, $value, $type, $description;
 
-    public function mount(Setting $setting)
-    {
-        $this->setting = $setting;
-        $this->key = $setting->key;
-        $this->value = $setting->value;
-        $this->type = $setting->type;
-        $this->description = $setting->description;
-    }
+    public string $key = '';
+    public string $value = '';
+    public string $type = '';
+    public string $description = '';
 
-    public function edit()
+    public function edit(): void
     {
         $this->validate([
             'key' => [
@@ -35,13 +30,24 @@ class Edit extends Component
             'key' => $this->key,
             'value' => $this->value,
             'type' => $this->type,
-            'description' => $this->description,
+            'description' => $this->description ?? null,
         ]);
 
         $this->dispatch('hideModal');
         $this->dispatch('refreshSettings');
 
-        $this->dispatch('showToast', message: 'New setting updated successfully', status: 'Success');
+        flash()->success('Setting updated successfully');
+    }
+
+    public function mount($id): void
+    {
+        $setting = Setting::findOrFail($id);
+
+        $this->setting = $setting;
+        $this->key = $setting->key;
+        $this->value = $setting->value;
+        $this->type = $setting->type ?? '';
+        $this->description = $setting->description ?? '';
     }
 
     public function render()

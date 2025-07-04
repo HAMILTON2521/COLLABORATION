@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
 use App\Observers\PaymentObserver;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Str;
 
 #[ObservedBy(PaymentObserver::class)]
 class Payment extends Model
@@ -32,20 +32,7 @@ class Payment extends Model
         'accumulated_volume'
     ];
 
-    protected function txnId(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => Str::upper(Str::substr($this->internal_txn_id ?? '-', 0, 10))
-        );
-    }
-    protected function formattedAmount(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => number_format($this->amount, 0)
-        );
-    }
-
-    public function getStatusColorAttribute()
+    public function getStatusColorAttribute(): string
     {
         return [
             'Received' => 'warning',
@@ -70,6 +57,7 @@ class Payment extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
     /**
      * Relationship with LorawanRechargeRequest
      */
@@ -85,6 +73,7 @@ class Payment extends Model
     {
         return $this->hasOne(ValveControl::class);
     }
+
     /**
      * Get the selcomOrder associated with the Payment
      *
@@ -94,6 +83,7 @@ class Payment extends Model
     {
         return $this->hasOne(SelcomOrder::class);
     }
+
     /**
      * Scope for user search
      */
@@ -104,5 +94,19 @@ class Payment extends Model
             ->orWhere('internal_txn_id', 'LIKE', "%{$term}%")
             ->orWhere('channel', 'LIKE', "%{$term}%")
             ->orWhere('external_id', 'LIKE', "%{$term}%");
+    }
+
+    protected function txnId(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Str::upper(Str::substr($this->internal_txn_id ?? '-', 0, 10))
+        );
+    }
+
+    protected function formattedAmount(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => number_format($this->amount, 0)
+        );
     }
 }

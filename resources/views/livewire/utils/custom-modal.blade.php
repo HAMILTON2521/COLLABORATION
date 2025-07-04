@@ -1,5 +1,6 @@
 <div>
-    <div class="modal fade" id="custom-modal" aria-labelledby="vertical-center-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="custom-modal" aria-labelledby="vertical-center-modal" tabindex="-1"
+         aria-hidden="@if($modalVisible) false @else true  @endif">
         <div class="modal-dialog {{ $size }} modal-dialog-centered modal-dialog-scrollable">
             @if ($modalVisible)
                 <div class="modal-content">
@@ -11,25 +12,23 @@
                     </div>
 
                     <div class="modal-body">
-                        {!! $modalBody !!}
+                        @if($modalBody)
+                            @livewire($modalBody['component'],$modalBody['params'] ?? [],key($modalBody['params']['id']
+                            ?? uniqid()))
+                        @else
+                            {!! $modalView !!}
+                        @endif
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn bg-danger-subtle text-danger" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
+                    @if($showFooter)
+                        <div class="modal-footer border-top">
+                            <button type="button" class="btn bg-danger-subtle text-danger" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    @endif
                 </div>
             @endif
         </div>
     </div>
 </div>
-
-
-@script
-    <script>
-        $wire.on('show-modal-data', (event) => {
-            $("#custom-modal").modal('show');
-        });
-    </script>
-@endscript
