@@ -2,7 +2,7 @@
     <x-page-header mainTitle="Valve Control Records" subtitle="Equipment"/>
     <div class="card">
         <div class="card-body">
-            <form wire:submit="queryData" autocomplete="off">
+            <form wire:submit.prevent="queryData" autocomplete="off">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="input-group">

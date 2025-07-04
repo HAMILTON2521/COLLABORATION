@@ -10,6 +10,7 @@ use App\Traits\HttpHelper;
 class ValveControlObserver
 {
     use HttpHelper;
+
     /**
      * Handle the ValveControl "created" event.
      */
@@ -18,21 +19,28 @@ class ValveControlObserver
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'setValveState',
+            'action' => 'lorawanMeter',
+            'method' => 'setValveState',
             'apiToken' => $api_token,
-            'param'   => [
-                'deveui'      => $valveControl->customer->imei,
+            'param' => [
+                'deveui' => $valveControl->customer->imei,
                 'valveState' => $valveControl->state
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string) $data);
-        if ($response) {
+        try {
+            $response = $this->sendHttpRequest(data: (string)$data);
+            if ($response) {
+                $valveControl->update([
+                    'error_code' => $response['errcode'],
+                    'error_message' => $response['errmsg'],
+                    'value_id' => $response['errcode'] === '0' ? $response['valueId'] : null
+                ]);
+            }
+        } catch (\Exception $exception) {
             $valveControl->update([
-                'error_code' => $response['errcode'],
-                'error_message' => $response['errmsg'],
-                'value_id' => $response['errcode'] === '0' ? $response['valueId'] : null
+                'error_code' => -2,
+                'error_message' => $exception->getMessage(),
             ]);
         }
     }

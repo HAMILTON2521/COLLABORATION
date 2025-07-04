@@ -20,7 +20,7 @@ class SelcomPushObserver
     public function updated(SelcomPush $selcomPush): void
     {
         if ($selcomPush->is_paid) {
-            $selcomPush->selcomOrder->customer->incomingReequests()->create([
+            $selcomPush->selcomOrder->customer->incomingRequests()->create([
                 'amount' => $selcomPush->amount_paid,
                 'type' => 'Payment',
                 'request' => 'Process',

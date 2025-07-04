@@ -10,6 +10,7 @@ use App\Traits\HttpHelper;
 class LorawanRechargeObserver
 {
     use HttpHelper;
+
     /**
      * Handle the LorawanRechargeRequest "created" event.
      */
@@ -19,17 +20,18 @@ class LorawanRechargeObserver
 
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'remotelyTopUp',
+            'action' => 'lorawanMeter',
+            'method' => 'remotelyTopUp',
             'apiToken' => $api_token,
-            'param'   => [
-                'devEui'      => $lorawanRechargeRequest->payment->customer->imei,
+            'param' => [
+                'devEui' => $lorawanRechargeRequest->payment->customer->imei,
                 'topUpToDeviceAmount' => $lorawanRechargeRequest->topup_to_device_amount,
                 'topUpAmount' => $lorawanRechargeRequest->topup_amount
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string) $data);
+        $response = $this->sendHttpRequest(data: (string)$data);
+
         if ($response) {
             $lorawanRechargeRequest->update([
                 'error_code' => $response['errcode'],

@@ -6,23 +6,23 @@ namespace App\Livewire\Equipment;
 use App\Models\Customer;
 use App\Models\ValveControl;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Title;
 
 #[Title('Valve Control')]
 class NewValveControl extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    public $search = '';
-    public $perPage = 10;
+    public string $search = '';
+    public int $perPage = 10;
     public Customer $selectedCustomer;
-    public $valveStatus = '';
+    public string $valveStatus = '';
 
-    public function updatedSearch()
+    public function updatedSearch(): void
     {
         $this->resetPage();
     }
@@ -32,17 +32,19 @@ class NewValveControl extends Component
     {
         return Customer::latest()->search($this->search)->paginate($this->perPage);
     }
+
     #[Computed()]
-    public function pages()
+    public function pages(): array
     {
         return [10, 25, 50, 100];
     }
-    public function setCustomer(Customer $customer)
+
+    public function setCustomer(Customer $customer): void
     {
         $this->selectedCustomer = $customer;
     }
 
-    public function sendCommand()
+    public function sendCommand(): void
     {
         $validData = $this->validate([
             'valveStatus' => 'required|in:open,close',
@@ -55,15 +57,22 @@ class NewValveControl extends Component
             'customer_id' => $this->selectedCustomer->id,
         ]);
         if ($command) {
-            session()->flash('success', 'Valve control command sent ' . $command->error_message);
+            if ($command->error_code == '0') {
+                flash()->success('Valve control command sent ' . $command->error_message);
 
-            $this->redirectRoute('more.equipment.valve.details', ['valve' => $command->id]);
+                $this->redirectRoute('more.equipment.valve.details', ['valve' => $command->id]);
+            } else {
+                flash()->error($command->error_message);
+            }
+
         }
     }
-    public function resetCustomer()
+
+    public function resetCustomer(): void
     {
         $this->reset('selectedCustomer', 'valveStatus');
     }
+
     public function render()
     {
         return view('livewire.equipment.new-valve-control');

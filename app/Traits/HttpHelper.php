@@ -114,7 +114,7 @@ trait HttpHelper
 
         $response = Http::asForm()->post(url: $endpoint, data: $formatedRequestData);
         $response->throw();
-        
+
         return $response->json();
     }
 
@@ -164,6 +164,10 @@ trait HttpHelper
         }
     }
 
+    /**
+     * @throws Throwable
+     * @throws ConnectionException
+     */
     public function queryValveControlRecords(string $startDate, string $endDate, string $imei)
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
@@ -181,12 +185,17 @@ trait HttpHelper
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string)$data);
+        try {
+            $response = $this->sendHttpRequest(data: (string)$data);
 
-        if ($response && $response['errcode'] == '0') {
-            return $response['values'] ?? [];
-        } else {
-            return [];
+
+            if ($response && $response['errcode'] == '0') {
+                return $response['values'] ?? [];
+            } else {
+                return [];
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
         }
     }
 }

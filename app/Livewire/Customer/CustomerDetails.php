@@ -76,22 +76,28 @@ class CustomerDetails extends Component
                 'billDate' => date('Y-m-d', strtotime('-1 day')),
             ]
         ]);
-        $response = $this->sendHttpRequest(data: $data);
+
+        try {
+            $response = $this->sendHttpRequest(data: $data);
 
 
-        $this->dispatch(
-            'showModal',
-            payload: [
-                'title' => 'Daily Settlement Records',
-                'body' => view(
-                    'livewire.customer.daily-settlement-records',
-                    [
-                        'response' => json_encode($response)
-                    ]
-                )->render()
-            ]
+            $this->dispatch(
+                'showModal',
+                payload: [
+                    'title' => 'Daily Settlement Records',
+                    'body' => null,
+                    'view' => view(
+                        'livewire.customer.daily-settlement-records',
+                        [
+                            'response' => json_encode($response)
+                        ]
+                    )->render()
+                ]
 
-        )->to(CustomModal::class);
+            )->to(CustomModal::class);
+        } catch (\Exception $exception) {
+            flash()->error($exception->getMessage());
+        }
     }
 
     public function getMeterFile(): void
@@ -106,22 +112,28 @@ class CustomerDetails extends Component
                 'deveui' => $this->customer->imei,
             ]
         ]);
-        $response = $this->sendHttpRequest(data: $data);
 
-        $this->dispatch(
-            'showModal',
-            payload: [
-                'title' => 'Meter File',
-                'size' => 'large',
-                'body' => view(
-                    'livewire.customer.meter-file',
-                    [
-                        'meter' => $response
-                    ]
-                )->render()
-            ]
+        try {
+            $response = $this->sendHttpRequest(data: $data);
 
-        )->to(CustomModal::class);
+            $this->dispatch(
+                'showModal',
+                payload: [
+                    'title' => 'Meter File',
+                    'size' => 'large',
+                    'body' => null,
+                    'view' => view(
+                        'livewire.customer.meter-file',
+                        [
+                            'meter' => $response
+                        ]
+                    )->render()
+                ]
+
+            )->to(CustomModal::class);
+        } catch (\Exception $exception) {
+            flash()->error($exception->getMessage());
+        }
     }
 
     public function changeValveState(): void
@@ -142,22 +154,28 @@ class CustomerDetails extends Component
                 'billDate' => date('Y-m-d'),
             ]
         ]);
-        $response = $this->sendHttpRequest(data: $data);
+
+        try {
+            $response = $this->sendHttpRequest(data: $data);
 
 
-        $this->dispatch(
-            'showModal',
-            payload: [
-                'title' => 'Monthly Settlement Records',
-                'body' => view(
-                    'livewire.customer.monthly-settlement-records',
-                    [
-                        'response' => json_encode($response)
-                    ]
-                )->render()
-            ]
+            $this->dispatch(
+                'showModal',
+                payload: [
+                    'title' => 'Monthly Settlement Records',
+                    'body' => null,
+                    'view' => view(
+                        'livewire.customer.monthly-settlement-records',
+                        [
+                            'response' => json_encode($response)
+                        ]
+                    )->render()
+                ]
 
-        )->to(CustomModal::class);
+            )->to(CustomModal::class);
+        } catch (\Exception $exception) {
+            flash()->error($exception->getMessage());
+        }
     }
 
     public function checkBalance()

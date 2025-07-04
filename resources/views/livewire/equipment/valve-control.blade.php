@@ -20,7 +20,7 @@
                 </div>
                 <div
                     class="col-md-6 col-xl-8 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                    <a href="{{ route('more.equipment.valve.new') }}" wire:navigate id="btn-add-user"
+                    <a href="{{ route('more.equipment.valve.new') }}" id="btn-add-user"
                        class="btn btn-primary d-flex align-items-center">
                         <i class="ti ti-plus text-white me-1 fs-5"></i> Send New Command
                     </a>

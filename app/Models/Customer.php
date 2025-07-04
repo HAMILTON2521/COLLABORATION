@@ -113,11 +113,11 @@ class Customer extends Model
     }
 
     /**
-     * Get all of the incomingReequests for the Customer
+     * Get all of the incomingRequests for the Customer
      *
      * @return HasMany
      */
-    public function incomingReequests(): HasMany
+    public function incomingRequests(): HasMany
     {
         return $this->hasMany(IncomingRequest::class);
     }

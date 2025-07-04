@@ -1,6 +1,6 @@
 <div>
-    <x-page-header mainTitle="Payment Details" subtitle="Topup" />
-    <x-alert-status />
+    <x-page-header mainTitle="Payment Details" subtitle="Topup"/>
+    <x-alert-status/>
     <div class="card">
         <div class="card-header text-bg-primary">
             <h5 class="mb-0 text-white">{{ date('d M Y H:i', strtotime($payment->created_at)) }}</h5>
@@ -65,39 +65,39 @@
                     <div class="table-responsive">
                         <table class="table search-table align-middle text-nowrap">
                             <thead class="header-item">
-                                <th>ID</th>
-                                <th>Volume m<sup>3</sup></th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Order Id</th>
-                                <td>Message</td>
+                            <th>ID</th>
+                            <th>Volume Kg</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Order Id</th>
+                            <td>Message</td>
                             </thead>
                             <tbody>
 
-                                @forelse ($payment->lorawanRechargeRequests as $request)
-                                    <!-- start row -->
-                                    <tr wire:key="{{ $request->id }}" class="search-items">
-                                        <td>
-                                            <div class="d-flex align-items-start">
-                                                <h6>
-                                                    {{ Str::upper(Str::substr($request->id, 0, 10)) }}</h6>
-                                            </div>
-                                        </td>
-                                        <td>{{ $request->topup_to_device_amount }}</td>
-                                        <td>{{ date('d M Y H:i', strtotime($request->created_at)) }}</td>
-                                        <td>
+                            @forelse ($payment->lorawanRechargeRequests as $request)
+                                <!-- start row -->
+                                <tr wire:key="{{ $request->id }}" class="search-items">
+                                    <td>
+                                        <div class="d-flex align-items-start">
+                                            <h6>
+                                                {{ Str::upper(Str::substr($request->id, 0, 10)) }}</h6>
+                                        </div>
+                                    </td>
+                                    <td>{{ $request->topup_to_device_amount }}</td>
+                                    <td>{{ date('d M Y H:i', strtotime($request->created_at)) }}</td>
+                                    <td>
                                             <span
                                                 class="mb-1 badge rounded-pill  bg-{{ $request->status_color }}-subtle text-{{ $request->status_color }}">{{ $request->status }}</span>
-                                        </td>
-                                        <td>{{ $request->order_id ?? '-' }}</td>
-                                        <td>{{ Str::substr($request->error_message, 0, 19) }}</td>
-                                    </tr>
-                                    <!-- end row -->
-                                @empty
-                                    <tr>
-                                        <td colspan="7">No recharge request was sent for this transaction.</td>
-                                    </tr>
-                                @endforelse
+                                    </td>
+                                    <td>{{ $request->order_id ?? '-' }}</td>
+                                    <td>{{ Str::substr($request->error_message, 0, 19) }}</td>
+                                </tr>
+                                <!-- end row -->
+                            @empty
+                                <tr>
+                                    <td colspan="7">No recharge request was sent for this transaction.</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -112,30 +112,32 @@
                         <div class="col-4 mb-7">
                             <p class="mb-1 fs-2">ID</p>
                             <h6 class="fw-semibold mb-0">
-                                {{ Str::upper(Str::substr($payment->valveControl->id, 0, 10)) }}
+                                {{ $payment->valveControl? Str::upper(Str::substr($payment->valveControl->id, 0, 10)):'-' }}
                             </h6>
                         </div>
                         <div class="col-4 mb-7">
                             <p class="mb-1 fs-2">Source</p>
                             <h6 class="fw-semibold mb-0">
-                                {{ $payment->valveControl->source }}
+                                {{ $payment->valveControl? $payment->valveControl->source:'-' }}
                             </h6>
                         </div>
                         <div class="col-4 mb-7">
                             <p class="mb-1 fs-2">State</p>
                             <h6 class="fw-semibold mb-0">
-                                {{ $payment->valveControl->state ? 'Open valve' : 'Close valve' }}
+                                {{ $payment->valveControl? $payment->valveControl->state ? 'Open valve' : 'Close valve':'-' }}
                             </h6>
                         </div>
                         <div class="col-4 mb-7">
                             <p class="mb-1 fs-2">Status</p>
-                            <x-status-badge color="{{ $payment->valveControl->status_color }}"
-                                label="{{ $payment->valveControl->error_code == '0' ? 'Success' : 'Failed' }}" />
+                            @if($payment->valveControl)
+                                <x-status-badge color="{{ $payment->valveControl->status_color }}"
+                                                label="{{ $payment->valveControl->error_code == '0' ? 'Success' : 'Failed' }}"/>
+                            @endif
                         </div>
                         <div class="col-4 mb-7">
                             <p class="mb-1 fs-2">Value Id</p>
                             <h6 class="fw-semibold mb-0">
-                                {{ $payment->valveControl->value_id }}
+                                {{ $payment->valveControl? $payment->valveControl->value_id:'-' }}
                             </h6>
                         </div>
                         <div class="col-4 mb-7">
@@ -147,7 +149,7 @@
                         <div class="col-12 mb-7">
                             <p class="mb-1 fs-2">Message</p>
                             <h6 class="fw-semibold mb-0">
-                                {{ $payment->valveControl->error_message }}
+                                {{ $payment->valveControl? $payment->valveControl->error_message:'-' }}
                             </h6>
                         </div>
                     </div>
