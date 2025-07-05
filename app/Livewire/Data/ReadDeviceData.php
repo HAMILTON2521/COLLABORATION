@@ -4,14 +4,15 @@ namespace App\Livewire\Data;
 
 use App\Traits\HttpHelper;
 use Carbon\Carbon;
-use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 #[Title('Device Data')]
 class ReadDeviceData extends Component
 {
     use HttpHelper;
+
     public array $deviceData = [];
 
 
@@ -35,11 +36,16 @@ class ReadDeviceData extends Component
         $startDate = Carbon::createFromFormat('Y-m-d', $this->startDate);
         $endDate = Carbon::createFromFormat('Y-m-d', $this->endDate);
 
-        $this->deviceData = $this->readDeviceData(
-            startDate: $startDate,
-            endDate: $endDate
-        );
+        try {
+            $this->deviceData = $this->readDeviceData(
+                startDate: $startDate,
+                endDate: $endDate
+            );
+        } catch (\Exception $exception) {
+            flash()->error($exception->getMessage());
+        }
     }
+
     public function render()
     {
         return view('livewire.data.read-device-data');

@@ -9,18 +9,23 @@ use Livewire\Component;
 class EditTemplate extends Component
 {
     public $template;
-    public $title, $description, $body, $icon, $placeholders;
+    public string $title = '';
+    public string $description = '';
+    public string $body = '';
+    public string $icon = '';
+    public $placeholders;
 
-    public function mount(MessageTemplate $template)
+    public function mount(MessageTemplate $template): void
     {
         $this->template = $template;
-        $this->title = $template->title;
-        $this->description = $template->description;
-        $this->body = $template->body;
-        $this->icon = $template->ti_icon;
+        $this->title = $template->title ?? '';
+        $this->description = $template->description ?? '';
+        $this->body = $template->body ?? '';
+        $this->icon = $template->ti_icon ?? '';
         $this->placeholders = $template->placeholders;
     }
-    public function edit()
+
+    public function edit(): void
     {
         $this->validate([
             'title' => ['required', Rule::unique('message_templates')->ignore($this->template->id),],
@@ -42,7 +47,10 @@ class EditTemplate extends Component
         }
         $this->dispatch('templateEdited');
         $this->dispatch('hideModal');
+
+        flash()->success('Template updated successfully.');
     }
+
     public function render()
     {
         return view('livewire.settings.sms.edit-template');
