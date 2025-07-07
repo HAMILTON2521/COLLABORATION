@@ -5,9 +5,9 @@ namespace App\Livewire\Forms;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
-use Illuminate\Support\Str;
 
 class CustomerForm extends Form
 {
@@ -100,18 +100,14 @@ class CustomerForm extends Form
                 }
                 try {
                     $filePath = $this->photo->store('customer_photos', 'public');
-                    $existing = $customer->photo;
+                    $existing = $customer->image;
                     if ($existing) {
                         // Delete old file if it exists
-                        if (Storage::disk('public')->exists($existing->photo)) {
-                            Storage::disk('public')->delete($existing->photo);
+                        if (Storage::disk('public')->exists($existing->path)) {
+                            Storage::disk('public')->delete($existing->path);
                         }
-                        // Update existing record
-                        $existing->update(['photo' => $filePath]);
-                    } else {
-                        // Create new record
-                        $customer->photo()->create(['photo' => $filePath]);
                     }
+                    $customer->image()->create(['path' => $filePath]);
                 } catch (\Exception $e) {
                     Log::error("Failed to upload file for create_customer", ['error' => $e->getMessage()]);
                 }

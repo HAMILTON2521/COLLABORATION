@@ -14,8 +14,8 @@ class Customers extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    public $search = '';
-    public $perPage = 10;
+    public string $search = '';
+    public int $perPage = 10;
 
     public function delete(Customer $customer): void
     {

@@ -13,8 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 #[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
@@ -31,7 +33,6 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'phone',
-        'profile_image',
         'email',
         'password',
         'user_type',
@@ -80,6 +81,19 @@ class User extends Authenticatable
     public function accounts(): HasMany
     {
         return $this->hasMany(UserAccount::class);
+    }
+
+    public function getProfilePhotoAttribute(): string
+    {
+        if ($this->image && $this->image->path && Storage::disk('public')->exists($this->image->path)) {
+            return Storage::url($this->image->path);
+        }
+        return asset('assets/images/profile/avatar.jpg');
+    }
+
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     /**

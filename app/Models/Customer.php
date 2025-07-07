@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Storage;
 
 #[ObservedBy(CustomerObserver::class)]
@@ -63,20 +64,20 @@ class Customer extends Model
     }
 
     /**
-     * Users assigned to this customer (UserAccount pivot table)
-     */
-    // public function assignedUsers()
-    // {
-    //     return $this->belongsToMany(User::class, 'user_accounts', 'customer_id', 'user_id');
-    // }
-
-    /**
      * Push requests associated with this customer
      */
     public function pushRequests()
     {
         return $this->hasMany(PushRequest::class);
     }
+
+    /**
+     * Users assigned to this customer (UserAccount pivot table)
+     */
+    // public function assignedUsers()
+    // {
+    //     return $this->belongsToMany(User::class, 'user_accounts', 'customer_id', 'user_id');
+    // }
 
     /**
      * RealtimeData associated with this customer
@@ -149,10 +150,15 @@ class Customer extends Model
 
     public function getProfilePhotoAttribute(): string
     {
-        if ($this->photo && $this->photo->photo && Storage::disk('public')->exists($this->photo->photo)) {
-            return Storage::url($this->photo->photo);
+        if ($this->image && $this->image->path && Storage::disk('public')->exists($this->image->path)) {
+            return Storage::url($this->image->path);
         }
         return asset('assets/images/profile/avatar.jpg');
+    }
+
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     protected function fullName(): Attribute
