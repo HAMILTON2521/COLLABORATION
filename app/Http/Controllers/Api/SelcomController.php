@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\OtherPayment;
 use App\Models\SelcomMerchantPayment;
 use App\Models\SelcomPush;
 use App\Models\Setting;
@@ -159,7 +160,7 @@ class SelcomController extends Controller
             if ($customer) {
                 $payment = SelcomMerchantPayment::create($validated);
             } else {
-                Log::info('Non Gas payment received.', ['data' => $validated]);
+                $otherPayment = OtherPayment::create($validated);
             }
 
             return response()->json([
