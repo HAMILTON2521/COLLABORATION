@@ -58,7 +58,7 @@ class SelcomController extends Controller
                 'operator' => 'required|string',
                 'transid' => 'required|string',
                 'reference' => 'required|string',
-                'utilityref' => 'required|string|exists:customers,ref',
+                'utilityref' => 'required|string',
                 'amount' => 'required|decimal:0,4|gte:' . $minimum_amount,
                 'msisdn' => 'required|string'
             ];
@@ -81,7 +81,7 @@ class SelcomController extends Controller
                 'resultcode' => 000,
                 'result' => 'SUCCESS',
                 'message' => 'Success',
-                'name' => $customer->full_name
+                'name' => $customer ? $customer->full_name : 'SKT Tanzania Ltd'
             ]);
 
         } catch (\Exception $e) {
