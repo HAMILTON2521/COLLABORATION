@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\SelcomMerchantPayment;
 use App\Models\SelcomPush;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use App\Models\SelcomMerchantPayment;
-use App\Models\Setting;
 use Illuminate\Support\Facades\Validator;
 
 class SelcomController extends Controller
 {
-    public function cancelOrder()
+    public function cancelOrder(): void
     {
         flash()->error('Please check your phone and confirm PIN');
     }
 
-    public function callback(Request $request)
+    public function callback(Request $request): void
     {
         info('Callback received', ['request transid' => $request['transid']]);
 
@@ -74,73 +74,16 @@ class SelcomController extends Controller
                 ], 400);
             }
             $validated = $validator->validated();
-            $customer=Customer::where('ref',$validated['utilityref'])->first();
+            $customer = Customer::where('ref', $validated['utilityref'])->first();
 
             return response()->json([
                 'reference' => $data['reference'],
                 'resultcode' => 000,
                 'result' => 'SUCCESS',
                 'message' => 'Success',
-                'name'=>$customer->full_name
+                'name' => $customer->full_name
             ]);
 
-        } catch (\Exception $e) {
-            Log::error(__FUNCTION__, ['exception' => $e->getMessage()]);
-            return response()->json([
-                'reference' => $data['reference'],
-                'resultcode' => 400,
-                'result' => 'FAILED',
-                'message' => 'Validation failed'
-            ], 400);
-        }
-    }
-
-    public function merchantSelcomPayment(Request $request)
-    {
-        $data = [
-            'operator' => $request['operator'],
-            'transid' => $request['transid'],
-            'reference' => $request['reference'],
-            'utilityref' => $request['utilityref'],
-            'amount' => (float)$request['amount'],
-            'transid' => $request['transid'],
-            'msisdn' => $request['msisdn'],
-        ];
-        $setting = Setting::where('key', 'MINIMUM_PAYMENT_AMOUNT')->first()->value;
-        $minimum_amount = (float)$setting;
-
-        try {
-            $rules = [
-                'operator' => 'required|string',
-                'transid' => 'required|string',
-                'reference' => 'required|string',
-                'utilityref' => 'required|string|exists:customers,ref',
-                'amount' => 'required|decimal:0,4|gte:' . $minimum_amount,
-                'msisdn' => 'required|string'
-            ];
-
-            $validator = Validator::make($data, $rules);
-
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'reference' => $data['reference'],
-                    'resultcode' => $this->getErrorCode($validator->errors())['code'],
-                    'result' => 'FAILED',
-                    'message' => $this->getErrorCode($validator->errors())['message']
-                ], 400);
-            }
-            $validated = $validator->validated();
-            $validated['status'] = 'Received';
-            $payment = SelcomMerchantPayment::create($validated);
-            if ($payment) {
-                return response()->json([
-                    'reference' => $data['reference'],
-                    'resultcode' => 000,
-                    'result' => 'SUCCESS',
-                    'message' => 'Success'
-                ]);
-            }
         } catch (\Exception $e) {
             Log::error(__FUNCTION__, ['exception' => $e->getMessage()]);
             return response()->json([
@@ -172,5 +115,68 @@ class SelcomController extends Controller
             'code' => '400',
             'message' => 'Validation failed'
         ];
+    }
+
+    public function merchantSelcomPayment(Request $request)
+    {
+        $data = [
+            'operator' => $request['operator'],
+            'transid' => $request['transid'],
+            'reference' => $request['reference'],
+            'utilityref' => $request['utilityref'],
+            'amount' => (float)$request['amount'],
+            'transid' => $request['transid'],
+            'msisdn' => $request['msisdn'],
+        ];
+        $setting = Setting::where('key', 'MINIMUM_PAYMENT_AMOUNT')->first()->value;
+        $minimum_amount = (float)$setting;
+
+        try {
+            $rules = [
+                'operator' => 'required|string',
+                'transid' => 'required|string',
+                'reference' => 'required|string',
+                'utilityref' => 'required|string',
+                'amount' => 'required|decimal:0,4|gte:' . $minimum_amount,
+                'msisdn' => 'required|string'
+            ];
+
+            $validator = Validator::make($data, $rules);
+
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'reference' => $data['reference'],
+                    'resultcode' => $this->getErrorCode($validator->errors())['code'],
+                    'result' => 'FAILED',
+                    'message' => $this->getErrorCode($validator->errors())['message']
+                ], 400);
+            }
+            $validated = $validator->validated();
+            $validated['status'] = 'Received';
+
+            $customer = Customer::where('ref', $validated['utilityref'])->first();
+            if ($customer) {
+                $payment = SelcomMerchantPayment::create($validated);
+            } else {
+                Log::info('Non Gas payment received.', ['data' => $validated]);
+            }
+
+            return response()->json([
+                'reference' => $data['reference'],
+                'resultcode' => 000,
+                'result' => 'SUCCESS',
+                'message' => 'Success'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error(__FUNCTION__, ['exception' => $e->getMessage()]);
+            return response()->json([
+                'reference' => $data['reference'],
+                'resultcode' => 400,
+                'result' => 'FAILED',
+                'message' => 'Validation failed'
+            ], 400);
+        }
     }
 }
