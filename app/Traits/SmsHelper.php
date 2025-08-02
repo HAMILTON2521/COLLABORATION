@@ -19,8 +19,8 @@ trait SmsHelper
         $activity = MessageActivity::where('activity', $activity_name)->first();
         return [
             'canSendSms' => (bool) $activity->send_message,
-            'hasTemplate' => $activity->template->id != null,
-            'templateId' => $activity->template->id,
+            'hasTemplate' => $activity->template ? $activity->template->id != null : false,
+            'templateId' => $activity ? $activity->message_template_id : null
         ];
     }
     protected function parseTemplate(string $template, array $data): string
@@ -52,18 +52,18 @@ trait SmsHelper
             return false;
         }
     }
-    public function getTemplate(string $activity, string $phone, array $data)
+    public function getTemplate(array $data)
     {
-        $sms = $this->sendMessageEnabledFor($activity);
+        $sms = $this->sendMessageEnabledFor($data['activity']);
         if ($sms['canSendSms']) {
             if ($sms['hasTemplate']) {
-                if ($phone) {
+                if ($data['phone']) {
                     $template = MessageTemplate::find($sms['templateId']);
                     $message = $this->parseTemplate($template->body, $data);
                     return $message;
                 }
             } else {
-                info('SMS not sent, template for ' . $activity . ' missing');
+                info('SMS not sent, template for ' . $data['activity'] . ' missing');
             }
         }
     }

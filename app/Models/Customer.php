@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Setting;
 use App\Observers\CustomerObserver;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
 #[ObservedBy(CustomerObserver::class)]
 class Customer extends Model
@@ -110,7 +111,8 @@ class Customer extends Model
     {
         return [
             '1' => 'Active'
-        ][$this->is_active] ?? 'Inactive';;
+        ][$this->is_active] ?? 'Inactive';
+        ;
     }
 
     /**
@@ -166,5 +168,32 @@ class Customer extends Model
         return Attribute::make(
             get: fn() => "{$this->first_name} {$this->last_name}"
         );
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($customer) {
+            if (!$customer->ref) {
+                // Get prefix and base number from settings
+                $prefix = Setting::where('key', 'SELCOM_TILL_NUMBER')->value('value');
+                $baseNumber = (int) Setting::where('key', 'FIRST_ACCOUNT_NUMBER')->value('value');
+
+                // Find last created customer with matching prefix
+                $lastCustomer = self::where('ref', 'like', $prefix . '%')
+                    ->orderByDesc('ref')
+                    ->first();
+
+                if ($lastCustomer) {
+                    preg_match('/' . preg_quote($prefix, '/') . '(\d+)/', $lastCustomer->ref, $matches);
+                    $lastNumber = isset($matches[1]) ? (int) $matches[1] : $baseNumber;
+                    $nextNumber = $lastNumber + 1;
+                } else {
+                    $nextNumber = $baseNumber;
+                }
+
+                $customer->ref = $prefix . $nextNumber;
+            }
+        });
     }
 }

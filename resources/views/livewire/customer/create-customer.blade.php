@@ -101,17 +101,6 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-4">
-                                    <label for="ref" class="form-label">Account <span class="text-danger">*</span>
-                                    </label>
-                                    <x-input maxlength="6" wire:model="form.account" name="ref"
-                                        class="form-control {{ $errors->has('form.account') ? 'is-invalid' : '' }}" />
-                                    @error('form.account')
-                                        <span class="validation-text text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-4">
                                     <label for="imei" class="form-label">IMEI <span class="text-danger">*</span>
                                     </label>
                                     <x-input wire:model="form.imei" name="imei"

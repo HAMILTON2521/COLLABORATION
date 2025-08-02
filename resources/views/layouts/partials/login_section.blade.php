@@ -17,10 +17,11 @@
                 <form method="POST" action="{{ route('login-post') }}" autocomplete="off">
                     @csrf
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <x-email class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
-                            placeholder=" Enter your email" aria-describedby="emailHelp" />
-                        @error('email')
+                        <label for="user_name" class="form-label">Email Address or Phone Number</label>
+                        <input name="user_name" id="name="user_name"" type="text"
+                            class="form-control {{ $errors->has('user_name') ? 'is-invalid' : '' }}"
+                            placeholder=" Enter your email or phone number">
+                        @error('user_name')
                             <x-validation-error :message=$message />
                         @enderror
 

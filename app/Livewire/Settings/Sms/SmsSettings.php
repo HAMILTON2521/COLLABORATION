@@ -31,19 +31,36 @@ class SmsSettings extends Component
 
     public function templateEdited(): void
     {
-        $this->dispatch('showToast', message: 'Template modified successfully', status: 'Success');
+        flash()->success('Template modified successfully');
     }
 
     public function activityEdited(): void
     {
-        $this->dispatch('showToast', message: 'Activity modified successfully', status: 'Success');
+        flash()->success('Activity modified successfully');
+    }
+    public function openTestSmsModal()
+    {
+        $this->dispatch(
+            'showModal',
+            payload: [
+                'title' => 'Test SMS',
+                'size' => 'medium',
+                'body' => [
+                    'component' => TestSms::class,
+                    'params' => [],
+                ],
+                'view' => null,
+                'showFooter' => false,
+            ]
+        )->to(CustomModal::class);
+
     }
 
 
     public function deleteSmsTemplate(MessageTemplate $template): void
     {
         $template->delete();
-        $this->dispatch('showToast', message: 'SMS Template deleted successfully', status: 'Success');
+        flash()->success('SMS Template deleted successfully');
     }
 
     public function checkSmsBalance(): void
@@ -69,14 +86,14 @@ class SmsSettings extends Component
                     ]);
                     $smsBalance = $data['BALANCE'];
 
-                    $this->dispatch('showToast', message: 'The balance is ' . $smsBalance . ' messages.', status: 'Success');
+                    flash()->success('The balance is ' . $smsBalance . ' messages.');
                 } else {
                     $balance->update(['status' => 'Failed']);
-                    $this->dispatch('showToast', message: 'Failed to retrieve SMS balance', status: 'Error');
+                    flash()->error('Failed to retrieve SMS balance');
                 }
             }
         } else {
-            $this->dispatch('showToast', message: 'Please set the SMS API base URL and API key in the SMS Settings.', status: 'Error');
+            flash()->error('Please set the SMS API base URL and API key in the SMS Settings.');
             return;
         }
     }

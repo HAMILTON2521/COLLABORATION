@@ -62,7 +62,7 @@ class AssignAccount extends Component
         $this->selectedAccounts = [];
 
         session()->flash('success', 'Account assigned successfully');
-        $this->redirectRoute('more.users.accounts', $this->user->id, navigate: true);
+        $this->redirectRoute('more.users.accounts', $this->user->id);
     }
     public function render()
     {

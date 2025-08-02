@@ -32,9 +32,6 @@ class CustomerForm extends Form
     #[Validate('required|in:Gas,Charcoal,Mixture,Electricity,Firewood', as: 'current energy source')]
     public $current_source = '';
 
-    #[Validate('required|digits:6|unique:customers,ref', as: 'account')]
-    public $account = '';
-
     #[Validate('required|string|unique:customers,imei', as: 'meter number')]
     public $imei = '';
 
@@ -75,7 +72,6 @@ class CustomerForm extends Form
         $customer = Customer::create([
             'first_name' => Str::ucfirst(Str::lower($validData['first_name'])),
             'last_name' => Str::ucfirst(Str::lower($validData['last_name'])),
-            'ref' => $validData['account'],
             'region_id' => $validData['region'],
             'district_id' => $validData['district'],
             'phone' => $validData['phone'],

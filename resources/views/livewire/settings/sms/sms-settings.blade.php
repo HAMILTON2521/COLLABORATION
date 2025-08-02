@@ -79,8 +79,9 @@
                                     <button type="button" wire:click="checkSmsBalance"
                                         class="justify-content-center btn mb-1 btn-rounded btn-primary d-flex align-items-center">
                                         <i class="ti ti-message-forward fs-4 me-2"></i>
-                                        Check
+                                        Check <x-spinner target="checkSmsBalance" />
                                     </button>
+
                                 </div>
                             </div>
                         </div>
@@ -91,8 +92,7 @@
                                     <p class="card-text">
                                         Send a test message.
                                     </p>
-                                    <button type="button"
-                                        wire:click="$dispatch('showModal', {data:{alias:'settings.sms.test-sms','size' :'modal-md'}})"
+                                    <button type="button" wire:click="openTestSmsModal"
                                         class="justify-content-center btn mb-1 btn-rounded btn-primary d-flex align-items-center">
                                         <i class="ti ti-send fs-4 me-2"></i>
                                         Send
@@ -105,5 +105,6 @@
             </div>
         </div>
     </div>
+    @livewire('utils.custom-modal')
 </div>
-<x-toast />
+<x-modal />
