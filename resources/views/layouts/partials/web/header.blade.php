@@ -4,7 +4,7 @@
 <header class="header-fp p-0 w-100 bg-light-gray">
     <nav class="navbar navbar-expand-lg py-10">
         <div class="container-fluid d-flex justify-content-between">
-            <a href="{{ route('web.home-page') }}" class="text-nowrap logo-img" wire:navigate>
+            <a href="{{ route('web.home-page') }}" class="text-nowrap logo-img">
                 <img style="width: 70%" src="{{ asset('assets/images/logos/logo.png') }}"
                     alt="{{ config('app.name', 'Logo') }}" />
             </a>
@@ -16,15 +16,15 @@
                 <ul class="navbar-nav mx-auto mb-2 gap-xl-7 gap-8 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link fs-4 fw-bold text-dark link-primary{{ Route::is('web.home-page') ? ' active' : '' }}"
-                            href="{{ route('web.home-page') }}" wire:navigate>Home</a>
+                            href="{{ route('web.home-page') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fs-4 fw-bold text-dark link-primary{{ Route::is('web.about-us') ? ' active' : '' }}"
-                            href="{{ route('web.about-us') }}" wire:navigate>About Us</a>
+                            href="{{ route('web.about-us') }}">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fs-4 fw-bold text-dark link-primary{{ Route::is('web.contact-us') ? ' active' : '' }}"
-                            href="{{ route('web.contact-us') }}" wire:navigate>Contact</a>
+                            href="{{ route('web.contact-us') }}">Contact</a>
                     </li>
                 </ul>
                 <a href="{{ route('login') }}" class="btn btn-primary btn-sm py-2 px-9">Log In</a>

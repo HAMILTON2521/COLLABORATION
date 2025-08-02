@@ -52,8 +52,7 @@
                                                     <div>
                                                         <h6 class="mb-0">
                                                             <a class="link-success"
-                                                                href="{{ route('customers.details', $customer->id) }}"
-                                                                wire:navigate>{{ $customer->full_name }}</a>
+                                                                href="{{ route('customers.details', $customer->id) }}">{{ $customer->full_name }}</a>
                                                         </h6>
                                                     </div>
                                                 </div>
@@ -61,7 +60,7 @@
                                         </td>
                                         <td>{{ $customer->ref }}</td>
                                         <td>{{ $customer->imei }}</td>
-                                        <td><a class="link-success" wire:navigate
+                                        <td><a class="link-success"
                                                 href="{{ route('customers.region', $customer->region_id) }}">{{ $customer->region->name }}</a>
                                         </td>
                                         <td>{{ $customer->district->name }}</td>

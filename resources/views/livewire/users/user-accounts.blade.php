@@ -14,7 +14,7 @@
                 <div
                     class="col-md-8 col-xl-9 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
                     <div class="">
-                        <a href="{{ route('more.users.assign', $user->id) }}" wire:navigate id="btn-add-user"
+                        <a href="{{ route('more.users.assign', $user->id) }}" id="btn-add-user"
                             class="btn btn-primary d-flex align-items-center">
                             <i class="ti ti-user-plus text-white me-1 fs-5"></i> Add More
                         </a>

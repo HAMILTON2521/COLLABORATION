@@ -12,7 +12,7 @@
                                     Enter your phone number and amount. A PIN request
                                     will be sent to your phone for confirmation.
                                 </div>
-                                <a wire:navigate href="{{ route('portal.account.buy.selcom', $customer->id) }}"
+                                <a href="{{ route('portal.account.buy.selcom', $customer->id) }}"
                                     class="btn btn-primary">
                                     Pay Now
                                 </a>
@@ -36,7 +36,7 @@
                                     Pay
                                 </button> --}}
 
-                                <a wire:navigate href="{{ route('portal.account.buy.airtel', $customer->id) }}"
+                                <a href="{{ route('portal.account.buy.airtel', $customer->id) }}"
                                     class="btn btn-primary">
                                     Pay Now
                                 </a>

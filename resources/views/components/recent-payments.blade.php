@@ -5,8 +5,8 @@
                 <h5 class="card-title fw-semibold mb-0">Recent Payments</h5>
 
                 <div class="d-flex align-items-center justify-content-end gap-6">
-                    <a href="{{ route('portal.payments') }}" type="button" class="btn btn-rounded btn-outline-success"
-                        wire:navigate>View
+                    <a href="{{ route('portal.payments') }}" type="button"
+                        class="btn btn-rounded btn-outline-success">View
                         All</a>
                 </div>
             </div>
