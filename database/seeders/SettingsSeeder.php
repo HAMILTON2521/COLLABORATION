@@ -156,14 +156,6 @@ class SettingsSeeder extends Seeder
             'key' => 'SELCOM_MERCHANT_TOKEN',
             'value' => 'eyJpc3MiOiJTS1QgVGFuemFuaWEiLCJpYXQiOjE3NDkwNTUyNj'
         ]);
-        Setting::create([
-            'key' => 'SELCOM_TILL_NUMBER',
-            'value' => '61135303'
-        ]);
-        Setting::create([
-            'key' => 'FIRST_ACCOUNT_NUMBER',
-            'value' => 300300,
-            'type' => 'integer'
-        ]);
+
     }
 }

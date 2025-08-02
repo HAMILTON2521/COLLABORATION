@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             DistrictSeeder::class,
             MessageTemplateSeeder::class,
             SmsSettingsSeeder::class,
-            MessageActivitySeeder::class
+            MessageActivitySeeder::class,
+            RefCreationSeeder::class
         ]);
     }
 }
