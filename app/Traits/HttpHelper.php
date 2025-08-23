@@ -126,7 +126,7 @@ trait HttpHelper
             'method' => 'getAreaArchiveInfo',
             'apiToken' => $api_token,
             'param' => [
-                'deveui' => $imei,
+                'nbonetNetImei' => $imei,
             ]
         ]);
 
