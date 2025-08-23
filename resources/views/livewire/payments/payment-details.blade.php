@@ -1,9 +1,9 @@
 <div>
     <x-page-header mainTitle="Payment Details" subtitle="Topup"/>
     <x-alert-status/>
-    <div class="card">
-        <div class="card-header text-bg-primary">
-            <h5 class="mb-0 text-white">{{ date('d M Y H:i', strtotime($payment->created_at)) }}</h5>
+    <div class="card border-top border-success">
+        <div class="card-header">
+            <h5 class="mb-0">{{ date('d M Y H:i', strtotime($payment->created_at)) }}</h5>
         </div>
         <form class="form-horizontal">
             <div class="form-body">
