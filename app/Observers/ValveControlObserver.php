@@ -23,7 +23,7 @@ class ValveControlObserver
             'method' => 'setValveState',
             'apiToken' => $api_token,
             'param' => [
-                'deveui' => $valveControl->customer->imei,
+                'nbonetNetImei' => $valveControl->customer->imei,
                 'valveState' => $valveControl->state
             ]
         ]);
