@@ -63,6 +63,41 @@ class CustomerDetails extends Component
         return view('livewire.customer.customer-details');
     }
 
+    public function getValveStatus(): void
+    {
+        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+
+        $data = json_encode([
+            'action' => 'zlMeter',
+            'method' => 'readValveStatus',
+            'apiToken' => $api_token,
+            'param' => [
+                'nbonetNetImei' => $this->customer->imei
+            ]
+        ]);
+
+        try {
+            $response = $this->sendHttpRequest(data: $data);
+
+            $this->dispatch(
+                'showModal',
+                payload: [
+                    'title' => 'Valve Status',
+                    'body' => null,
+                    'view' => view(
+                        'livewire.equipment.valve-status',
+                        [
+                            'response' => $response
+                        ]
+                    )->render()
+                ]
+
+            )->to(CustomModal::class);
+        } catch (\Exception $exception) {
+            flash()->error($exception->getMessage());
+        }
+    }
+
     public function dailySettlementRecords(): void
     {
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
@@ -125,7 +160,7 @@ class CustomerDetails extends Component
                     'view' => view(
                         'livewire.customer.meter-file',
                         [
-                            'meter' => $response
+                            'response' => $response
                         ]
                     )->render()
                 ]

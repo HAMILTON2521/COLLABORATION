@@ -98,9 +98,12 @@
                             <div
                                 class="d-flex bg-hover-light-black align-items-center justify-content-between p-2 border-top">
                                 <div>
-                                    <h5 class="fs-4 fw-semibold mb-0">Edit meter file</h5>
+                                    <h5 class="fs-4 fw-semibold mb-0">Valve status</h5>
                                 </div>
-                                <button type="button" class="btn bg-primary-subtle text-primary">Start</button>
+                                <button wire:click="getValveStatus" type="button"
+                                        class="btn bg-primary-subtle text-primary">Start
+                                    <x-spinner target="getValveStatus"/>
+                                </button>
                             </div>
                             <div
                                 class="d-flex bg-hover-light-black align-items-center justify-content-between p-2 border-top">
