@@ -27,13 +27,13 @@
         <div class="col-4 mb-7">
             <p class="mb-1 fs-2">IMEI</p>
             <h6 class="fw-semibold mb-0">
-                {{ $meter['value']['deveui'] }}
+                {{ $meter['value']['IMEI'] }}
             </h6>
         </div>
         <div class="col-4 mb-7">
             <p class="mb-1 fs-2">Energy Type</p>
             <h6 class="fw-semibold mb-0">
-                {{ $meter['value']['energyTypeName'] }}
+                {{ join(' - ',[$meter['value']['energyType'],$meter['value']['energyTypeName']]) }}
             </h6>
         </div>
         <div class="col-4 mb-7">
@@ -45,7 +45,7 @@
         <div class="col-4 mb-7">
             <p class="mb-1 fs-2">balance</p>
             <h6 class="fw-semibold mb-0">
-                {{ number_format($meter['value']['balance'], 2) }}
+                {{ $meter['value']['balance'] }}
             </h6>
         </div>
         <div class="col-4 mb-7">
@@ -53,16 +53,10 @@
             <h6 class="fw-semibold mb-0">
                 @if ($meter['value']['valveStatus'] === 1)
                     <iconify-icon icon="tabler:lock-open-2" width="24" height="24"
-                        class="text-success"></iconify-icon>
+                                  class="text-success"></iconify-icon>
                 @else
                     <iconify-icon icon="tabler:lock" width="24" height="24" class="text-danger"></iconify-icon>
                 @endif
-            </h6>
-        </div>
-        <div class="col-4 mb-7">
-            <p class="mb-1 fs-2">Phone</p>
-            <h6 class="fw-semibold mb-0">
-                {{ $meter['value']['phone'] }}
             </h6>
         </div>
         <div class="col-4 mb-7">

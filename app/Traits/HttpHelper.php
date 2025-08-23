@@ -28,13 +28,12 @@ trait HttpHelper
         ]);
 
         try {
-            $response = Http::timeout(45)
+            return Http::timeout(45)
                 ->withToken($token)
                 ->withHeaders([
                     'X-Currency' => 'TZS',
                     'X-Country' => 'TZ',
                 ])->post($endpoint, $data)->throw();
-            return $response;
         } catch (RequestException $e) {
             Log::error(__FUNCTION__ . ' - HTTP Request Exception', [
                 'request' => json_encode($data),
@@ -80,7 +79,7 @@ trait HttpHelper
         $sysconfigEquipmentId = Setting::where('key', 'SYSTEM_CONFIG_EQUIPMENT_ID')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'getAreaArchives',
             'apiToken' => $api_token,
             'params' => [
@@ -123,7 +122,7 @@ trait HttpHelper
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'getAreaArchiveInfo',
             'apiToken' => $api_token,
             'param' => [
@@ -142,7 +141,7 @@ trait HttpHelper
         $areaId = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'getMeterReadings',
             'apiToken' => $api_token,
             'params' => [
@@ -173,7 +172,7 @@ trait HttpHelper
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'getValverecord',
             'apiToken' => $api_token,
             'param' => [

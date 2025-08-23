@@ -68,11 +68,11 @@ class CustomerDetails extends Component
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'queryDayBillInfo',
             'apiToken' => $api_token,
             'param' => [
-                'deveui' => $this->customer->imei,
+                'nbonetNetImei' => $this->customer->imei,
                 'billDate' => date('Y-m-d', strtotime('-1 day')),
             ]
         ]);
@@ -105,11 +105,11 @@ class CustomerDetails extends Component
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'getAreaArchiveInfo',
             'apiToken' => $api_token,
             'param' => [
-                'deveui' => $this->customer->imei,
+                'nbonetNetImei' => $this->customer->imei,
             ]
         ]);
 
@@ -146,11 +146,11 @@ class CustomerDetails extends Component
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'queryMonthBillInfo',
             'apiToken' => $api_token,
             'param' => [
-                'deveui' => $this->customer->imei,
+                'nbonetNetImei' => $this->customer->imei,
                 'billDate' => date('Y-m-d'),
             ]
         ]);

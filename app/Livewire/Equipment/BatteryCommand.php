@@ -44,11 +44,11 @@ class BatteryCommand extends Component
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'sendCommand',
             'apiToken' => $api_token,
             'param' => [
-                'devEui' => $this->selectedCustomer->imei,
+                'nbonetNetImei' => $this->selectedCustomer->imei,
                 'commandStr' => 'queryBattery',
                 'commandParams' => [],
             ]
@@ -60,7 +60,7 @@ class BatteryCommand extends Component
                 $this->dispatch('showToast', message: 'Command queryBattery failed with error ' . $response['errmsg'], status: 'Failed');
             } else {
                 $data = json_encode([
-                    'action' => 'lorawanMeter',
+                    'action' => 'zlMeter',
                     'method' => 'queryCommandInfo',
                     'apiToken' => $api_token,
                     'param' => [
@@ -72,6 +72,7 @@ class BatteryCommand extends Component
                 if ($response['errcode'] == '-1') {
                     $this->dispatch('showToast', message: 'Command queryBattery failed with error ' . $response['errmsg'], status: 'Failed');
                 } else {
+                    info(json_encode($response));
                     $this->dispatch(
                         'showModal',
                         payload: [

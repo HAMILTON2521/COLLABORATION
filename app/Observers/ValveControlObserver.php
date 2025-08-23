@@ -19,7 +19,7 @@ class ValveControlObserver
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'setValveState',
             'apiToken' => $api_token,
             'param' => [

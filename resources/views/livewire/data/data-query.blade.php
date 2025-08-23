@@ -14,16 +14,6 @@
                                    class="btn bg-primary-subtle text-primary">Start
                                 </a>
                             </div>
-                            <div
-                                class="d-flex bg-hover-light-black align-items-center justify-content-between p-2 border-top">
-                                <div>
-                                    <h5 class="fs-4 fw-semibold mb-0">Query real time data</h5>
-                                </div>
-                                <button type="button" wire:click="queryRealTimeData"
-                                        class="btn bg-primary-subtle text-primary">Start
-                                    <x-spinner target="queryRealTimeData"/>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -6,10 +6,9 @@ use App\Models\Household;
 use App\Models\Setting;
 use App\Traits\HttpHelper;
 use Illuminate\Support\Facades\Log;
-use Livewire\Component;
-use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
+use Livewire\Component;
 
 #[Title('Households')]
 class Households extends Component
@@ -22,10 +21,10 @@ class Households extends Component
         $area_id = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
 
         $data = json_encode([
-            'action'  => 'lorawanMeter',
-            'method'  => 'gethousehold',
+            'action' => 'zlMeter',
+            'method' => 'gethousehold',
             'apiToken' => $api_token,
-            'params'   => [
+            'params' => [
                 'pageNumber' => "1",
                 'pageSize' => "10",
                 'areaId' => $area_id,
@@ -59,11 +58,13 @@ class Households extends Component
             );
         }
     }
+
     #[Computed()]
     public function accounts()
     {
         return Household::with('createdBy')->orderBy('created_at', 'desc')->get();
     }
+
     public function render()
     {
         return view('livewire.household.households');

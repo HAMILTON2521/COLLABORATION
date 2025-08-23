@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\LorawanRechargeRequest;
 use App\Models\Payment;
 use App\Models\SelcomOrder;
 use App\Models\SelcomPush;
@@ -14,6 +13,7 @@ use Illuminate\Support\Number;
 class PaymentObserver
 {
     use HttpHelper, SmsHelper;
+
     /**
      * Handle the Payment "created" event.
      */
@@ -31,6 +31,25 @@ class PaymentObserver
                 'is_paid' => true,
                 'payment_id' => $payment->id
             ]);
+        }
+    }
+
+    public function sendPaymentSms(Payment $payment): void
+    {
+        $data = [
+            'firstName' => $payment->customer->first_name,
+            'lastName' => $payment->customer->last_name,
+            'fullName' => $payment->customer->full_name,
+            'amount' => $payment->amount,
+            'account' => $payment->customer->account,
+            'volume' => $payment->accumulated_volume,
+            'activity' => 'Payment_Received',
+            'phone' => $payment->customer->phone
+        ];
+        $message = $this->getTemplate($data);
+        if ($message) {
+            $phone = '255' . substr($payment->customer->phone, 1, 9);
+            $this->sendNormalSms(msg: $message, phone: $phone);
         }
     }
 
@@ -76,22 +95,6 @@ class PaymentObserver
     {
         $unitCost = Setting::where('key', 'UNIT_PRICE')->first()->value;
 
-        $payment->accumulated_volume = Number::format($payment->amount / (float) $unitCost, 2);
-    }
-    public function sendPaymentSms(Payment $payment)
-    {
-        $data = [
-            'firstName' => $payment->customer->first_name,
-            'lastName' => $payment->customer->last_name,
-            'fullName' => $payment->customer->full_name,
-            'amount' => $payment->amount,
-            'account' => $payment->customer->account,
-            'volume' => $payment->accumulated_volume
-        ];
-        $message = $this->getTemplate(activity: 'Payment_Received', phone: $payment->customer->phone, data: $data);
-        if ($message) {
-            $phone = '255' . substr($payment->customer->phone, 1, 9);
-            $this->sendNormalSms(msg: $message, phone: $phone);
-        }
+        $payment->accumulated_volume = Number::format($payment->amount / (float)$unitCost, 2);
     }
 }

@@ -5,11 +5,11 @@ namespace App\Observers;
 use App\Models\Household;
 use App\Models\Setting;
 use App\Traits\HttpHelper;
-use Illuminate\Support\Facades\Log;
 
 class HouseholdObserver
 {
     use HttpHelper;
+
     /**
      * Handle the Household "created" event.
      */
@@ -20,11 +20,11 @@ class HouseholdObserver
             $areaId = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
 
             $data = json_encode([
-                'action'  => 'lorawanMeter',
-                'method'  => 'addHousehold',
+                'action' => 'zlMeter',
+                'method' => 'addHousehold',
                 'apiToken' => $api_token,
-                'params'   => [
-                    'areaId'      => $areaId,
+                'params' => [
+                    'areaId' => $areaId,
                     'householdName' => $household->name,
                     'householdAddress' => $household->address,
                     'householdPhone' => $household->phone,
@@ -34,7 +34,7 @@ class HouseholdObserver
                 ]
             ]);
 
-            $response = $this->sendHttpRequest(data: (string) $data);
+            $response = $this->sendHttpRequest(data: (string)$data);
 
             if ($response['errcode'] === '0') {
                 $household->update([

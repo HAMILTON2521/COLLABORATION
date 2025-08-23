@@ -5,14 +5,13 @@ namespace App\Models;
 use App\Observers\IncomingRequestObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[ObservedBy(IncomingRequestObserver::class)]
 class IncomingRequest extends Model
 {
-    use HasFactory, HasUlids;
+    use  HasUlids;
 
     public $incrementing = false;
     protected $keyType = 'string';

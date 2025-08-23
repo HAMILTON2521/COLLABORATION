@@ -28,10 +28,11 @@
                             <thead class="header-item">
                             <tr>
                                 <th>Name</th>
-                                <th>Class</th>
+                                <th>Energy Type</th>
                                 <th>Reading Time</th>
                                 <th>Reading</th>
                                 <th>Id</th>
+                                <th>Level</th>
                                 <th>Value Id</th>
                                 <th>Valve</th>
                                 <th>Voltage</th>
@@ -47,10 +48,11 @@
                                             <h6 class="mb-0">{{ $data['archivesName'] }}</h6>
                                         </div>
                                     </td>
-                                    <td>{{ $data['classType'] }}</td>
+                                    <td>{{ $data['energyType'] }}</td>
                                     <td>{{ date('d M Y H:i', strtotime($data['meterReadingtime'])) }}</td>
                                     <td>{{ $data['freezeReading'] }}</td>
                                     <td>{{ $data['id'] }}</td>
+                                    <td>{{ $data['level'] }}</td>
                                     <td>{{ $data['valueId'] }}</td>
                                     <td>
                                         @if ($data['valve'] == 1)
@@ -66,7 +68,7 @@
                                 <!-- end row -->
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">No data available</td>
+                                    <td colspan="9" class="text-center">No data available</td>
                                 </tr>
                             @endforelse
 

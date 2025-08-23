@@ -18,11 +18,11 @@ class RealtimeDataObserver
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'queryRealTimeData',
             'apiToken' => $api_token,
             'param' => [
-                'deveui' => $realtimeData->customer->imei
+                'nbonetNetImei' => $realtimeData->customer->imei
             ]
         ]);
 
@@ -36,24 +36,29 @@ class RealtimeDataObserver
                         'error_message' => $response['errmsg'] ?? null,
                         'balance' => $response['data']['balance'] ?? null,
                         'battery' => $response['data']['battery'] ?? null,
+                        'remaining_flow' => $response['data']['remaining flow'] ?? null,
+                        'customer_name' => $response['data']['customerName'] ?? null,
+                        'customer_address' => $response['data']['customerAddress'] ?? null,
                         'status' => 'Success',
+                        'latitude' => $response['data']['gps'] ? $response['data']['gps']['lat'] : null,
+                        'longitude' => $response['data']['gps'] ? $response['data']['gps']['lng'] : null,
                         'energy_type' => $response['data']['energyType'] ?? null,
                         'read_time' => $response['data']['readTime'] ?? null,
-                        'imei' => $response['data']['devEui'] ?? null,
+                        'imei' => $response['data']['nbonetNetImei'] ?? null,
                         'margin' => $response['data']['margin'] ?? null,
                         'leakage_mark' => $response['data']['leakageMark'] ?? null,
                         'valve_state' => $response['data']['valveState'] ?? null,
-                        'valve_status' => $response['data']['valveStatus'] ?? null,
-                        'temperature' => $response['data']['temperature'] ?? null,
-                        'class_mode' => $response['data']['classMode'] ?? null,
-                        'day_read_time' => $response['data']['dayReadTime'] ?? null,
-                        'month_read_time' => $response['data']['monthReadTime'] ?? null,
-                        'pay_mode' => $response['data']['payMode'] ?? null,
                         'reading' => $response['data']['reading'] ? (float)$response['data']['reading'] : null,
-                        'rssi' => $response['data']['rssi'] ? (float)$response['data']['rssi'] : null,
-                        'snr' => $response['data']['snr'] ? (float)$response['data']['snr'] : null,
-                        'day_consumption' => $response['data']['dayConsumption'] ?? null,
-                        'month_consumption' => $response['data']['monthConsumption'] ?? null
+//                        'valve_status' => $response['data']['valveStatus'] ?? null,
+//                        'temperature' => $response['data']['temperature'] ?? null,
+//                        'class_mode' => $response['data']['classMode'] ?? null,
+//                        'day_read_time' => $response['data']['dayReadTime'] ?? null,
+//                        'month_read_time' => $response['data']['monthReadTime'] ?? null,
+//                        'pay_mode' => $response['data']['payMode'] ?? null,
+//                        'rssi' => null,
+//                        'snr' => null,
+//                        'day_consumption' => $response['data']['dayConsumption'] ?? null,
+//                        'month_consumption' => $response['data']['monthConsumption'] ?? null
                     ]);
                 } else {
                     $realtimeData->update([

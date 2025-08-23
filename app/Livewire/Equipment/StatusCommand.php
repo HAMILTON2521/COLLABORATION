@@ -44,11 +44,11 @@ class StatusCommand extends Component
         $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
 
         $data = json_encode([
-            'action' => 'lorawanMeter',
+            'action' => 'zlMeter',
             'method' => 'sendCommand',
             'apiToken' => $api_token,
             'param' => [
-                'devEui' => $this->selectedCustomer->imei,
+                'nbonetNetImei' => $this->selectedCustomer->imei,
                 'commandStr' => 'queryFlowAndStatusFourteenDigitMeterNumber',
                 'commandParams' => [],
             ]
@@ -60,7 +60,7 @@ class StatusCommand extends Component
                 $this->dispatch('showToast', message: 'Command queryFlowAndStatusFourteenDigitMeterNumber failed with error ' . $response['errmsg'], status: 'Failed');
             } else {
                 $data = json_encode([
-                    'action' => 'lorawanMeter',
+                    'action' => 'zlMeter',
                     'method' => 'queryCommandInfo',
                     'apiToken' => $api_token,
                     'param' => [
