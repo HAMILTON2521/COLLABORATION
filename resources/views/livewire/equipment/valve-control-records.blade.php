@@ -47,7 +47,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $data['id'] }}</td>
-                                    <td>{{ $data['deveui'] }}</td>
+                                    <td>{{ $data['imei'] }}</td>
                                     <td>
                                         @if ($data['executionType'] == 1)
                                             <span class="badge rounded-pill  bg-success-subtle text-success">Open

@@ -18,7 +18,7 @@ class ValveControl extends Component
     public $perPage = 10;
 
     // Reset pagination when search query changes
-    public function updatedSearch()
+    public function updatedSearch(): void
     {
         $this->resetPage();
     }

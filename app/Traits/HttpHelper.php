@@ -178,7 +178,7 @@ trait HttpHelper
             'param' => [
                 'pageNumber' => 1,
                 'pageSize' => 10,
-                'deveui' => $imei,
+                'nbonetNetImei' => $imei,
                 'startDate' => Carbon::parse($startDate)->format('Y-m-d'),
                 'endDate' => Carbon::parse($endDate)->format('Y-m-d')
             ]
