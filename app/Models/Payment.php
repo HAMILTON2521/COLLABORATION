@@ -17,19 +17,7 @@ class Payment extends Model
 {
     use  HasUlids;
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected $fillable = [
-        'amount',
-        'internal_txn_id',
-        'status',
-        'customer_id',
-        'external_id',
-        'msisdn',
-        'channel',
-        'accumulated_volume'
-    ];
+    protected $guarded = ['id'];
 
     public function getStatusColorAttribute(): string
     {
