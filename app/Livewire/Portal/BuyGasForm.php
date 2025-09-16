@@ -70,9 +70,6 @@ class BuyGasForm extends Component
         if ($pushRequestData) {
             $this->dispatch('push-request-created', pushRequest: $pushRequestData->id);
             $this->reset('phone', 'amount');
-            if ($pushRequestData->status == 'New') {
-                flash()->success('Please check your phone and confirm PIN.');
-            }
         }
     }
 

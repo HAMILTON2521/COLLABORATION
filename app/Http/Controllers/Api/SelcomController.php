@@ -22,7 +22,7 @@ class SelcomController extends Controller
 
     public function callback(Request $request): void
     {
-        info('Callback received', ['request transid' => $request['transid']]);
+        info('Selcom Callback received', $request->all());
 
         if ($request && $request['resultcode']) {
             $push = SelcomPush::where('selcom_order_id', $request['order_id'])->first();
@@ -31,7 +31,7 @@ class SelcomController extends Controller
                 $push->update([
                     'payment_status' => $request['payment_status'],
                     'is_paid' => $request['resultcode'] === '000',
-                    'amount_paid' => $request['amount'] ? number_format((float)$request['amount'], 2, '.', '') : null,
+                    'amount_paid' => $request['amount'] ? number_format((float) $request['amount'], 2, '.', '') : null,
                     'external_id' => $request['transid'],
                     'payment_result_code' => $request['resultcode'],
                     'payment_reference' => $request['reference'],
@@ -48,12 +48,12 @@ class SelcomController extends Controller
             'transid' => $request['transid'],
             'reference' => $request['reference'],
             'utilityref' => $request['utilityref'],
-            'amount' => (float)$request['amount'],
+            'amount' => (float) $request['amount'],
             'transid' => $request['transid'],
             'msisdn' => $request['msisdn'],
         ];
         $setting = Setting::where('key', 'MINIMUM_PAYMENT_AMOUNT')->first()->value;
-        $minimum_amount = (float)$setting;
+        $minimum_amount = (float) $setting;
         try {
             $rules = [
                 'operator' => 'required|string',
@@ -125,12 +125,12 @@ class SelcomController extends Controller
             'transid' => $request['transid'],
             'reference' => $request['reference'],
             'utilityref' => $request['utilityref'],
-            'amount' => (float)$request['amount'],
+            'amount' => (float) $request['amount'],
             'transid' => $request['transid'],
             'msisdn' => $request['msisdn'],
         ];
         $setting = Setting::where('key', 'MINIMUM_PAYMENT_AMOUNT')->first()->value;
-        $minimum_amount = (float)$setting;
+        $minimum_amount = (float) $setting;
 
         try {
             $rules = [

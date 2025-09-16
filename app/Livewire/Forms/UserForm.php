@@ -41,12 +41,16 @@ class UserForm extends Form
                 'max:60',
                 'unique:' . User::class
             ],
-            'password' => ['required', 'confirmed', env('APP_ENV') === 'production' ? Password::min(8)
-                ->max(20)
-                ->mixedCase()
-                ->symbols()
-                ->numbers()
-                ->uncompromised() : Password::min(1)->max(20)],
+            'password' => [
+                'required',
+                'confirmed',
+                env('APP_ENV') === 'production' ? Password::min(8)
+                    ->max(20)
+                    ->mixedCase()
+                    ->symbols()
+                    ->numbers()
+                    ->uncompromised() : Password::min(1)->max(20)
+            ],
             'password_confirmation' => ['required'],
         ];
     }
@@ -98,10 +102,7 @@ class UserForm extends Form
             ]
         ]);
 
-        Log::error('**************update==>' . json_encode($validData));
-
-
-        $x = $this->user->update([
+        $this->user->update([
             'first_name' => Str::ucfirst(Str::lower($validData['first_name'])),
             'last_name' => Str::ucfirst(Str::lower($validData['last_name'])),
             'phone' => $validData['phone'],
