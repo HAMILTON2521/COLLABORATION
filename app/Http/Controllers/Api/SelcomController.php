@@ -41,7 +41,7 @@ class SelcomController extends Controller
         }
     }
 
-    public function merchantSelcomValidation(Request $request)
+    public function merchantValidation(Request $request)
     {
         $data = [
             'operator' => $request['operator'],
@@ -49,10 +49,9 @@ class SelcomController extends Controller
             'reference' => $request['reference'],
             'utilityref' => $request['utilityref'],
             'amount' => (float) $request['amount'],
-            'transid' => $request['transid'],
             'msisdn' => $request['msisdn'],
         ];
-        $setting = Setting::where('key', 'MINIMUM_PAYMENT_AMOUNT')->first()->value;
+        $setting = Setting::get('MINIMUM_PAYMENT_AMOUNT');
         $minimum_amount = (float) $setting;
         try {
             $rules = [
@@ -118,18 +117,19 @@ class SelcomController extends Controller
         ];
     }
 
-    public function merchantSelcomPayment(Request $request)
+    public function merchantPayment(Request $request)
     {
+        info('Selcom Merchant Payment Received', $request->all());
+
         $data = [
             'operator' => $request['operator'],
             'transid' => $request['transid'],
             'reference' => $request['reference'],
             'utilityref' => $request['utilityref'],
             'amount' => (float) $request['amount'],
-            'transid' => $request['transid'],
             'msisdn' => $request['msisdn'],
         ];
-        $setting = Setting::where('key', 'MINIMUM_PAYMENT_AMOUNT')->first()->value;
+        $setting = Setting::get('MINIMUM_PAYMENT_AMOUNT');
         $minimum_amount = (float) $setting;
 
         try {
@@ -158,9 +158,9 @@ class SelcomController extends Controller
 
             $customer = Customer::where('ref', $validated['utilityref'])->first();
             if ($customer) {
-                $payment = SelcomMerchantPayment::create($validated);
+                SelcomMerchantPayment::create($validated);
             } else {
-                $otherPayment = OtherPayment::create($validated);
+                OtherPayment::create($validated);
             }
 
             return response()->json([
