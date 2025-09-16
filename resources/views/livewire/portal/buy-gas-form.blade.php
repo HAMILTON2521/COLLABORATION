@@ -53,24 +53,26 @@
                                     </div>
                                 </div>
                             @else
-                                <div wire:poll.5s="checkTransaction">
-                                    <div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon"
-                                        role="alert">
-                                        <span class="side-line bg-success"></span>
+                                @if ($pushRequest->status === 'Pending' || $pushRequest->status === 'New')
+                                    <div wire:poll.5s="checkTransaction">
+                                        <div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon"
+                                            role="alert">
+                                            <span class="side-line bg-success"></span>
 
-                                        <div class="d-flex align-items-center ">
-                                            <i class="ti ti-info-circle fs-5 text-secondary me-2 flex-shrink-0"></i>
-                                            <span class="text-truncate">Please complete payment on your phone. Waiting
-                                                for
-                                                confirmation...</span>
-                                            <div class="ms-auto d-flex justify-content-end">
-                                                <div class="spinner-border text-primary" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
+                                            <div class="d-flex align-items-center ">
+                                                <i class="ti ti-info-circle fs-5 text-secondary me-2 flex-shrink-0"></i>
+                                                <span class="text-truncate">Please complete payment on your phone. Waiting
+                                                    for
+                                                    confirmation...</span>
+                                                <div class="ms-auto d-flex justify-content-end">
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             @endif
                         @endisset
                     </div>
