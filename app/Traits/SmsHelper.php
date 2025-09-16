@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 trait SmsHelper
 {
-    public function getConfig($key)
-    {
-        return SmsSetting::where('key', $key)->first()->value;
-    }
     public function sendMessageEnabledFor($activity_name)
     {
         $activity = MessageActivity::where('activity', $activity_name)->first();
@@ -33,11 +29,11 @@ trait SmsHelper
     }
     public function sendNormalSms(string $msg, string $phone): bool
     {
-        $baseUrl = $this->getConfig('SMS_API_BASE_URL');
-        $apiKey = $this->getConfig('SMS_API_KEY');
-        $campaign = $this->getConfig('CAMPAIGN_ID');
-        $routeId = $this->getConfig('ROUTE_ID');
-        $senderId = $this->getConfig('SMS_SENDER_ID');
+        $baseUrl = SmsSetting::get('SMS_API_BASE_URL');
+        $apiKey = SmsSetting::get('SMS_API_KEY');
+        $campaign = SmsSetting::get('CAMPAIGN_ID');
+        $routeId = SmsSetting::get('ROUTE_ID');
+        $senderId = SmsSetting::get('SMS_SENDER_ID');
 
         if ($baseUrl && $apiKey && $campaign && $routeId && $senderId) {
             info('Msg', ['msg' => $msg]);

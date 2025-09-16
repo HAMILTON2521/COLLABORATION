@@ -13,43 +13,66 @@ use Throwable;
 
 trait HttpHelper
 {
-    public function sendAirtelUssdPush($data = [], $endpoint = '')
+    public function sendAirtelUssdPush(array $data = [], string $endpoint = ''): array
     {
         $token = $this->getApiToken();
 
         if (!$token) {
-            return null;
+            Log::warning(__FUNCTION__ . ' - Missing API token');
+            return [
+                'success' => false,
+                'error' => 'Missing API token',
+            ];
         }
 
         Log::info(__FUNCTION__, [
             'url' => $endpoint,
-            'data' => json_encode($data),
-            'token' => $token
+            'data' => $data,
+            'token' => $token,
         ]);
 
         try {
-            return Http::timeout(45)
+            $response = Http::timeout(45)
                 ->withToken($token)
                 ->withHeaders([
                     'X-Currency' => 'TZS',
                     'X-Country' => 'TZ',
-                ])->post($endpoint, $data)->throw();
+                ])
+                ->post($endpoint, $data)
+                ->throw();
+
+            return [
+                'success' => true,
+                'response' => $response,
+            ];
         } catch (RequestException $e) {
             Log::error(__FUNCTION__ . ' - HTTP Request Exception', [
-                'request' => json_encode($data),
+                'request' => $data,
                 'code' => $e->getCode(),
-                'exception' => $e->getMessage()
+                'message' => $e->getMessage(),
             ]);
-            return null;
-        } catch (\Exception $e) {
+
+            return [
+                'success' => false,
+                'error' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ];
+        } catch (Throwable $e) {
             Log::error(__FUNCTION__ . ' - General Exception', [
-                'request' => json_encode($data),
+                'request' => $data,
                 'code' => $e->getCode(),
-                'exception' => $e->getMessage()
+                'message' => $e->getMessage(),
             ]);
-            return null;
+
+            return [
+                'success' => false,
+                'error' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ];
         }
     }
+
+
 
     public function getApiToken()
     {
@@ -92,7 +115,7 @@ trait HttpHelper
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string)$data);
+        $response = $this->sendHttpRequest(data: (string) $data);
 
         return $response['values'] ?? [];
     }
@@ -130,7 +153,7 @@ trait HttpHelper
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string)$data);
+        $response = $this->sendHttpRequest(data: (string) $data);
 
         return $response['value'] ?? null;
     }
@@ -154,7 +177,7 @@ trait HttpHelper
             ]
         ]);
 
-        $response = $this->sendHttpRequest(data: (string)$data);
+        $response = $this->sendHttpRequest(data: (string) $data);
 
         if ($response && $response['errcode'] == '0') {
             return $response['values'] ?? [];
@@ -185,7 +208,7 @@ trait HttpHelper
         ]);
 
         try {
-            $response = $this->sendHttpRequest(data: (string)$data);
+            $response = $this->sendHttpRequest(data: (string) $data);
 
 
             if ($response && $response['errcode'] == '0') {

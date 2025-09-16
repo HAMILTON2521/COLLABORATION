@@ -18,16 +18,16 @@ class CustomerForm extends Form
     public $last_name = '';
 
     #[Validate('nullable|string|max:32', as: 'house number')]
-    public $house_number = '';
+    public $house_number = null;
 
     #[Validate('nullable|string|max:32', as: 'occupation')]
-    public $occupation = '';
+    public $occupation = null;
 
     #[Validate('nullable|string|max:32', as: 'family size')]
-    public $family_size = '';
+    public $family_size = null;
 
-    #[Validate('nullable|string|max:32', as: 'cooks per day')]
-    public $cooks_per_day = '';
+    #[Validate('nullable|integer|max:32', as: 'cooks per day')]
+    public $cooks_per_day = null;
 
     #[Validate('required|in:Gas,Charcoal,Mixture,Electricity,Firewood', as: 'current energy source')]
     public $current_source = '';
@@ -39,7 +39,7 @@ class CustomerForm extends Form
     public $phone = '';
 
     #[Validate('nullable|size:10', as: 'alternative phone number')]
-    public $alt_phone = '';
+    public $alt_phone = null;
 
     #[Validate('nullable|email|max:60', as: 'email')]
     public $email = null;

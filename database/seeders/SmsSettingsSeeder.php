@@ -13,6 +13,12 @@ class SmsSettingsSeeder extends Seeder
     public function run(): void
     {
         SmsSetting::create([
+            'key' => 'SEND_SMS',
+            'value' => '1',
+            'description' => 'Send SMS',
+            'type' => 'boolean'
+        ]);
+        SmsSetting::create([
             'key' => 'SMS_API_KEY',
             'value' => '56825C766BA254',
             'description' => 'API key for SMS service'

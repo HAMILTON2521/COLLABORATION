@@ -41,9 +41,12 @@ class SelcomForm extends Component
     {
         $this->selcomOrder = SelcomOrder::findOrFail($this->selcomOrder->id);
 
-        if ($this->selcomOrder->is_paid) {
-            $this->redirectRoute('topup.payment.details', ['payment' => $this->selcomOrder->payment_id], navigate: true);
+        if ($this->selcomOrder->status != 'Success') {
+            if ($this->selcomOrder->is_paid) {
+                $this->redirectRoute('topup.payment.details', ['payment' => $this->selcomOrder->payment_id], navigate: true);
+            }
         }
+
     }
 
     public function save()

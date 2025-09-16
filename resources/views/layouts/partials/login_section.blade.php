@@ -29,8 +29,6 @@
                     <div class="mb-4">
                         <div class="d-flex align-items-center justify-content-between">
                             <label for="password" class="form-label">Password</label>
-                            <a class="text-primary link-dark fs-2" href="{{ route('password.request') }}">Forgot
-                                Password ?</a>
                         </div>
                         <x-password class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                             placeholder="Enter your password" />
@@ -47,6 +45,8 @@
                                 Remember me
                             </label>
                         </div>
+                        <a class="text-primary link-dark fs-2" href="{{ route('password.request') }}">Forgot
+                            Password ?</a>
                     </div>
                     <button type="submit" class="btn btn-dark w-100 py-8 mb-4 rounded-1">Sign In</button>
                     <div class="d-flex align-items-center">

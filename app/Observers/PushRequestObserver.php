@@ -38,10 +38,14 @@ class PushRequestObserver
             ];
 
             $response = $this->sendAirtelUssdPush($data, $endpoint);
-            if ($response) {
-                if ($response->status() === 200) {
-                    $transaction = $response->json();
-                    if ($transaction['data'] && $transaction['status']['code'] == "200") {
+
+            if ($response['success'] && isset($response['response'])) {
+                $httpResponse = $response['response'];
+
+                if ($httpResponse->status() === 200) {
+                    $transaction = $httpResponse->json();
+
+                    if (isset($transaction['data']) && $transaction['status']['code'] == "200") {
                         PushRequest::find($transaction['data']['transaction']['id'])
                             ->update([
                                 'status' => 'Pending',
@@ -55,11 +59,11 @@ class PushRequestObserver
                         PushRequest::find($transaction['data']['transaction']['id'])
                             ->update([
                                 'status' => 'Failed',
-                                'mno_response_code' => $transaction['status']['response_code'],
-                                'mno_error_code' => $transaction['status']['code'],
+                                'mno_response_code' => $transaction['status']['response_code'] ?? null,
+                                'mno_error_code' => $transaction['status']['code'] ?? null,
                                 'mno_status' => 'Failed',
-                                'mno_result_code' => $transaction['status']['result_code'],
-                                'mno_message' => $transaction['status']['message']
+                                'mno_result_code' => $transaction['status']['result_code'] ?? null,
+                                'mno_message' => $transaction['status']['message'] ?? 'Unknown error'
                             ]);
                     }
                 } else {
@@ -68,10 +72,23 @@ class PushRequestObserver
                     ]);
                 }
             } else {
+                // Log the error for visibility
+                Log::error('Airtel USSD Push Failed', [
+                    'pushRequestId' => $pushRequest->id,
+                    'error' => $response['error'] ?? 'Unknown error',
+                    'code' => $response['code'] ?? null,
+                ]);
+
                 $pushRequest->update([
-                    'status' => 'Failed'
+                    'status' => 'Failed',
+                    'mno_status' => 'Failed',
+                    'mno_message' => $response['error'] ?? null,
+                    'mno_response_code' => $response['code'] ?? null,
+                    'mno_error_code' => $response['code'] ?? null,
+                    'mno_response_date' => now()
                 ]);
             }
+
         }
     }
 

@@ -19,6 +19,12 @@ class SettingsSeeder extends Seeder
             'description' => 'Endpoint for Lorawan backend'
         ]);
         Setting::create([
+            'key' => 'SEND_TO_LORAWAN',
+            'value' => '1',
+            'description' => 'Send requests to Lorawan backend',
+            'type' => 'boolean'
+        ]);
+        Setting::create([
             'key' => 'API_USER_NAME',
             'value' => 'Tanzania_SKT'
         ]);

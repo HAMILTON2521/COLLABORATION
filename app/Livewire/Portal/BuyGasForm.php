@@ -46,9 +46,9 @@ class BuyGasForm extends Component
                     $this->redirectRoute('topup.payment.details', ['payment' => $payment->id], navigate: true);
                 }
             } elseif ($pushRequest->status === "Pending") {
-                $this->dispatch('showToast', message: 'We have not received the payment. Try again.', status: 'Unpaid');
+                flash()->error("We have not received the payment. Try again.");
             } elseif ($pushRequest->status === "Failed") {
-                $this->dispatch('showToast', message: 'Your request failed. Try again', status: 'Failed');
+                flash()->error('Your request failed. Try again.');
                 $this->phone = $pushRequest->phone;
 
                 $this->pushRequest = null;
@@ -71,7 +71,7 @@ class BuyGasForm extends Component
             $this->dispatch('push-request-created', pushRequest: $pushRequestData->id);
             $this->reset('phone', 'amount');
             if ($pushRequestData->status == 'New') {
-                $this->dispatch('showToast', message: 'Please check your phone and confirm PIN.', status: 'Success');
+                flash()->success('Please check your phone and confirm PIN.');
             }
         }
     }

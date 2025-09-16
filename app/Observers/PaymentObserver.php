@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\SelcomOrder;
 use App\Models\SelcomPush;
 use App\Models\Setting;
+use App\Models\SmsSetting;
 use App\Traits\HttpHelper;
 use App\Traits\SmsHelper;
 use Illuminate\Support\Number;
@@ -36,6 +37,8 @@ class PaymentObserver
 
     public function sendPaymentSms(Payment $payment): void
     {
+        $send_sms = (int) SmsSetting::get('SEND_SMS');
+
         $data = [
             'firstName' => $payment->customer->first_name,
             'lastName' => $payment->customer->last_name,
@@ -46,10 +49,15 @@ class PaymentObserver
             'activity' => 'Payment_Received',
             'phone' => $payment->customer->phone
         ];
-        $message = $this->getTemplate($data);
-        if ($message) {
-            $phone = '255' . substr($payment->customer->phone, 1, 9);
-            $this->sendNormalSms(msg: $message, phone: $phone);
+        if ($send_sms) {
+
+            $message = $this->getTemplate($data);
+            if ($message) {
+                $phone = '255' . substr($payment->customer->phone, 1, 9);
+                $this->sendNormalSms(msg: $message, phone: $phone);
+            }
+        } else {
+            info('Payment_Received SMS could not be sent -  SEND SMS is disabled');
         }
     }
 
@@ -95,6 +103,6 @@ class PaymentObserver
     {
         $unitCost = Setting::where('key', 'UNIT_PRICE')->first()->value;
 
-        $payment->accumulated_volume = Number::format($payment->amount / (float)$unitCost, 2);
+        $payment->accumulated_volume = Number::format($payment->amount / (float) $unitCost, 2);
     }
 }
