@@ -17,9 +17,6 @@ class SelcomMerchantMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-        Log::info('Selcom payment received:', $request->all());
-
         $token = $request->bearerToken();
 
         $check = Setting::where(['key' => 'SELCOM_MERCHANT_TOKEN', 'value' => $token])->exists();

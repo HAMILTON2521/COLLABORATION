@@ -14,7 +14,7 @@ class SmsSettingsSeeder extends Seeder
     {
         SmsSetting::create([
             'key' => 'SEND_SMS',
-            'value' => '1',
+            'value' => '0',
             'description' => 'Send SMS',
             'type' => 'boolean'
         ]);

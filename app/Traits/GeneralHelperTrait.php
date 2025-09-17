@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Setting;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Support\Str;
@@ -49,8 +50,14 @@ trait GeneralHelperTrait
                 }
             }
         }
-        return  response()->json(status: 404, data: [
+        return response()->json(status: 404, data: [
             'message' => 'Token is missing'
-        ]);;
+        ]);
+        ;
+    }
+    public function createFullReference(string $utilityRef): string
+    {
+        $prefix = Setting::get('SELCOM_TILL_NUMBER');
+        return $prefix . $utilityRef;
     }
 }

@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 use function Laravel\Prompts\table;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,7 +18,7 @@ return new class extends Migration
             $table->string('msisdn');
             $table->string('reference');
             $table->string('operator');
-            $table->string('utilityref', 6);
+            $table->foreignUlid('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->string('transid');
             $table->enum('status', ['Received', 'Failed', 'Success'])->default('Received');
             $table->timestamps();

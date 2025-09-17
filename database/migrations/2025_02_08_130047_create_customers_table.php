@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->ulid('id')->primary();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('ref', 6)->unique();
+            $table->string('ref', 20)->unique();
             $table->string('imei', length: 24)->unique()->index();
             $table->string('phone')->unique();
             $table->string('email')->nullable();

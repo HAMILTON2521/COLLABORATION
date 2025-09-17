@@ -9,12 +9,14 @@ use App\Models\OtherPayment;
 use App\Models\SelcomMerchantPayment;
 use App\Models\SelcomPush;
 use App\Models\Setting;
+use App\Traits\GeneralHelperTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class SelcomController extends Controller
 {
+    use GeneralHelperTrait;
     public function cancelOrder(): void
     {
         flash()->error('Please check your phone and confirm PIN');
@@ -156,9 +158,10 @@ class SelcomController extends Controller
             $validated = $validator->validated();
             $validated['status'] = 'Received';
 
-            $customer = Customer::where('ref', $validated['utilityref'])->first();
+            $customer = Customer::where('ref', $this->createFullReference($validated['utilityref']))->first();
+
             if ($customer) {
-                SelcomMerchantPayment::create($validated);
+                $customer->selcomMerchantPayments()->create($validated);
             } else {
                 OtherPayment::create($validated);
             }

@@ -97,9 +97,9 @@ trait HttpHelper
 
     public function getFiles()
     {
-        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
-        $areaId = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
-        $sysconfigEquipmentId = Setting::where('key', 'SYSTEM_CONFIG_EQUIPMENT_ID')->first()->value;
+        $api_token = Setting::get('API_TOKEN');
+        $areaId = Setting::get('BACKEND_AREA_ID');
+        $sysconfigEquipmentId = Setting::get('SYSTEM_CONFIG_EQUIPMENT_ID');
 
         $data = json_encode([
             'action' => 'zlMeter',
@@ -126,7 +126,7 @@ trait HttpHelper
      */
     public function sendHttpRequest(string $data)
     {
-        $endpoint = Setting::where('key', 'API_BASE_URL')->first()->value;
+        $endpoint = Setting::get('API_BASE_URL');
 
         $formatedRequestData = [
             'requestParams' => $data
@@ -142,7 +142,7 @@ trait HttpHelper
 
     public function getMeterFileDetails($imei)
     {
-        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+        $api_token = Setting::get('API_TOKEN');
 
         $data = json_encode([
             'action' => 'zlMeter',
@@ -160,8 +160,8 @@ trait HttpHelper
 
     public function readDeviceData(string $startDate, string $endDate)
     {
-        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
-        $areaId = Setting::where('key', 'BACKEND_AREA_ID')->first()->value;
+        $api_token = Setting::get('API_TOKEN');
+        $areaId = Setting::get('BACKEND_AREA_ID');
 
         $data = json_encode([
             'action' => 'zlMeter',
@@ -192,7 +192,7 @@ trait HttpHelper
      */
     public function queryValveControlRecords(string $startDate, string $endDate, string $imei)
     {
-        $api_token = Setting::where('key', 'API_TOKEN')->first()->value;
+        $api_token = Setting::get('API_TOKEN');
 
         $data = json_encode([
             'action' => 'zlMeter',

@@ -163,6 +163,7 @@ class Customer extends Model
         return $this->morphOne(Image::class, 'imageable');
     }
 
+
     protected function fullName(): Attribute
     {
         return Attribute::make(
@@ -176,8 +177,8 @@ class Customer extends Model
         static::creating(function ($customer) {
             if (!$customer->ref) {
                 // Get prefix and base number from settings
-                $prefix = Setting::where('key', 'SELCOM_TILL_NUMBER')->value('value');
-                $baseNumber = (int) Setting::where('key', 'FIRST_ACCOUNT_NUMBER')->value('value');
+                $prefix = Setting::get('SELCOM_TILL_NUMBER');
+                $baseNumber = (int) Setting::get('FIRST_ACCOUNT_NUMBER');
 
                 // Find last created customer with matching prefix
                 $lastCustomer = self::where('ref', 'like', $prefix . '%')
@@ -195,5 +196,10 @@ class Customer extends Model
                 $customer->ref = $prefix . $nextNumber;
             }
         });
+    }
+
+    public function selcomMerchantPayments(): HasMany
+    {
+        return $this->hasMany(SelcomMerchantPayment::class);
     }
 }

@@ -20,7 +20,7 @@ class SettingsSeeder extends Seeder
         ]);
         Setting::create([
             'key' => 'SEND_TO_LORAWAN',
-            'value' => '1',
+            'value' => '0',
             'description' => 'Send requests to Lorawan backend',
             'type' => 'boolean'
         ]);

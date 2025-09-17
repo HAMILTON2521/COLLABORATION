@@ -2,13 +2,11 @@
 
 namespace App\Observers;
 
-use App\Mail\UserCreated;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserVerification;
 use App\Traits\GeneralHelperTrait;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
 
 class UserObserver
 {

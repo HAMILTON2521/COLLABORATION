@@ -33,6 +33,10 @@ class PaymentObserver
                 'payment_id' => $payment->id
             ]);
         }
+        $merchantPayment = $payment->incomingRequest->selcomMerchantPayment();
+        if ($merchantPayment) {
+            $merchantPayment->update(['status' => 'Success']);
+        }
     }
 
     public function sendPaymentSms(Payment $payment): void

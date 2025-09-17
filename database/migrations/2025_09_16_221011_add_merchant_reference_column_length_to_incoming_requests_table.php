@@ -10,8 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('profile_image');
+        Schema::table('incoming_requests', function (Blueprint $table) {
+            $table->foreignUlid('selcom_merchant_payment_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 
@@ -20,8 +20,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('profile_image')->nullable();
+        Schema::table('incoming_requests', function (Blueprint $table) {
+            //
         });
     }
 };
