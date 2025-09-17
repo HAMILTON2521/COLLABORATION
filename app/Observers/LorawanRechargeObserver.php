@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Jobs\SendHttpRequestJob;
 use App\Models\LorawanRechargeRequest;
 use App\Models\Payment;
 use App\Models\Setting;
@@ -32,7 +31,17 @@ class LorawanRechargeObserver
         ]);
 
         if ($send_to_lorawan) {
-            SendHttpRequestJob::dispatch($data, $lorawanRechargeRequest);
+
+            $response = $this->sendHttpRequest(data: (string) $data);
+
+            if ($response) {
+                $lorawanRechargeRequest->update([
+                    'error_code' => $response['errcode'],
+                    'error_message' => $response['errmsg'],
+                    'order_id' => $response['orderId'],
+                    'status' => $response['errcode'] === "0" ? "Success" : "Failed"
+                ]);
+            }
         } else {
             info('Sending requests to Lorawan is disabled');
         }
