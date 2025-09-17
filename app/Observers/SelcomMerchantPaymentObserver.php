@@ -19,6 +19,7 @@ class SelcomMerchantPaymentObserver
             'status' => 'Success',
             'customer_msisdn' => $selcomMerchantPayment->msisdn,
             'reference_1' => $selcomMerchantPayment->transid,
+            'reference' => $selcomMerchantPayment->customer->ref,
             'selcom_merchant_payment_id' => $selcomMerchantPayment->id,
         ]);
     }
