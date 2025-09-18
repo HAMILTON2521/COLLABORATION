@@ -21,10 +21,8 @@ Route::group(['prefix' => 'prod/airtel'], function () {
     Route::post('/validateJWT', [Airtel::class, 'validateJWT']);
 });
 
-Route::middleware('selcomMerchantToken')->group(function () {
-    Route::prefix('selcom')->group(function () {
-        Route::post('/callback', [SelcomController::class, 'callback'])->name('selcom.callback');
-        Route::post('/merchant/validation', [SelcomController::class, 'merchantValidation']);
-        Route::post('/merchant/notification', [SelcomController::class, 'merchantPayment'])->name('selcom.merchant.callback');
-    });
+Route::group(['prefix' => 'selcom'], function () {
+    Route::post('/callback', [SelcomController::class, 'callback'])->name('selcom.callback');
+    Route::post('/merchant/validation', [SelcomController::class, 'merchantSelcomValidation'])->middleware('selcomMerchantToken');
+    Route::post('/merchant/notification', [SelcomController::class, 'merchantSelcomPayment'])->name('selcom.merchant.callback')->middleware('selcomMerchantToken');
 });

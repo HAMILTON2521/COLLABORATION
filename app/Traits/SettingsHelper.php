@@ -8,6 +8,6 @@ trait SettingsHelper
 {
     public function getSettingValue($key)
     {
-        return Setting::where('key', $key)->first()->value;
+        return Setting::get($key);
     }
 }
