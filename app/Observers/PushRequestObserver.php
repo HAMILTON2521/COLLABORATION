@@ -19,7 +19,7 @@ class PushRequestObserver
     {
         if ($pushRequest->status === 'New') {
 
-            $url = Setting::where('key', App::environment('production') ? 'AIRTEL_C2B_PROD_USSD_PUSH_URL' : 'AIRTEL_C2B_UAT_USSD_PUSH_URL')->first()->value;
+            $url = App::environment('production') ? Setting::get('AIRTEL_C2B_PROD_USSD_PUSH_URL') : Setting::get('AIRTEL_C2B_UAT_USSD_PUSH_URL');
             $endpoint = $url . 'merchant/v1/payments/';
 
             $data = [
