@@ -106,7 +106,8 @@ class PushRequestObserver
                 'type' => 'C2B',
                 'error_message' => $pushRequest->mno_message,
                 'customer_id' => $pushRequest->customer_id,
-                'reference_1' => $pushRequest->mno_txn_id
+                'reference_1' => $pushRequest->mno_txn_id,
+                'channel' => 'Airtel'
             ]);
         }
     }
