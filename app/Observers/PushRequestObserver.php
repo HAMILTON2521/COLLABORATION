@@ -38,6 +38,7 @@ class PushRequestObserver
             ];
 
             $response = $this->sendAirtelUssdPush($data, $endpoint);
+            info('Push response', $response);
 
             if ($response['success'] && isset($response['response'])) {
                 $httpResponse = $response['response'];
