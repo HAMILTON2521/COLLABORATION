@@ -87,6 +87,7 @@ class CustomerForm extends Form
             'current_energy_source' => $validData['current_source'],
             'cooks_per_day' => $validData['cooks_per_day'],
             'alternative_phone_number' => $validData['alt_phone'],
+            'created_by' => auth()->id()
         ]);
 
         if ($customer) {

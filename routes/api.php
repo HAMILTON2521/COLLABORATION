@@ -10,7 +10,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::group(['prefix' => 'uat/airtel'], function () {
+Route::group(['prefix' => 'prod/airtel'], function () {
     Route::post('/callback', [Airtel::class, 'callback'])->middleware('callbackAck');
     Route::post('/validate', [Airtel::class, 'validate'])->middleware('jwt');
     Route::post('/process', [Airtel::class, 'process'])->middleware('jwt');
