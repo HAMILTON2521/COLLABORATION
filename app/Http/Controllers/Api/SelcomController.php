@@ -80,7 +80,7 @@ class SelcomController extends Controller
 
             return response()->json([
                 'reference' => $data['reference'],
-                'resultcode' => 000,
+                'resultcode' => '000',
                 'result' => 'SUCCESS',
                 'message' => 'Success',
                 'name' => $customer ? $customer->full_name : 'SKT Tanzania Ltd'
@@ -168,7 +168,7 @@ class SelcomController extends Controller
 
             return response()->json([
                 'reference' => $data['reference'],
-                'resultcode' => 000,
+                'resultcode' => '000',
                 'result' => 'SUCCESS',
                 'message' => 'Success'
             ]);
