@@ -29,6 +29,14 @@
                             <p class="mb-1 fs-2">District</p>
                             <h6 class="fw-semibold mb-0">{{ $customer->district->name }}</h6>
                         </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">Ward</p>
+                            <h6 class="fw-semibold mb-0">{{ $customer->ward??'-' }}</h6>
+                        </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">Street</p>
+                            <h6 class="fw-semibold mb-0">{{ $customer->street??'-' }}</h6>
+                        </div>
                         <div class="col-4 mb-7">
                             <p class="mb-1 fs-2">IMEI Number</p>
                             <h6 class="fw-semibold mb-0">{{ $customer->imei }}</h6>
@@ -36,6 +44,34 @@
                         <div class="col-4 mb-9">
                             <p class="mb-1 fs-2">Account</p>
                             <h6 class="fw-semibold mb-0">{{ $customer->ref }}</h6>
+                        </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">Occupation</p>
+                            <h6 class="fw-semibold mb-0">{{ $customer->occupation??'-' }}</h6>
+                        </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">Cooks Per Day</p>
+                            <h6 class="fw-semibold mb-0">{{ $customer->cooks_per_day??'-' }}</h6>
+                        </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">Family Size</p>
+                            <h6 class="fw-semibold mb-0">{{ $customer->family_size??'-' }}</h6>
+                        </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">House Number</p>
+                            <h6 class="fw-semibold mb-0">{{ $customer->house_number??'-' }}</h6>
+                        </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">Previous Energy Source</p>
+                            <h6 class="fw-semibold mb-0">{{ $customer->current_energy_source??'-' }}</h6>
+                        </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">Created By</p>
+                            <h6 class="fw-semibold mb-0">{{ $customer->creator->full_name??'-' }}</h6>
+                        </div>
+                        <div class="col-4 mb-9">
+                            <p class="mb-1 fs-2">Joined On</p>
+                            <h6 class="fw-semibold mb-0">{{ date('d M Y H:i',strtotime($customer->created_at)) }}</h6>
                         </div>
                     </div>
 
