@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 #[ObservedBy(CustomerObserver::class)]
 class Customer extends Model
 {
-    use HasFactory, HasUlids;
+    use  HasUlids;
 
     public $incrementing = false;
 
@@ -35,7 +35,7 @@ class Customer extends Model
     /**
      * Customer region
      */
-    public function region()
+    public function region(): BelongsTo
     {
         return $this->belongsTo(Region::class);
     }
@@ -43,7 +43,7 @@ class Customer extends Model
     /**
      * Customer district
      */
-    public function district()
+    public function district(): BelongsTo
     {
         return $this->belongsTo(District::class);
     }
@@ -51,7 +51,7 @@ class Customer extends Model
     /**
      * Relationship with ValveControl model
      */
-    public function valveControls()
+    public function valveControls(): HasMany
     {
         return $this->hasMany(ValveControl::class);
     }
@@ -59,7 +59,7 @@ class Customer extends Model
     /**
      * Payments associated with this customer
      */
-    public function payments()
+    public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
     }
@@ -67,7 +67,7 @@ class Customer extends Model
     /**
      * Push requests associated with this customer
      */
-    public function pushRequests()
+    public function pushRequests(): HasMany
     {
         return $this->hasMany(PushRequest::class);
     }
@@ -83,7 +83,7 @@ class Customer extends Model
     /**
      * RealtimeData associated with this customer
      */
-    public function realTimeData()
+    public function realTimeData(): HasMany
     {
         return $this->hasMany(RealtimeData::class);
     }
@@ -202,4 +202,5 @@ class Customer extends Model
     {
         return $this->hasMany(SelcomMerchantPayment::class);
     }
+
 }

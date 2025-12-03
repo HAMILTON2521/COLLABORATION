@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ObservedBy(HouseholdObserver::class)]
 class Household extends Model
 {
-    use HasUlids, HasFactory;
+    use HasUlids;
 
     public $guarded = ['id'];
 
