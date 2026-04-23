@@ -1,3 +1,0 @@
-<div>
-    {{ $response }}
-</div>
